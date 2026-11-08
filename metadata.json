@@ -1,0 +1,6 @@
+{
+  "name": "ADRA Ethiopia | Adventist Development and Relief Agency",
+  "description": "Official portal of ADRA Ethiopia, delivering community development, emergency response, clean water (WASH), food security, education, and renewable energy across Ethiopia since 1982.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

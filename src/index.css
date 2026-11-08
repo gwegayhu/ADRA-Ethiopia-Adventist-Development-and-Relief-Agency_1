@@ -1,0 +1,66 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-serif: 'Lora', Georgia, Cambria, 'Times New Roman', serif;
+  --font-display: 'Lora', Georgia, serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  --color-adra-green: #006643;
+  --color-adra-dark: #073826;
+  --color-adra-light: #e8f5ee;
+  --color-adra-mint: #f4f7f4;
+  --color-adra-gold: #f59e0b;
+}
+
+body {
+  font-family: var(--font-sans);
+  color: #1c1917;
+  background-color: #f9faf9;
+}
+
+h1, h2, h3, .font-editorial {
+  font-family: var(--font-serif);
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #f1f5f1;
+}
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* Leaflet GIS Map custom styling */
+.leaflet-container {
+  font-family: inherit;
+  z-index: 10;
+}
+
+.leaflet-gis-badge {
+  background: transparent !important;
+  border: none !important;
+}
+
+.gis-marker-popup .leaflet-popup-content-wrapper {
+  border-radius: 1rem;
+  padding: 0;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e5e7eb;
+}
+
+.gis-marker-popup .leaflet-popup-content {
+  margin: 0;
+  line-height: 1.4;
+}
+
+.gis-marker-popup .leaflet-popup-tip {
+  background: #ffffff;
+}
