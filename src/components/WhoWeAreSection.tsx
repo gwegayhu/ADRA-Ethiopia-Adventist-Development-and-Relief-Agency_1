@@ -15,6 +15,7 @@ import {
 } from 'lucide-react';
 import { Language } from '../types';
 import { TRANSLATIONS } from '../data/translations';
+import { WellBeingTriangle } from './WellBeingTriangle';
 
 interface WhoWeAreSectionProps {
   currentLang: Language;
@@ -347,7 +348,7 @@ export const WhoWeAreSection: React.FC<WhoWeAreSectionProps> = ({ currentLang, s
     <section id="who-we-are" className="border-b border-stone-200 bg-white scroll-mt-20">
       
       {/* Crisp Emerald Section Header Banner with verified public photo backdrop */}
-      <div className="bg-[#073826] text-white py-14 sm:py-16 relative overflow-hidden">
+      <div className="bg-[#004D3A] text-white py-14 sm:py-16 relative overflow-hidden">
         <div className="absolute inset-0 z-0">
           <img
             src="/assets/images/ethiopia_highland_landscape_1792616589925.jpg"
@@ -355,10 +356,15 @@ export const WhoWeAreSection: React.FC<WhoWeAreSectionProps> = ({ currentLang, s
             className="w-full h-full object-cover object-center opacity-30"
             referrerPolicy="no-referrer"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-[#073826] via-[#073826]/90 to-[#073826]/80" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#004D3A] via-[#004D3A]/90 to-[#004D3A]/80" />
+          
+          {/* Section 5 Photo Credit */}
+          <div className="absolute bottom-2 right-4 text-[9px] font-sans text-white/75 select-none">
+            Photo: © 2026 ADRA | ADRA Ethiopia
+          </div>
         </div>
 
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-4">
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-4 text-left">
           
           <div className="text-xs text-emerald-300 font-sans flex items-center gap-2">
             <span>Home</span>
@@ -372,21 +378,21 @@ export const WhoWeAreSection: React.FC<WhoWeAreSectionProps> = ({ currentLang, s
             {t.hero.kicker} — {t.nav.whoWeAre}
           </div>
 
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight font-editorial leading-tight text-white max-w-3xl">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight font-sans leading-tight text-white max-w-3xl">
             {sectionTitles[subTab]?.[currentLang] || sectionTitles[subTab]?.en}
           </h2>
 
-          <p className="text-sm sm:text-base text-stone-200 max-w-2xl font-sans leading-relaxed">
+          <p className="text-sm sm:text-base text-stone-200 max-w-2xl font-serif leading-relaxed">
             {sectionSubtitles[subTab]?.[currentLang] || sectionSubtitles[subTab]?.en}
           </p>
         </div>
       </div>
 
       {/* Sub-navigation tabs explicitly situated under the Who We Are section */}
-      <div className="bg-[#f4f7f4] border-b border-stone-200 sticky top-20 z-20 shadow-2xs">
+      <div className="bg-[#f4f9f6] border-b border-stone-200 sticky top-20 z-20 shadow-2xs">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center gap-2 sm:gap-4 overflow-x-auto scrollbar-none py-2.5">
-            <span className="text-[11px] font-bold text-stone-500 uppercase tracking-wider shrink-0 mr-1 hidden md:inline">
+            <span className="text-[11px] font-bold text-stone-500 uppercase tracking-wider shrink-0 mr-1 hidden md:inline font-sans">
               Sections under Who We Are:
             </span>
             {whoWeAreSubItems.map((item) => {
@@ -395,9 +401,9 @@ export const WhoWeAreSection: React.FC<WhoWeAreSectionProps> = ({ currentLang, s
                 <button
                   key={item.id}
                   onClick={() => setSubTab(item.id)}
-                  className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold whitespace-nowrap transition-all flex items-center gap-2 cursor-pointer ${
+                  className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold whitespace-nowrap transition-all flex items-center gap-2 cursor-pointer font-sans ${
                     isActive
-                      ? 'bg-[#006643] text-white shadow-xs'
+                      ? 'bg-[#007B5F] text-white shadow-xs'
                       : 'bg-white hover:bg-stone-200 text-stone-700 border border-stone-200'
                   }`}
                 >
@@ -411,72 +417,79 @@ export const WhoWeAreSection: React.FC<WhoWeAreSectionProps> = ({ currentLang, s
       </div>
 
       {/* Main Sub-Section Content Area */}
-      <div className="py-12 sm:py-16 bg-white">
+      <div className="py-12 sm:py-16 bg-white text-left">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
           {/* Sub-tab 1: About us */}
           {subTab === 'about-us' && (
-            <div className="max-w-[1072px] space-y-8">
-              <div className="max-w-3xl space-y-5 text-base sm:text-lg text-stone-800 leading-relaxed font-sans">
+            <div className="space-y-10">
+              <div className="max-w-3xl space-y-5 text-base sm:text-lg text-stone-800 leading-relaxed font-serif text-left">
                 <p>
                   {currentLang === 'en'
-                    ? 'ADRA Ethiopia is the country office of the Adventist Development and Relief Agency (ADRA), a global humanitarian organization present in more than 100 countries. We work with communities across Ethiopia to deliver emergency relief and long-term development, regardless of ethnicity, religion, gender or political affiliation.'
+                    ? 'ADRA Ethiopia is the country office of the Adventist Development and Relief Agency (ADRA), the global humanitarian arm of the Seventh-day Adventist Church operating in over 130 countries worldwide. We work with communities across Ethiopia to deliver emergency relief and long-term development, regardless of ethnicity, political affiliation, gender, or religion.'
                     : currentLang === 'am'
-                    ? 'አድራ ኢትዮጵያ በዓለም አቀፍ ደረጃ በ100+ አገሮች የሚንቀሳቀሰው የአድቬንቲስት የእርዳታና ልማት ድርጅት (ADRA) የኢትዮጵያ ቢሮ ነው። ከዘር፣ ሃይማኖት፣ ፆታ ወይም ፖለቲካዊ አመለካከት ነፃ በሆነ መልኩ ለሁሉም የኢትዮጵያ ማህበረሰቦች አስቸኳይ እርዳታና ዘላቂ ልማት እናቀርባለን።'
+                    ? 'አድራ ኢትዮጵያ በዓለም አቀፍ ደረጃ በ130+ አገሮች የሚንቀሳቀሰው የአድቬንቲስት የእርዳታና ልማት ድርጅት (ADRA) የኢትዮጵያ ቢሮ ነው። ከዘር፣ ሃይማኖት፣ ፆታ ወይም ፖለቲካዊ አመለካከት ነፃ በሆነ መልኩ ለሁሉም የኢትዮጵያ ማህበረሰቦች አስቸኳይ እርዳታና ዘላቂ ልማት እናቀርባለን።'
                     : currentLang === 'om'
-                    ? 'ADRA Itoophiyaan waajjira biyyoolessaa Dhaabbata Misoomaa fi Gargaarsa Namoomaa (ADRA) addunyaa biyyoota 100 ol keessatti argamuuti. Sanyii, amantii, koorniyaa ykn ilaalcha siyaasaa osoo hin ilaallatin hawaasa Itoophiyaa waliin gargaarsa yeroo ariifachiisaa fi misooma yeroo dheeraa dhiyeessuuf ni hojjanna.'
-                    : 'ኣድራ ኢትዮጵያ ኣካል ዓለምለኻዊ መርበብ ኣድራ ኮይኑ ኣብ ልዕሊ 100 ሃገራት ይሰርሕ። ንኹሉ ማሕበረሰብ ኢትዮጵያ ብዘይ ኣድልዎ ዘላቒ ልማትን ህጹጽ ረድኤትን የቕርብ።'}
+                    ? 'ADRA Itoophiyaan waajjira biyyoolessaa Dhaabbata Misoomaa fi Gargaarsa Namoomaa (ADRA) addunyaa biyyoota 130 ol keessatti argamuuti. Sanyii, amantii, koorniyaa ykn ilaalcha siyaasaa osoo hin ilaallatin hawaasa Itoophiyaa waliin gargaarsa yeroo ariifachiisaa fi misooma yeroo dheeraa dhiyeessuuf ni hojjanna.'
+                    : 'ኣድራ ኢትዮጵያ ኣካል ዓለምለኻዊ መርበብ ኣድራ ኮይኑ ኣብ ልዕሊ 130 ሃገራት ይሰርሕ። ንኹሉ ማሕበረሰብ ኢትዮጵያ ብዘይ ኣድልዎ ዘላቒ ልማትን ህጹጽ ረድኤትን የቕርብ።'}
                 </p>
 
                 <p>
                   {currentLang === 'en'
-                    ? 'Our programs span emergency management, food security and livelihoods, water, sanitation and hygiene, health and nutrition, education and economic growth. We work in partnership with communities, local government and international partners to ensure lasting dignity and self-reliance.'
+                    ? 'Governed by our enduring purpose to serve humanity so all may live as God intended, our programs span emergency management, food security and livelihoods, clean water (WASH), health and nutrition, and inclusive education. We work in close partnership with communities, local governments, and international partners to ensure lasting human dignity and self-reliance.'
                     : currentLang === 'am'
-                    ? 'ፕሮግራሞቻችን የአደጋ ጊዜ አስተዳደር፣ የምግብ ዋስትናና ኑሮ፣ ውሃ፣ ንፅህናና ሳኒቴሽን፣ ጤናና ስነ-ምግብ፣ ትምህርት እና ኢኮኖሚ እድገትን ያጠቃልላሉ። ዘላቂ ክብርንና ራስን መቻልን ለማረጋገጥ ከማህበረሰቡ፣ ከአካባቢ መስተዳድሮችና ከዓለም አቀፍ አጋሮች ጋር በትብብር እንሰራለን።'
-                    : currentLang === 'om'
-                    ? 'Sagantaaleen keenya hoggansa balaa yeroo ariifachiisaa, wabii nyaataa fi jireenyaa, bishaan, qulqullinaa fi saaniteeshinii (WASH), fayyaa fi nyaata madaalawaa, barnoota fi guddina dinagdee of keessatti qabatu. Kabaja fi of-danda\'uu hawaasaa mirkaneessuuf mootummaa fi qooda fudhattoota waliin hojjenna.'
-                    : 'መደባትና ንምሕደራ ህጹጽ ሓደጋታት፣ ውሕስነት ምግቢ፣ ጽሩይ ማይን ሳኒቴሽንን፣ ጥዕናን ትምህርትን ዘጠቓልል እዩ።'}
+                    ? 'ሁሉም ሰው ፈጣሪ ባሰበለት ክብር እንዲኖር የሰውን ልጅ በቅንነት ለማገልገል ባለን ፅኑ አላማ በመመራት፤ ፕሮግራሞቻችን የአደጋ ጊዜ አስተዳደር፣ የምግብ ዋስትናና ኑሮ፣ ንጹህ ውሃ (WASH)፣ ጤናና ስነ-ምግብ እንዲሁም አካታች ትምህርትን ያጠቃልላሉ።'
+                    : 'Governed by our enduring purpose to serve humanity so all may live as God intended, our programs span emergency management, food security and livelihoods, clean water (WASH), health and nutrition, and inclusive education.'}
                 </p>
               </div>
 
-              {/* 3 Core Values (1072px width with 15px font-size) */}
-              <div 
-                className="pt-4 grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-[1072px]"
-                style={{ maxWidth: '1072px' }}
-              >
-                <div className="p-6 bg-stone-50 rounded-2xl border border-stone-200 space-y-2">
-                  <div className="text-[#006643] font-bold text-lg font-editorial">
-                    {currentLang === 'om' ? 'Haqa (Justice)' : currentLang === 'am' ? 'ፍትህ (Justice)' : 'Justice'}
+              {/* 3 Core Values Cards: Justice. Compassion. Love. (with Kaushan Script motto styling) */}
+              <div className="pt-2 grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-5xl">
+                <div className="p-6 bg-[#f4f9f6] rounded-2xl border border-[#007B5F]/20 space-y-2">
+                  <div className="flex items-center justify-between">
+                    <span className="font-motto text-2xl text-[#007B5F]">
+                      Justice
+                    </span>
+                    <span className="text-[10px] font-bold text-stone-400 font-sans uppercase">Value I</span>
                   </div>
-                  <p className="text-[15px] text-stone-600 leading-relaxed" style={{ fontSize: '15px' }}>
-                    {currentLang === 'om'
-                      ? 'Sagalee warra hacuucamanii dhageessisuu, daa\'imman saaxilamoo eeguu fi qabeenya bu\'uuraa wal-qixxummaan qooduu mirkaneessuu.'
-                      : 'Advocating for marginalized voices, protecting vulnerable children, and ensuring fair distribution of basic life-sustaining resources.'}
+                  <p className="text-sm text-stone-600 font-serif leading-relaxed">
+                    Advocating for marginalized voices, protecting vulnerable children, and ensuring fair, equitable distribution of life-sustaining basic resources.
                   </p>
                 </div>
 
-                <div className="p-6 bg-stone-50 rounded-2xl border border-stone-200 space-y-2">
-                  <div className="text-[#006643] font-bold text-lg font-editorial">
-                    {currentLang === 'om' ? 'Gara-laafina (Compassion)' : currentLang === 'am' ? 'ርህራሄ (Compassion)' : 'Compassion'}
+                <div className="p-6 bg-[#f4f9f6] rounded-2xl border border-[#007B5F]/20 space-y-2">
+                  <div className="flex items-center justify-between">
+                    <span className="font-motto text-2xl text-[#007B5F]">
+                      Compassion
+                    </span>
+                    <span className="text-[10px] font-bold text-stone-400 font-sans uppercase">Value II</span>
                   </div>
-                  <p className="text-[15px] text-stone-600 leading-relaxed" style={{ fontSize: '15px' }}>
-                    {currentLang === 'om'
-                      ? 'Balaa ongea, lolaa ykn buqqa\'iinsa yeroo mudatutti deeggarsa haalduree hin qabne kabaja fi gara-laafinaan dhiyeessuu.'
-                      : 'Providing unconditional relief during severe drought, flood, or displacement with empathy, dignity, and urgency.'}
+                  <p className="text-sm text-stone-600 font-serif leading-relaxed">
+                    Providing unconditional relief during severe drought, flood, or displacement with empathy, human warmth, dignity, and urgency.
                   </p>
                 </div>
 
-                <div className="p-6 bg-stone-50 rounded-2xl border border-stone-200 space-y-2">
-                  <div className="text-[#006643] font-bold text-lg font-editorial">
-                    {currentLang === 'om' ? 'Jaalala (Love)' : currentLang === 'am' ? 'ፍቅር (Love)' : 'Love'}
+                <div className="p-6 bg-[#f4f9f6] rounded-2xl border border-[#007B5F]/20 space-y-2">
+                  <div className="flex items-center justify-between">
+                    <span className="font-motto text-2xl text-[#007B5F]">
+                      Love
+                    </span>
+                    <span className="text-[10px] font-bold text-stone-400 font-sans uppercase">Value III</span>
                   </div>
-                  <p className="text-[15px] text-stone-600 leading-relaxed" style={{ fontSize: '15px' }}>
-                    {currentLang === 'om'
-                      ? 'Maatiiwwan Itoophiyaa waliin waggoota hedduuf taasisuun, of-danda\'uu fi nagaa yeroo dheeraatiif meeshaalee barbaachisoo dhiyeessuu.'
-                      : 'Walking alongside Ethiopian families over decades, equipping them with tools for long-term self-reliance and peace.'}
+                  <p className="text-sm text-stone-600 font-serif leading-relaxed">
+                    Walking alongside Ethiopian families over decades, equipping them with tools, skills, and solidarity for long-term self-reliance and peace.
                   </p>
                 </div>
               </div>
+
+              {/* The Official ADRA Well-Being Triangle Component (Section 1 Core Development Objective) */}
+              <WellBeingTriangle
+                currentLang={currentLang}
+                onExploreSector={(sectorId) => {
+                  const el = document.getElementById('what-we-do');
+                  if (el) el.scrollIntoView({ behavior: 'smooth' });
+                }}
+              />
             </div>
           )}
 

@@ -1,0 +1,32 @@
+{
+  "id": "/",
+  "start_url": "/",
+  "scope": "/",
+  "name": "ADRA Ethiopia",
+  "short_name": "ADRA",
+  "description": "Adventist Development and Relief Agency (ADRA) Ethiopia - Justice. Compassion. Love.",
+  "display": "standalone",
+  "orientation": "portrait",
+  "theme_color": "#007B5F",
+  "background_color": "#FFFFFF",
+  "icons": [
+    {
+      "src": "/brand/adra-globe-green.png",
+      "sizes": "148x95 192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/brand/adra-vertical-green.png",
+      "sizes": "148x151 512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/brand/adra-globe-green.svg",
+      "sizes": "192x192 512x512",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

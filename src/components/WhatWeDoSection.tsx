@@ -62,7 +62,7 @@ export const WhatWeDoSection: React.FC<WhatWeDoSectionProps> = ({ currentLang, o
   const areas: AreaItem[] = [
     {
       id: 'education',
-      icon: <GraduationCap className="w-5 h-5 text-[#006643]" />,
+      icon: <GraduationCap className="w-5 h-5 text-[#007B5F]" />,
       tagline: 'SEAQE II, Inclusive Schools & Green Energy TVET',
       taglineAm: 'ፍትሃዊና አካታች ጥራት ያለው ትምህርት እና የሙያ ስልጠና',
       title: 'Education & Green Energy TVET',
@@ -99,7 +99,7 @@ export const WhatWeDoSection: React.FC<WhatWeDoSectionProps> = ({ currentLang, o
     },
     {
       id: 'health',
-      icon: <HeartPulse className="w-5 h-5 text-[#006643]" />,
+      icon: <HeartPulse className="w-5 h-5 text-[#007B5F]" />,
       tagline: 'CMAM, TSFP, Maternal Care & Yirgalem Medical College',
       taglineAm: 'የማህበረሰብ ጤና፣ ስነ-ምግብ፣ የእናቶች ክብካቤ እና የይርጋለም ሜዲካል ኮሌጅ ድጋፍ',
       title: 'Health & Nutrition',
@@ -135,7 +135,7 @@ export const WhatWeDoSection: React.FC<WhatWeDoSectionProps> = ({ currentLang, o
     },
     {
       id: 'livelihood',
-      icon: <Wheat className="w-5 h-5 text-[#006643]" />,
+      icon: <Wheat className="w-5 h-5 text-[#007B5F]" />,
       tagline: 'PSNP Synergy, Beekeeping, Poultry & Agri-Tech',
       taglineAm: 'የሴፍቲኔት (PSNP) ማሟያ፣ ንብ ማነብ፣ የዶሮ እርባታ እና ዘመናዊ ግብርና',
       title: 'Food Security & Livelihoods',
@@ -172,7 +172,7 @@ export const WhatWeDoSection: React.FC<WhatWeDoSectionProps> = ({ currentLang, o
     },
     {
       id: 'disaster-response',
-      icon: <LifeBuoy className="w-5 h-5 text-[#006643]" />,
+      icon: <LifeBuoy className="w-5 h-5 text-[#007B5F]" />,
       tagline: '72-Hour Rapid Contingency & Refugee Camp Assistance',
       taglineAm: 'የ72 ሰዓታት ፈጣን ምላሽ እና የስደተኞች ካምፕ ድጋፍ',
       title: 'Emergency Response & Preparedness',
@@ -209,7 +209,7 @@ export const WhatWeDoSection: React.FC<WhatWeDoSectionProps> = ({ currentLang, o
     },
     {
       id: 'wash',
-      icon: <Droplets className="w-5 h-5 text-[#006643]" />,
+      icon: <Droplets className="w-5 h-5 text-[#007B5F]" />,
       tagline: '20+ Years Expertise, Deep Solar Boreholes & WASHCos',
       taglineAm: 'ከ20 ዓመታት በላይ የካበተ ልምድ፣ ጥልቅ የሶላር ቦርሆሎች እና የWASHCo ኮሚቴዎች',
       title: 'Water, Sanitation & Hygiene (WASH)',
@@ -245,7 +245,7 @@ export const WhatWeDoSection: React.FC<WhatWeDoSectionProps> = ({ currentLang, o
     },
     {
       id: 'economic-growth',
-      icon: <TrendingUp className="w-5 h-5 text-[#006643]" />,
+      icon: <TrendingUp className="w-5 h-5 text-[#007B5F]" />,
       tagline: 'Green Energy TVET Hub & Renewable Micro-Enterprises',
       taglineAm: 'የታዳሽ ኃይል ቴክኒክና ሙያ ማዕከል እና የሶላር ኢንተርፕራይዞች',
       title: 'Renewable Energy & Economic Growth',
@@ -302,7 +302,7 @@ export const WhatWeDoSection: React.FC<WhatWeDoSectionProps> = ({ currentLang, o
     <section id="what-we-do" className="border-b border-stone-200 scroll-mt-20">
       
       {/* Top Emerald Banner */}
-      <div className="bg-[#073826] text-white py-16 sm:py-20 relative overflow-hidden">
+      <div className="bg-[#004D3A] text-white py-16 sm:py-20 relative overflow-hidden text-left">
         {/* Background photo overlay */}
         <div className="absolute inset-0 z-0">
           <img
@@ -311,34 +311,43 @@ export const WhatWeDoSection: React.FC<WhatWeDoSectionProps> = ({ currentLang, o
             className="w-full h-full object-cover object-center opacity-25"
             referrerPolicy="no-referrer"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-[#073826] via-[#073826]/90 to-[#073826]/75" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#004D3A] via-[#004D3A]/90 to-[#004D3A]/75" />
+          
+          {/* Certified photo credit per Section 5 */}
+          <div className="absolute bottom-2 right-4 text-[9px] font-sans text-white/70 select-none">
+            Photo: © 2026 ADRA | ADRA Ethiopia
+          </div>
         </div>
         
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-4">
-          <div className="text-xs text-stone-300 font-sans">
-            Home &gt; What We Do
+          <div className="text-xs text-stone-300 font-sans flex items-center gap-2">
+            <span>Home</span>
+            <span>&gt;</span>
+            <span className="text-white font-semibold">{currentLang === 'am' ? 'ምን እንሰራለን' : 'What We Do'}</span>
+            <span>·</span>
+            <span className="font-motto text-sm text-emerald-200">Justice. Compassion. Love.</span>
           </div>
           
           <div className="flex items-center gap-2">
             <span className="w-2 h-2 rounded-full bg-[#f59e0b] animate-ping" />
             <span className="text-xs font-bold tracking-widest text-[#f59e0b] uppercase font-sans">
-              INTEGRATED DEVELOPMENT &amp; RELIEF · WHAT WE DO
+              CORE DEVELOPMENT &amp; RELIEF · WHAT WE DO
             </span>
           </div>
 
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight font-editorial leading-tight text-white max-w-2xl">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight font-sans leading-tight text-white max-w-3xl">
             {currentLang === 'en' 
-              ? 'Sustainable Solutions for Ethiopian Communities' 
+              ? 'Serving Humanity so All May Live as God Intended' 
               : currentLang === 'am' 
-              ? 'ለኢትዮጵያ ማህበረሰቦች ዘላቂ መፍትሄዎች' 
-              : 'Hawaasa Itoophiyaatiif Furmaata Itti-fufiinsa Qabu'}
+              ? 'ሁሉም ሰው ፈጣሪ ባሰበለት ክብር እንዲኖር የሰውን ልጅ በቅንነት ማገልገል' 
+              : 'Namni hundi akkuma Waaqayyo itti yaade akka jiraatuuf namooma tajaajiluu'}
           </h2>
 
-          <p className="text-sm sm:text-base text-stone-200 max-w-2xl leading-relaxed font-sans">
+          <p className="text-sm sm:text-base text-stone-200 max-w-2xl leading-relaxed font-serif">
             {currentLang === 'en'
-              ? 'Delivering long-term resilience across education, healthcare, climate-smart livelihoods, and rapid disaster response alongside local families.'
+              ? 'Delivering individual and community well-being across education, healthcare, and sustainable livelihoods, backed by rapid emergency relief.'
               : currentLang === 'am'
-              ? 'በትምህርት፣ በጤና፣ በግብርና እና በአደጋ ምላሽ ዘርፎች ከአካባቢው ማህበረሰቦች ጋር በመሆን ዘላቂ ጥንካሬን መገንባት።'
+              ? 'በትምህርት፣ በጤና፣ በዘላቂ ኑሮ እና በአደጋ ምላሽ ዘርፎች ከአካባቢው ማህበረሰቦች ጋር በመሆን ዘላቂ ጥንካሬንና ክብርን መገንባት።'
               : "Barnoota, fayyaa, qonna ammayyaa fi qophii balaa keessatti hawaasa waliin hojjechuun bu'aa qabatamaa galmeessisuu."}
           </p>
 
@@ -365,7 +374,7 @@ export const WhatWeDoSection: React.FC<WhatWeDoSectionProps> = ({ currentLang, o
           {/* Section Header with Filter Pills */}
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
             <div className="max-w-2xl">
-              <div className="text-xs font-bold tracking-widest text-[#006643] uppercase mb-2">
+              <div className="text-xs font-bold tracking-widest text-[#007B5F] uppercase mb-2">
                 CORE HUMANITARIAN &amp; DEVELOPMENT PILLARS
               </div>
               <h3 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-stone-900 tracking-tight font-editorial leading-tight">
@@ -397,7 +406,7 @@ export const WhatWeDoSection: React.FC<WhatWeDoSectionProps> = ({ currentLang, o
                   onClick={() => setActiveFilter(tab.id)}
                   className={`px-3 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-colors cursor-pointer ${
                     activeFilter === tab.id
-                      ? 'bg-[#006643] text-white shadow-xs'
+                      ? 'bg-[#007B5F] text-white shadow-xs'
                       : 'bg-white hover:bg-stone-200 text-stone-700 border border-stone-200'
                   }`}
                 >
@@ -441,10 +450,10 @@ export const WhatWeDoSection: React.FC<WhatWeDoSectionProps> = ({ currentLang, o
                   {/* Content Area */}
                   <div className="p-6 space-y-3">
                     <div className="flex items-center justify-between gap-2">
-                      <h3 className="text-xl font-bold text-stone-900 font-editorial group-hover:text-[#006643] transition-colors flex items-center gap-1.5">
+                      <h3 className="text-xl font-bold text-stone-900 font-editorial group-hover:text-[#007B5F] transition-colors flex items-center gap-1.5">
                         <span>{currentLang === 'en' ? area.title : area.titleAm}</span>
                       </h3>
-                      <ArrowUpRight className="w-5 h-5 text-stone-400 group-hover:text-[#006643] transition-colors shrink-0" />
+                      <ArrowUpRight className="w-5 h-5 text-stone-400 group-hover:text-[#007B5F] transition-colors shrink-0" />
                     </div>
 
                     <p className="text-sm text-stone-700 leading-relaxed font-sans line-clamp-3">
@@ -455,7 +464,7 @@ export const WhatWeDoSection: React.FC<WhatWeDoSectionProps> = ({ currentLang, o
 
                 {/* Bottom Proof Tag + Read Dossier CTA */}
                 <div className="px-6 pb-5 pt-1 border-t border-stone-100 flex items-center justify-between text-xs">
-                  <div className="font-semibold text-[#006643] flex items-center gap-1.5">
+                  <div className="font-semibold text-[#007B5F] flex items-center gap-1.5">
                     <CheckCircle className="w-3.5 h-3.5 shrink-0" />
                     <span className="truncate max-w-[190px]">{area.metrics}</span>
                   </div>
@@ -468,7 +477,7 @@ export const WhatWeDoSection: React.FC<WhatWeDoSectionProps> = ({ currentLang, o
           {/* Cross-Cutting Themes Panel */}
           <div className="mt-16 bg-white rounded-2xl border border-stone-200/90 p-8 sm:p-10 shadow-xs space-y-8">
             <div className="max-w-3xl">
-              <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#006643] mb-2 font-sans">
+              <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#007B5F] mb-2 font-sans">
                 <Sparkles className="w-4 h-4 text-amber-500" />
                 <span>CROSS-CUTTING THEMES &amp; INSTITUTIONAL SAFEGUARDS</span>
               </div>
@@ -584,7 +593,7 @@ export const WhatWeDoSection: React.FC<WhatWeDoSectionProps> = ({ currentLang, o
                   {selectedArea.icon}
                 </div>
                 <div>
-                  <div className="text-[11px] font-bold text-[#006643] uppercase tracking-wider">
+                  <div className="text-[11px] font-bold text-[#007B5F] uppercase tracking-wider">
                     ADRA Ethiopia · Flagship Pillar
                   </div>
                   <h3 className="text-2xl sm:text-3xl font-bold text-stone-900 font-editorial mt-0.5">
@@ -612,7 +621,7 @@ export const WhatWeDoSection: React.FC<WhatWeDoSectionProps> = ({ currentLang, o
                 onClick={() => setModalTab('overview')}
                 className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-colors cursor-pointer ${
                   modalTab === 'overview'
-                    ? 'bg-[#006643] text-white'
+                    ? 'bg-[#007B5F] text-white'
                     : 'text-stone-600 hover:text-stone-900 hover:bg-stone-100'
                 }`}
               >
@@ -623,7 +632,7 @@ export const WhatWeDoSection: React.FC<WhatWeDoSectionProps> = ({ currentLang, o
                 onClick={() => setModalTab('impact')}
                 className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-colors cursor-pointer ${
                   modalTab === 'impact'
-                    ? 'bg-[#006643] text-white'
+                    ? 'bg-[#007B5F] text-white'
                     : 'text-stone-600 hover:text-stone-900 hover:bg-stone-100'
                 }`}
               >
@@ -635,7 +644,7 @@ export const WhatWeDoSection: React.FC<WhatWeDoSectionProps> = ({ currentLang, o
                   onClick={() => setModalTab('story')}
                   className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-colors cursor-pointer ${
                     modalTab === 'story'
-                      ? 'bg-[#006643] text-white'
+                      ? 'bg-[#007B5F] text-white'
                       : 'text-stone-600 hover:text-stone-900 hover:bg-stone-100'
                   }`}
                 >
@@ -680,7 +689,7 @@ export const WhatWeDoSection: React.FC<WhatWeDoSectionProps> = ({ currentLang, o
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-2">
                   {selectedArea.stats.map((s, idx) => (
                     <div key={idx} className="bg-stone-50 p-3 rounded-xl border border-stone-200 text-center">
-                      <div className="text-lg sm:text-xl font-bold text-[#006643] font-editorial">{s.value}</div>
+                      <div className="text-lg sm:text-xl font-bold text-[#007B5F] font-editorial">{s.value}</div>
                       <div className="text-[11px] text-stone-600 font-medium leading-tight mt-0.5">
                         {currentLang === 'am' ? s.labelAm : s.label}
                       </div>
@@ -700,7 +709,7 @@ export const WhatWeDoSection: React.FC<WhatWeDoSectionProps> = ({ currentLang, o
                   <div className="space-y-2.5">
                     {selectedArea.details.map((item, idx) => (
                       <div key={idx} className="flex items-start gap-2.5 p-3 rounded-xl bg-stone-50 border border-stone-200 text-xs sm:text-sm text-stone-800">
-                        <CheckCircle className="w-4 h-4 text-[#006643] shrink-0 mt-0.5" />
+                        <CheckCircle className="w-4 h-4 text-[#007B5F] shrink-0 mt-0.5" />
                         <span>{item}</span>
                       </div>
                     ))}
@@ -710,7 +719,7 @@ export const WhatWeDoSection: React.FC<WhatWeDoSectionProps> = ({ currentLang, o
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
                   <div className="p-3.5 bg-emerald-50/60 rounded-xl border border-emerald-200/80">
                     <div className="text-xs font-bold text-emerald-900 flex items-center gap-1.5 mb-1">
-                      <MapPin className="w-3.5 h-3.5 text-[#006643]" />
+                      <MapPin className="w-3.5 h-3.5 text-[#007B5F]" />
                       <span>Active Operating Woredas</span>
                     </div>
                     <p className="text-xs text-stone-700 leading-relaxed">
@@ -750,11 +759,11 @@ export const WhatWeDoSection: React.FC<WhatWeDoSectionProps> = ({ currentLang, o
                 </div>
 
                 <div className="p-5 bg-stone-50 rounded-xl border border-stone-200 space-y-3">
-                  <Quote className="w-6 h-6 text-[#006643] opacity-60" />
+                  <Quote className="w-6 h-6 text-[#007B5F] opacity-60" />
                   <p className="text-sm sm:text-base text-stone-800 italic leading-relaxed font-editorial">
                     "{currentLang === 'am' ? selectedArea.spotlightStory.quoteAm : selectedArea.spotlightStory.quote}"
                   </p>
-                  <div className="text-xs font-bold text-[#006643] pt-1 border-t border-stone-200">
+                  <div className="text-xs font-bold text-[#007B5F] pt-1 border-t border-stone-200">
                     — {selectedArea.spotlightStory.author} · {selectedArea.spotlightStory.location}
                   </div>
                 </div>

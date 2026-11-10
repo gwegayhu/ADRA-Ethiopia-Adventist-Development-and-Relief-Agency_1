@@ -12,11 +12,11 @@ export interface ChatKnowledgeItem {
 export const WEBSITE_KNOWLEDGE: ChatKnowledgeItem[] = [
   {
     id: 'who-we-are',
-    topic: 'About ADRA Ethiopia',
-    keywords: ['about', 'who we are', 'what is adra', 'history', 'background', 'mission', 'values', 'faith', 'church', 'director', 'staff'],
-    title: 'Who We Are & Mission',
-    content: 'ADRA Ethiopia is the country office of the Adventist Development and Relief Agency (ADRA), a global humanitarian organization present in more than 100 countries. We work with communities across Ethiopia to deliver emergency relief and long-term development, regardless of ethnicity, religion, gender, or political affiliation. Governed by values of justice, compassion, and love, our team consists of 100% Ethiopian national professionals.',
-    contentAm: 'አድራ ኢትዮጵያ በዓለም አቀፍ ደረጃ በ100+ አገሮች የሚንቀሳቀሰው የአድቬንቲስት የእርዳታና ልማት ድርጅት (ADRA) የኢትዮጵያ ቢሮ ነው። ከ1982 ጀምሮ በፍትህ፣ ርህራሄና ፍቅር መርህ መሰረት 100% በኢትዮጵያውያን ባለሙያዎች የሚመራ መንግስታዊ ያልሆነ ድርጅት ነው።',
+    topic: 'About ADRA Ethiopia & Brand Identity',
+    keywords: ['about', 'who we are', 'what is adra', 'history', 'background', 'mission', 'purpose', 'motto', 'values', 'faith', 'church', 'seventh-day adventist', 'well-being triangle'],
+    title: 'Who We Are, Brand Purpose & Motto',
+    content: 'ADRA Ethiopia is the country office of the Adventist Development and Relief Agency (ADRA), the global humanitarian arm of the Seventh-day Adventist Church operating in over 130 countries worldwide. Our purpose is "To serve humanity so all may live as God intended." Our motto is "Justice. Compassion. Love." Our core development objective is centered around the Well-Being Triangle, focusing on individual and community well-being through three key areas: Education, Health, and Sustainable Livelihoods. We serve all people regardless of ethnicity, political affiliation, gender, or religion.',
+    contentAm: 'አድራ ኢትዮጵያ በዓለም አቀፍ ደረጃ በ130+ አገሮች የሚንቀሳቀሰው የአድቬንቲስት የእርዳታና ልማት ድርጅት (ADRA) የኢትዮጵያ ቢሮ ነው። አላማችን "ሁሉም ሰው ፈጣሪ ባሰበለት ክብር እንዲኖር የሰውን ልጅ በቅንነት ማገልገል" ሲሆን መፈክራችን "ፍትህ · ርህራሄ · ፍቅር" ነው። በ3ቱ የደህንነት ምሰሶዎች (ትምህርት፣ ጤና እና ዘላቂ ኑሮ) አማካኝነት የሰዎችን ሁለንተናዊ ደህንነት እናረጋግጣለን።',
     sourceSection: 'Who We Are',
     sourceLink: '#who-we-are'
   },
@@ -109,6 +109,16 @@ export const WEBSITE_KNOWLEDGE: ChatKnowledgeItem[] = [
     contentAm: 'የአድራ ኢትዮጵያ ዋና መስሪያ ቤት አድራሻ፡ አዲስ አበባ፣ ቂርቆስ ክፍለ ከተማ፣ ቀበሌ 80። ስልክ፡ +251 11 551 2212። ኢሜይል፡ info@adraethiopia.org።',
     sourceSection: 'Contact',
     sourceLink: '#contact'
+  },
+  {
+    id: 'brand-standards',
+    topic: 'ADRA Graphic Standards & Branding Guide',
+    keywords: ['brand', 'standards', 'graphic standards', 'logo', 'colors', 'pantone', 'typography', 'montserrat', 'zilla slab', 'kaushan script', 'green', 'clear space', 'guidelines'],
+    title: 'Official ADRA Graphic Standards Manual Specifications',
+    content: 'ADRA brand specifications: 1) Logo consists of World Mark (globe with 3 stylized people holding hands) and Acronym "ADRA". Allowed colors: Pantone 335 C (#007B5F), 100% Black, or White. Clear space equals height of "A". On-screen minimum size >=66px (vertical) or >=100px (horizontal). Never append country name directly into logo artwork. 2) Color Palette: Primary ADRA Green (Pantone 335 C / #007B5F), Dark Grey (Pantone 425 C / #54585A), and 100% Black. 3) Digital Typography: Montserrat Bold for headlines/captions, Zilla Slab Regular (12-16px) for body text, Kaushan Script set at 3°–10° angle for accent headlines and motto. Text is left-aligned, not hyphenated, and not justified. No forced small-caps. 4) Photography: Human-centric with captions and certified photo credits formatted as "Photo: © [Year] ADRA | [Photographer]".',
+    contentAm: 'የአድራ የብራንድ መመሪያዎች፡ 1) ሎጎው በPantone 335 C (#007B5F)፣ ጥቁር ወይም ነጭ ብቻ ይፈቀዳል። 2) ዲጂታል ፊደላት፡ Montserrat Bold ለአርዕስት፣ Zilla Slab ለዝርዝር ፅሁፍ፣ እንዲሁም Kaushan Script ለሞቶ ያገለግላሉ። 3) ፅሁፎች ሁልጊዜ ወደ ግራ የተስተካከሉ (left-aligned) መሆን አለባቸው።',
+    sourceSection: 'Brand Standards',
+    sourceLink: '#brand-standards'
   }
 ];
 

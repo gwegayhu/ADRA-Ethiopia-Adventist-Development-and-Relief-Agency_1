@@ -1,0 +1,177 @@
+/**
+ * ADRA Official Design Tokens & Typography Rules
+ * Strictly adhering to the ADRA Graphic Standards Manual & Branding Guide.
+ */
+
+:root {
+  /* Official Brand Colors */
+  --adra-green: #007B5F;   /* PMS 335 C - Primary, REQUIRED on every page as at least an accent */
+  --adra-gray: #54585A;    /* PMS 425 C - Secondary, text/fields/frames/captions */
+  --adra-black: #231F20;   /* 100% Black */
+  --white: #FFFFFF;
+
+  /* Approved Extensions (Derived, minimal) */
+  --adra-green-700: #00614A;  /* Hover/pressed only */
+  --adra-green-50: #E5F2EF;   /* Light tint background (full --adra-green must appear on same screen) */
+  --surface-gray: #F0F0F0;    /* Light panel background */
+  
+  /* UI States Only (Never in logo or hero branding) */
+  --error: #B3261E;
+  --success: #1E7B3A;
+  --warning: #8A5A00;
+
+  /* Typography Families */
+  --font-headline: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-body: 'Zilla Slab', Georgia, Cambria, 'Times New Roman', serif;
+  --font-script: 'Kaushan Script', cursive;
+  --font-ethiopic-sans: 'Noto Sans Ethiopic', sans-serif;
+  --font-ethiopic-serif: 'Noto Serif Ethiopic', serif;
+
+  /* Sizing & Spacing */
+  --radius-button: 8px;
+  --min-touch-target: 48px;
+}
+
+/* Base Body Styles */
+body {
+  font-family: var(--font-body);
+  color: var(--adra-black);
+  background-color: var(--white);
+  font-size: 16px;
+  line-height: 1.6;
+  text-align: left;
+  hyphens: none;
+  font-variant-caps: normal !important;
+}
+
+@media (min-width: 1024px) {
+  body {
+    font-size: 17.5px;
+  }
+}
+
+/* Headings: Sentence case, letter-spacing 0, Montserrat Bold */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-headline);
+  font-weight: 700;
+  letter-spacing: 0;
+  text-align: left;
+  text-wrap: balance;
+  font-variant-caps: normal !important;
+}
+
+/* Paragraphs: Zilla Slab Regular, max ~70ch (12-14 words per line), never justify, never hyphenate */
+p {
+  font-family: var(--font-body);
+  max-width: 70ch;
+  text-align: left;
+  hyphens: none;
+  text-wrap: pretty;
+  font-variant-caps: normal !important;
+}
+
+/* Captions, labels, eyebrow text, and URL "ADRA.org": ALL CAPS, Montserrat Bold, 0.05em tracking (50 tracking spec) */
+.adra-caption,
+.adra-eyebrow,
+.adra-label,
+.adra-url {
+  font-family: var(--font-headline);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-variant-caps: normal !important;
+}
+
+/* Photo Credit standard per Section 5: small type (~11-12px) in --adra-gray outside, white/black inside */
+.adra-photo-credit {
+  font-family: var(--font-headline);
+  font-size: 11.5px;
+  color: var(--adra-gray);
+  letter-spacing: 0.02em;
+}
+
+.adra-photo-credit-inside {
+  font-family: var(--font-headline);
+  font-size: 11.5px;
+  letter-spacing: 0.02em;
+}
+
+/* Script Rules (Kaushan Script): Title case only, never uppercase, never tracked, rotate 3°-10° (default -4°) */
+.adra-script-slogan {
+  font-family: var(--font-script);
+  font-weight: 400;
+  text-transform: none !important;
+  letter-spacing: normal !important;
+  display: inline-block;
+  transform: rotate(-4deg);
+  transform-origin: center center;
+}
+
+/* Ethiopic Fallback Rules (lang="am" or lang="ti"): Disable text-transform & letter-spacing, adjust line-height */
+:root[lang="am"],
+:root[lang="ti"],
+[lang="am"],
+[lang="ti"] {
+  line-height: 1.7;
+}
+
+:root[lang="am"] h1,
+:root[lang="am"] h2,
+:root[lang="am"] h3,
+:root[lang="am"] h4,
+:root[lang="am"] h5,
+:root[lang="am"] h6,
+:root[lang="ti"] h1,
+:root[lang="ti"] h2,
+:root[lang="ti"] h3,
+:root[lang="ti"] h4,
+:root[lang="ti"] h5,
+:root[lang="ti"] h6,
+[lang="am"] h1,
+[lang="am"] h2,
+[lang="am"] h3,
+[lang="am"] h4,
+[lang="am"] h5,
+[lang="am"] h6,
+[lang="ti"] h1,
+[lang="ti"] h2,
+[lang="ti"] h3,
+[lang="ti"] h4,
+[lang="ti"] h5,
+[lang="ti"] h6 {
+  font-family: var(--font-ethiopic-sans);
+  text-transform: none !important;
+  letter-spacing: normal !important;
+}
+
+:root[lang="am"] p,
+:root[lang="am"] span,
+:root[lang="ti"] p,
+:root[lang="ti"] span,
+[lang="am"] p,
+[lang="am"] span,
+[lang="ti"] p,
+[lang="ti"] span {
+  font-family: var(--font-ethiopic-serif);
+  text-transform: none !important;
+  letter-spacing: normal !important;
+  line-height: 1.7;
+}
+
+/* Ethiopic Slogan Rule: In am/ti, set slogan in Noto Sans Ethiopic Bold with NO rotation or tracking */
+:root[lang="am"] .adra-script-slogan,
+:root[lang="ti"] .adra-script-slogan,
+[lang="am"] .adra-script-slogan,
+[lang="ti"] .adra-script-slogan {
+  font-family: var(--font-ethiopic-sans) !important;
+  font-weight: 700 !important;
+  transform: none !important;
+  letter-spacing: normal !important;
+  text-transform: none !important;
+}
+
+/* Low-Bandwidth Data Saver Mode */
+.adra-data-saver img {
+  image-rendering: auto;
+}
+

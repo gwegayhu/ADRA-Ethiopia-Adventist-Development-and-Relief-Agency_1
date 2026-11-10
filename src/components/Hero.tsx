@@ -230,35 +230,47 @@ export const Hero: React.FC<HeroProps> = ({
             />
 
             {/* Dark emerald gradient scrim for high-contrast legibility */}
-            <div className="absolute inset-0 bg-gradient-to-r from-[#073826]/95 via-[#073826]/85 to-transparent lg:w-3/5" />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#032015]/95 via-[#073826]/40 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-r from-[#004D3A]/95 via-[#004D3A]/85 to-transparent lg:w-3/5" />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#00261c]/95 via-[#004D3A]/40 to-transparent" />
+
+            {/* Photo Credit format per Section 5: <= 6 pt type in white / contrast scrim */}
+            <div className="absolute bottom-14 right-4 sm:right-8 z-10 px-2.5 py-1 rounded bg-black/65 backdrop-blur-xs text-[9px] tracking-wide font-sans text-white/90 select-none">
+              Photo: © 2026 ADRA | ADRA Ethiopia
+            </div>
           </div>
         );
       })}
 
       {/* Content Container */}
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-28 w-full">
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-28 w-full text-left">
         <div className="max-w-2xl space-y-6">
           
-          {/* Slide Kicker */}
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-400/15 border border-amber-400/30 text-[#f59e0b] text-xs font-bold tracking-widest uppercase font-sans backdrop-blur-xs">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#f59e0b] animate-pulse" />
-            <span>
-              {currentLang === 'am' 
-                ? HERO_SLIDES[currentSlideIndex].kickerAm 
-                : HERO_SLIDES[currentSlideIndex].kickerEn}
+          {/* Brand Kicker + Kaushan Motto Accent */}
+          <div className="flex flex-wrap items-center gap-3">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-400/15 border border-amber-400/30 text-[#f59e0b] text-xs font-bold tracking-widest uppercase font-sans backdrop-blur-xs">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#f59e0b] animate-pulse" />
+              <span>
+                {currentLang === 'am' 
+                  ? HERO_SLIDES[currentSlideIndex].kickerAm 
+                  : HERO_SLIDES[currentSlideIndex].kickerEn}
+              </span>
+            </div>
+
+            {/* Official ADRA Motto in Kaushan Script at 3-10 degree angle */}
+            <span className="font-motto text-sm sm:text-base text-emerald-200 font-normal">
+              Justice. Compassion. Love.
             </span>
           </div>
 
-          {/* Headline with serif font */}
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white tracking-tight leading-[1.12] font-editorial text-balance min-h-[1.2em]">
+          {/* Headline with Montserrat Bold, sentence-cased per ADRA Digital Standards */}
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold text-white tracking-tight leading-[1.12] font-sans text-left min-h-[1.2em]">
             {currentLang === 'am' 
               ? HERO_SLIDES[currentSlideIndex].titleAm 
               : HERO_SLIDES[currentSlideIndex].titleEn}
           </h1>
 
-          {/* Subtitle */}
-          <p className="text-base sm:text-lg text-stone-200 leading-relaxed font-sans max-w-xl min-h-[3.6em]">
+          {/* Subtitle adhering to Zilla Slab Regular body copy */}
+          <p className="text-base sm:text-lg text-stone-200 leading-relaxed font-serif text-left max-w-xl min-h-[3.6em]">
             {currentLang === 'am' 
               ? HERO_SLIDES[currentSlideIndex].subtitleAm 
               : HERO_SLIDES[currentSlideIndex].subtitleEn}

@@ -11,16 +11,20 @@ import {
   Wheat, 
   LifeBuoy, 
   ArrowRight,
-  Sparkles
+  Sparkles,
+  ShieldCheck
 } from 'lucide-react';
 import { Language } from '../types';
 import { TRANSLATIONS } from '../data/translations';
+import { AdraLogo } from './AdraLogo';
 
 interface HeaderProps {
   currentLang: Language;
   onToggleLang: (lang: Language) => void;
   onOpenDonate: (presetSector?: string, presetAmount?: number) => void;
   onOpenChatbot: () => void;
+  onOpenBrandGuide?: () => void;
+  onOpenBrandTest?: () => void;
   activeNavTab: string;
   setActiveNavTab: (tab: string) => void;
   whoWeAreSubTab: string;
@@ -31,6 +35,8 @@ export const Header: React.FC<HeaderProps> = ({
   currentLang,
   onToggleLang,
   onOpenDonate,
+  onOpenBrandGuide,
+  onOpenBrandTest,
   activeNavTab,
   setActiveNavTab,
   whoWeAreSubTab,
@@ -162,34 +168,38 @@ export const Header: React.FC<HeaderProps> = ({
   };
 
   return (
-    <header className="sticky top-0 z-40 bg-[#0c3826] border-b border-emerald-900/60 shadow-md text-white transition-colors duration-200">
-      <div className="max-w-[1580px] mx-auto px-4 sm:px-6 lg:px-8 py-2 flex items-center justify-between gap-3 lg:gap-5">
+    <header className="sticky top-0 z-40 bg-[#004D3A] border-b border-[#007B5F]/40 shadow-md text-white transition-colors duration-200">
+      <div className="max-w-[1580px] mx-auto px-4 sm:px-6 lg:px-8 py-2.5 flex items-center justify-between gap-3 lg:gap-5">
         
-        {/* Left Brand Lockup: Official ADRA Logo + COUNTRY OFFICE / Ethiopia */}
+        {/* Left Brand Lockup: Official ADRA Logo + Separated Country Office / Ethiopia + Kaushan Motto */}
         <div 
           onClick={() => {
             setActiveNavTab('home');
             window.scrollTo({ top: 0, behavior: 'smooth' });
           }}
-          className="flex items-center gap-3 cursor-pointer group shrink-0 border-r border-emerald-600/40 pr-4 2xl:pr-6"
+          className="flex items-center gap-3 cursor-pointer group shrink-0 border-r border-emerald-600/30 pr-4 2xl:pr-6"
         >
-          {/* Official Attached ADRA Logo Card */}
-          <div className="h-12 w-12 bg-white rounded-xl p-1 shadow-xs flex items-center justify-center transition-transform group-hover:scale-105 border border-emerald-900/20">
-            <img
-              src="/assets/aistudio/image_8111643e.png"
-              alt="ADRA Logo"
-              className="h-full w-auto object-contain"
-              referrerPolicy="no-referrer"
+          {/* Official ADRA Logo: Horizontal configuration in White for high contrast, min-size enforced >= 100px */}
+          <div className="py-1 px-1.5 transition-transform group-hover:scale-102">
+            <AdraLogo
+              configuration="horizontal"
+              color="white"
+              size={118}
+              alt="ADRA - Adventist Development and Relief Agency"
             />
           </div>
 
-          {/* Typography Lockup */}
-          <div className="flex flex-col border-l border-emerald-600/40 pl-3 py-0.5">
-            <span className="text-[10px] font-bold text-[#d4af37] tracking-[0.16em] uppercase leading-none font-sans">
+          {/* Typography Lockup: Country Office / Ethiopia distinctly separated by clear space & divider */}
+          <div className="flex flex-col border-l border-emerald-500/40 pl-3 py-0.5">
+            <span className="text-[10px] font-bold text-[#f59e0b] tracking-[0.16em] uppercase leading-none font-sans">
               {t.common.countryOffice}
             </span>
             <span className="text-xl sm:text-2xl font-bold tracking-tight text-white leading-tight font-sans">
               Ethiopia
+            </span>
+            {/* Kaushan Script Motto at 3-10 degree angle */}
+            <span className="font-motto text-[11px] text-emerald-200/90 font-normal leading-none mt-1 hidden sm:inline-block">
+              Justice. Compassion. Love.
             </span>
           </div>
         </div>
@@ -515,13 +525,40 @@ export const Header: React.FC<HeaderProps> = ({
                 )}
               </div>
 
+              {/* Item: Brand Standards & Test Route Buttons */}
+              {onOpenBrandGuide && (
+                <button
+                  type="button"
+                  onClick={onOpenBrandGuide}
+                  className="px-2.5 py-1.5 bg-emerald-900/60 hover:bg-emerald-800 text-emerald-200 hover:text-white border border-emerald-600/50 rounded-lg text-xs font-bold transition-all whitespace-nowrap cursor-pointer flex items-center gap-1.5 shrink-0"
+                  title="View official ADRA Graphic Standards Manual & Branding Guide"
+                >
+                  <ShieldCheck className="w-3.5 h-3.5 text-amber-400" />
+                  <span className="hidden 2xl:inline">Brand Standards</span>
+                  <span className="2xl:hidden">Brand</span>
+                </button>
+              )}
+
+              {onOpenBrandTest && (
+                <button
+                  type="button"
+                  onClick={onOpenBrandTest}
+                  className="px-2.5 py-1.5 bg-stone-900/70 hover:bg-stone-900 text-amber-300 hover:text-amber-200 border border-amber-400/40 rounded-lg text-xs font-bold transition-all whitespace-nowrap cursor-pointer flex items-center gap-1.5 shrink-0"
+                  title="Dev Route: Brand Test and Compliance Inspector"
+                >
+                  <Sparkles className="w-3.5 h-3.5 text-amber-400" />
+                  <span className="hidden 2xl:inline">Brand Test View</span>
+                  <span className="2xl:hidden">Test</span>
+                </button>
+              )}
+
               {/* Item: Donate Button matching Screenshot rounded pill styling */}
               <button
                 type="button"
                 onClick={() => onOpenDonate()}
-                className="px-3.5 py-1.5 2xl:px-4 2xl:py-2 bg-[#dce5df] hover:bg-white active:bg-[#c8d4cc] text-[#052c1e] font-bold text-xs 2xl:text-sm rounded-full shadow-xs hover:shadow-md transition-all whitespace-nowrap cursor-pointer flex items-center gap-1.5 shrink-0"
+                className="px-3.5 py-1.5 2xl:px-4 2xl:py-2 bg-[#dce5df] hover:bg-white active:bg-[#c8d4cc] text-[#004D3A] font-bold text-xs 2xl:text-sm rounded-full shadow-xs hover:shadow-md transition-all whitespace-nowrap cursor-pointer flex items-center gap-1.5 shrink-0"
               >
-                <Heart className="w-3.5 h-3.5 text-[#052c1e]" />
+                <Heart className="w-3.5 h-3.5 text-[#007B5F]" />
                 <span>{t.nav.donate}</span>
               </button>
 
@@ -735,8 +772,38 @@ export const Header: React.FC<HeaderProps> = ({
                 </div>
               </div>
 
+              {/* Brand Standards & Brand Test Actions in Mobile Menu */}
+              <div className="pt-2 grid grid-cols-2 gap-2">
+                {onOpenBrandGuide && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setMobileMenuOpen(false);
+                      onOpenBrandGuide();
+                    }}
+                    className="py-2 px-2.5 bg-emerald-950/80 hover:bg-emerald-900 border border-emerald-600/60 rounded-xl text-xs font-bold text-emerald-200 flex items-center justify-center gap-1.5"
+                  >
+                    <ShieldCheck className="w-3.5 h-3.5 text-amber-400" />
+                    <span>Brand Guide</span>
+                  </button>
+                )}
+                {onOpenBrandTest && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setMobileMenuOpen(false);
+                      onOpenBrandTest();
+                    }}
+                    className="py-2 px-2.5 bg-stone-900/90 hover:bg-stone-800 border border-amber-400/50 rounded-xl text-xs font-bold text-amber-300 flex items-center justify-center gap-1.5"
+                  >
+                    <Sparkles className="w-3.5 h-3.5 text-amber-400" />
+                    <span>Brand Test</span>
+                  </button>
+                )}
+              </div>
+
               {/* Donate Button */}
-              <div className="pt-2">
+              <div className="pt-1">
                 <button
                   type="button"
                   onClick={() => {

@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100" fill="none" role="img" aria-label="ADRA Globe Mark (Green)">
+  <!-- Official ADRA Globe Mark - Pantone 335 C (#007B5F) -->
+  <circle cx="50" cy="50" r="46" stroke="#007B5F" stroke-width="6" fill="none"/>
+  <circle cx="50" cy="30" r="6.8" fill="#007B5F"/>
+  <path d="M50 39.5 C43 39.5 40 45 40 54 L40 68 C40 70.2 41.8 72 44 72 L46 72 L46 84 C46 86.2 47.8 88 50 88 C52.2 88 54 86.2 54 84 L54 72 L56 72 C58.2 72 60 70.2 60 68 L60 54 C60 45 57 39.5 50 39.5 Z" fill="#007B5F"/>
+  <circle cx="28" cy="34" r="6" fill="#007B5F"/>
+  <path d="M28 42.5 C22.5 42.5 20 47 20 55 L20 66 C20 67.8 21.5 69.5 23.5 69.5 L25 69.5 L25 80 C25 81.8 26.5 83.5 28.5 83.5 C30.5 83.5 32 81.8 32 80 L32 69.5 L34 69.5 C35 69.5 36.5 68.8 37 67.5 L40.5 54 C39.5 49 35 42.5 28 42.5 Z" fill="#007B5F"/>
+  <path d="M36 53 C38 52 42 53 43 56 C42 58 38 58 36 56 Z" fill="#007B5F"/>
+  <circle cx="72" cy="34" r="6" fill="#007B5F"/>
+  <path d="M72 42.5 C77.5 42.5 80 47 80 55 L80 66 C80 67.8 78.5 69.5 76.5 69.5 L75 69.5 L75 80 C75 81.8 73.5 83.5 71.5 83.5 C69.5 83.5 68 81.8 68 80 L68 69.5 L66 69.5 C65 69.5 63.5 68.8 63 67.5 L59.5 54 C60.5 49 65 42.5 72 42.5 Z" fill="#007B5F"/>
+  <path d="M64 53 C62 52 58 53 57 56 C58 58 62 58 64 56 Z" fill="#007B5F"/>
+  <path d="M17 64 C26 77 40 85 50 85 C60 85 74 77 83 64" stroke="#007B5F" stroke-width="3.2" stroke-linecap="round" fill="none"/>
+</svg>
