@@ -291,7 +291,7 @@ export const BrandTestView: React.FC<BrandTestViewProps> = ({
               <div className={`absolute bottom-3 right-4 text-[10px] font-mono ${
                 selectedTone === 'white' ? 'text-emerald-200' : 'text-[#54585A]'
               }`}>
-                Render: /brand/adra-{selectedVariant}-{selectedTone}.svg ({logoWidth}px)
+                Render: {selectedVariant === 'vertical' && selectedTone === 'green' ? '/brand/adra-logo.png' : `/brand/adra-${selectedVariant}-${selectedTone}.png`} ({logoWidth}px)
               </div>
             </div>
 

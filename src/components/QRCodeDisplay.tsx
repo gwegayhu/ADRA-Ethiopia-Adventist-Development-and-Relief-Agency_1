@@ -1,40 +1,46 @@
 import React from 'react';
+import { Language } from '../types';
+import { UI_COPY } from '../data/uiCopy';
 
 interface QRCodeDisplayProps {
   value: string;
   brand: 'telebirr' | 'cbe' | 'stripe';
   size?: number;
   label?: string;
+  currentLang?: Language;
 }
 
 export const QRCodeDisplay: React.FC<QRCodeDisplayProps> = ({
   value,
   brand,
   size = 180,
-  label
+  label,
+  currentLang = 'en'
 }) => {
+  const qrCopy = (UI_COPY[currentLang] || UI_COPY.en).qr;
+
   // Brand color accents
   const brandColors = {
     telebirr: {
       primary: '#006643',
       badgeBg: '#006643',
       badgeText: '#ffffff',
-      title: 'TeleBirr Pay',
-      subtitle: 'Scan with TeleBirr SuperApp'
+      title: qrCopy.telebirrTitle,
+      subtitle: qrCopy.telebirrSub
     },
     cbe: {
       primary: '#581c87',
       badgeBg: '#581c87',
       badgeText: '#ffffff',
-      title: 'CBE Birr Pay',
-      subtitle: 'Scan with CBE Mobile / CBE Birr'
+      title: qrCopy.cbeTitle,
+      subtitle: qrCopy.cbeSub
     },
     stripe: {
       primary: '#635bff',
       badgeBg: '#635bff',
       badgeText: '#ffffff',
-      title: 'Stripe Mobile Pay',
-      subtitle: 'Scan with phone camera for Apple Pay / Card'
+      title: qrCopy.stripeTitle,
+      subtitle: qrCopy.stripeSub
     }
   };
 

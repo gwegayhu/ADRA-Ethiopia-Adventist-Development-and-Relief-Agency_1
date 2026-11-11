@@ -114,10 +114,10 @@ export const TRANSLATIONS: Record<Language, {
     nav: {
       whoWeAre: 'እኛ ማን ነን',
       whatWeDo: 'ምን እንሰራለን',
-      whereWeWork: 'የምንሰራባቸው ቦታዎች',
+      whereWeWork: 'የስራ ቦታዎች',
       ourImpact: 'ውጤታችን',
       stories: 'ታሪኮች',
-      aiForGood: 'ቴክኖሎጂ ለበጎ',
+      aiForGood: 'AI ለበጎ',
       programs: 'ፕሮግራሞች',
       workWithUs: 'ከእኛ ጋር ይስሩ',
       getInvolved: 'ይተባበሩን',
@@ -144,85 +144,85 @@ export const TRANSLATIONS: Record<Language, {
       title1: 'ለሁሉም ማህበረሰብ',
       title2: 'ፍትህ፣ ርህራሄ',
       title3: 'እና ፍቅር',
-      subtitle: 'አደጋዎችን ለመከላከል፣ ምግብ ለማምረት፣ ንጹህ ውሃ ለማቅረብ፣ ጤናን ለማሻሻል እና በትምህርትና ስራ እድል በሮች ለመክፈት ከመላው ኢትዮጵያ ማህበረሰቦች ጋር በጋራ እንሰራለን።',
+      subtitle: 'አደጋዎችን ለመቋቋም፣ ምግብ ለማምረት፣ ንጹህ ውሃ ለማቅረብ፣ ጤናን ለማሻሻል እና በትምህርት እድል ለመክፈት ከማህበረሰቦች ጋር እንሰራለን።',
       exploreBtn: 'ስራችንን ይመልከቱ',
       partnerBtn: 'አጋር ይሁኑ'
     },
     donate: {
-      portalTitle: 'የእርዳታ መዋጮ ገጽ',
+      portalTitle: 'ቀጥታ መዋጮ ገጽ',
       heading: 'አድራ ኢትዮጵያን ይደግፉ',
-      subtitle: 'በስካን QR ኮድ፣ በቴሌብር፣ በንግድ ባንክ (CBE) እና በStripe ይክፈሉ',
+      subtitle: 'በQR ስካን ይክፈሉ · TeleBirr፣ CBE Birr እና Stripe',
       ctaDonate: 'አሁን ይለግሱ',
       completeTitle: 'ይፋዊ የእርዳታ ደረሰኝ'
     },
     common: {
       countryOffice: 'የኢትዮጵያ ቢሮ',
-      readMore: 'ሙሉውን ያንብቡ',
+      readMore: 'ተጨማሪ',
       close: 'ዝጋ',
-      allStories: 'ሁሉንም ታሪኮች ይመልከቱ'
+      allStories: 'ሁሉም ታሪኮች'
     }
   },
   om: {
     nav: {
-      whoWeAre: 'Eenyummaa Keenya',
-      whatWeDo: 'Hojiiwwan Keenya',
-      whereWeWork: 'Bakkeewwan Hojii Keenyaa',
-      ourImpact: 'Bu\'aa Keenya',
-      stories: 'Seenaawwan Dirree',
-      aiForGood: 'AI Faayidaa Namoomaatiif',
-      programs: 'Sagantaalee',
-      workWithUs: 'Nu Waliin Hojjedhaa',
-      getInvolved: 'Nu Waliin Hojjedhaa',
-      contact: 'Nu Qunnamaa',
-      donate: 'Gumaachaa',
-      exploreOurWork: 'Hojii Keenya Daawwadhaa',
-      connectWithUs: 'Nu Waliin Qindaa\'aa',
-      aboutUs: 'Waa\'ee Keenya',
+      whoWeAre: "Eenyu Nu'i",
+      whatWeDo: 'Hojiiwwan',
+      whereWeWork: 'Bakka Hojii',
+      ourImpact: 'Dhiibbaa',
+      stories: 'Seenaa',
+      aiForGood: 'AI Gaariif',
+      programs: 'Sagantaa',
+      workWithUs: 'Waliin Hojii',
+      getInvolved: 'Hirmaadhaa',
+      contact: 'Qunnami',
+      donate: 'Kennaa',
+      exploreOurWork: 'Hojii Keenya',
+      connectWithUs: 'Nu Qunnamaa',
+      aboutUs: 'Nu Eenyu',
       education: 'Barnoota',
       health: 'Fayyaa',
-      livelihoods: 'Wabii Jireenyaa',
+      livelihoods: 'Jireenya',
       disasterResponse: 'Deebii Balaa',
       language: 'Afaan',
-      blog: 'Biloogii'
+      blog: 'Blog'
     },
     whoWeAreSub: {
-      aboutUs: 'Waa\'ee Keenya',
-      ourHistory: 'Seenaa Keenya',
+      aboutUs: "Waa'ee",
+      ourHistory: 'Seenaa ADRA',
       leadership: 'Hoggansa',
-      governance: 'Bulchiinsa fi Eegumsa'
+      governance: 'Bulchiinsa'
     },
     hero: {
-      kicker: 'ADRA ITOOPHIYAA',
+      kicker: 'ADRA ETHIOPIA',
       title1: 'Haqa, gara-laafina',
       title2: 'fi jaalala',
       title3: 'hawaasa hundaaf',
-      subtitle: 'Balaawwan qolachuu, wabii nyaataa mirkaneessuu, bishaan dhugaatii qulqulluu dhiyeessuu, fayyaa bu\'uuraa fooyyessuu fi carraa barnootaa uumuuf hawaasa Itoophiyaa waliin kutannoon hojjanna.',
-      exploreBtn: 'Hojii keenya daawwadhaa',
-      partnerBtn: 'Nu waliin qindaa\'aa'
+      subtitle: 'Balaa qolachuu, wabii nyaataa, bishaan qulqulluu, fayyaa buʼuuraa fi carraa barnootaa babalʼisuuf hawaasa Itoophiyaa waliin hojjenna.',
+      exploreBtn: 'Hojii keenya',
+      partnerBtn: 'Nu waliin hojii'
     },
     donate: {
-      portalTitle: 'Waltajjii Gumaata Kallattii',
-      heading: 'ADRA Itoophiyaa Deeggaraa',
-      subtitle: 'Koodii QR Scan gochuun kaffalaa · TeleBirr, Baankii Daldala Itoophiyaa (CBE) fi Stripe',
-      ctaDonate: 'Amma Gumaachaa',
+      portalTitle: 'Waltajjii Gumaataa',
+      heading: 'ADRA Itoophiyaa Gargaari',
+      subtitle: 'Koodii QRn kaffalaa · TeleBirr, CBE Birr fi Stripe',
+      ctaDonate: 'Kennaa',
       completeTitle: 'Nagahee Gumaata Seera Qabeessa'
     },
     common: {
-      countryOffice: 'WAAJJIRA BIYYOOLESSA ITOOPHIYAA',
-      readMore: 'Bal\'inaan dubbisaa',
+      countryOffice: 'WAAJJIRA BIYYAA',
+      readMore: 'Dubbisaa',
       close: 'Cufaa',
-      allStories: 'Seenaawwan hunda ilaalaa'
+      allStories: 'Seenaa Hunda'
     }
   },
   ti: {
     nav: {
       whoWeAre: 'ንሕና መን ኢና',
       whatWeDo: 'እንታይ ንሰርሕ',
-      whereWeWork: 'እንሰርሓሎም ቦታታት',
+      whereWeWork: 'ቦታታት ስራሕና',
       ourImpact: 'ጽልዋና',
       stories: 'ዛንታታት',
       aiForGood: 'AI ንሰናይ',
-      programs: 'ፕሮግራማት',
+      programs: 'መደባት',
       workWithUs: 'ምሳና ስርሑ',
       getInvolved: 'ተሳተፉ',
       contact: 'ርክብ',
@@ -247,23 +247,27 @@ export const TRANSLATIONS: Record<Language, {
       kicker: 'ኣድራ ኢትዮጵያ',
       title1: 'ንኹሉ ማሕበረሰብ',
       title2: 'ፍትሒ፣ ርሕራሐ',
-      title3: 'እንተላይ ፍቕሪ',
-      subtitle: 'ሓደጋታት ንምክልኻል፣ ምግቢ ንምፍራይ፣ ጽሩይ ማይ ንምቕራብ፣ ጥዕና ንምምሕያሽን ብትምህርትን ስራሕን ዕድላት ንምኽፋት ምስ ማሕበረሰብ ኢትዮጵያ ብሓባር ንሰርሕ።',
-      exploreBtn: 'ስራሕና ርኸቡ',
+      title3: 'ከምኡውን ፍቕሪ',
+      subtitle: 'ሓደጋታት ንምክልኻል፣ ምግቢ ንምፍራይ፣ ጽሩይ ማይ ንምቕራብ፣ ጥዕና ንምምሕያሽን ብትምህርቲ ዕድላት ንምኽፋትን ምስ ሕብረተሰብ ንሰርሕ።',
+      exploreBtn: 'ስራሕና ዳህስሱ',
       partnerBtn: 'መሻርኽቲ ኩኑ'
     },
     donate: {
-      portalTitle: 'ቀጥታዊ መዋጮ ፖርታል',
+      portalTitle: 'ቀጥታዊ መዋጮ ገጽ',
       heading: 'ንኣድራ ኢትዮጵያ ደግፉ',
-      subtitle: 'ብQR ኮድ ስካን፣ ቴሌብር፣ ንግዲ ባንክ ኢትዮጵያን Stripeን ይኽፈሉ',
+      subtitle: 'ብQR ስካን ይኽፈሉ · TeleBirr፣ CBE Birrን Stripeን',
       ctaDonate: 'ሕጂ ለግሱ',
       completeTitle: 'ወግዓዊ ደረሰኝ መዋጮ'
     },
     common: {
-      countryOffice: 'ቤት ጽሕፈት ኢትዮጵያ',
-      readMore: 'ሙሉእ ኣንብብ',
+      countryOffice: 'ቤት ጽሕፈት ሃገር',
+      readMore: 'ተወሳኺ',
       close: 'ዕጾ',
-      allStories: 'ኩሎም ዛንታታት ርኣይ'
+      allStories: 'ኩሎም ዛንታታት'
     }
   }
 };
+
+export function pickLang<T>(lang: Language, map: { en: T; am: T; om: T; ti: T }): T {
+  return map[lang] ?? map.en;
+}

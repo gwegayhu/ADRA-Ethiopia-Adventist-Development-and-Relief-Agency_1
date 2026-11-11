@@ -11,16 +11,10 @@
   "background_color": "#FFFFFF",
   "icons": [
     {
-      "src": "/brand/adra-globe-green.png",
-      "sizes": "148x95 192x192",
+      "src": "/brand/adra-logo.png",
+      "sizes": "148x151",
       "type": "image/png",
       "purpose": "any"
-    },
-    {
-      "src": "/brand/adra-vertical-green.png",
-      "sizes": "148x151 512x512",
-      "type": "image/png",
-      "purpose": "maskable"
     },
     {
       "src": "/brand/adra-globe-green.svg",

@@ -1,18 +1,19 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { 
-  X, 
-  Send, 
-  Bot, 
-  User, 
-  Sparkles, 
-  ExternalLink, 
-  CornerDownLeft, 
-  HelpCircle,
-  MessageSquare,
+import {
+  X,
+  Send,
+  Bot,
+  User,
+  ExternalLink,
   BookOpen
 } from 'lucide-react';
-import { findRelevantAnswers, ChatKnowledgeItem, WEBSITE_KNOWLEDGE } from '../data/websiteContent';
+import {
+  findRelevantAnswers,
+  getLocalizedKnowledgeItem,
+  ChatKnowledgeItem
+} from '../data/websiteContent';
 import { Language } from '../types';
+import { UI_COPY } from '../data/uiCopy';
 
 interface ChatMessage {
   id: string;
@@ -30,6 +31,35 @@ interface ChatbotModalProps {
   onOpenDonate: (presetSector?: string) => void;
 }
 
+function detectReplyLanguage(query: string, uiLang: Language): Language {
+  const qLower = query.toLowerCase();
+  if (/[\u1200-\u137F]/.test(query)) {
+    const tigrinyaCues = [
+      'እንታይ', 'ብዛዕባ', 'ኣድራ', 'ኣብ ', 'ክልል', 'ስራሕ', 'ጽሩይ', 'ማይ',
+      'ታሪኽ', 'መትከላት', 'ምልጋስ', 'ሕጂ', 'ክንደይ', 'ከመይ', 'ኣሎ', 'እዩ', 'ናይ'
+    ];
+    const amharicCues = [
+      'ምንድን', 'እንዴት', 'ነው', 'ታሪክ', 'ውሃ', 'ይለግሱ', 'መለገስ', 'ስለ ', 'የት ', 'አድራ', 'ንጹህ', 'ምን '
+    ];
+    const hasTi = tigrinyaCues.some((cue) => query.includes(cue));
+    const hasAm = amharicCues.some((cue) => query.includes(cue));
+    if (hasTi && !hasAm) return 'ti';
+    if (hasAm && !hasTi) return 'am';
+    return uiLang === 'ti' ? 'ti' : 'am';
+  }
+
+  const oromoCues = [
+    'maal', 'akkam', 'eessa', "waa'ee", 'waaʼee', 'seenaa', 'bishaan',
+    'somaalee', 'oromiyaa', 'gargaar', 'kennaa', 'seera', 'hojii', 'naannoo',
+    'itoophiyaa', 'qajeeltoo', 'dandeessu', 'gaafadhu', 'cbe', 'tiin'
+  ];
+  if (oromoCues.some((cue) => qLower.includes(cue))) {
+    return 'om';
+  }
+
+  return uiLang;
+}
+
 export const ChatbotModal: React.FC<ChatbotModalProps> = ({
   isOpen,
   onClose,
@@ -37,13 +67,13 @@ export const ChatbotModal: React.FC<ChatbotModalProps> = ({
   onNavigateToSection,
   onOpenDonate,
 }) => {
-  const [messages, setMessages] = useState<ChatMessage[]>([
+  const chatCopy = (UI_COPY[currentLang] || UI_COPY.en).chatbot;
+
+  const [messages, setMessages] = useState<ChatMessage[]>(() => [
     {
       id: 'welcome',
       sender: 'bot',
-      text: currentLang === 'en'
-        ? 'Hello! I am the ADRA Ethiopia Humanitarian AI Assistant. I can answer questions about our six areas of work, regional operations across Ethiopia, history since 1982, AI for Good principles, or how to donate via TeleBirr and CBE Birr. How can I help you today?'
-        : 'ሰላም! እኔ የአድራ ኢትዮጵያ የሰብአዊ እርዳታ AI ረዳት ነኝ። ስለ ስድስቱ የስራ ዘርፎች፣ የክልል ስራዎች፣ ከ1982 ዓ.ም ጀምሮ ስላለው ታሪካችን፣ ስለ ቴክኖሎጂ መርሆዎቻችን ወይም በቴሌብር እና በንግድ ባንክ እንዴት መለገስ እንደሚችሉ ጥያቄዎችን መመለስ እችላለሁ። ምን ላግዝዎት?',
+      text: chatCopy.welcome,
       timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
     }
   ]);
@@ -51,12 +81,18 @@ export const ChatbotModal: React.FC<ChatbotModalProps> = ({
   const [isTyping, setIsTyping] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
+  useEffect(() => {
+    setMessages((prev) =>
+      prev.map((m) => (m.id === 'welcome' ? { ...m, text: chatCopy.welcome } : m))
+    );
+  }, [chatCopy.welcome]);
+
   const quickPrompts = [
-    { label: currentLang === 'en' ? 'How to donate via TeleBirr or CBE?' : 'በቴሌብርና ንግድ ባንክ እንዴት ይለገሳል?', query: 'How to donate via TeleBirr or CBE Birr?' },
-    { label: currentLang === 'en' ? 'What are the 6 AI principles?' : '6ቱ የቴክኖሎጂ መርሆዎች ምንድናቸው?', query: 'What are the six principles of AI for Good at ADRA Ethiopia?' },
-    { label: currentLang === 'en' ? 'Where do you work in Somali region?' : 'በሶማሌ ክልል የት ነው የምትሰሩት?', query: 'Tell me about ADRA work in Somali Region and Kelafo.' },
-    { label: currentLang === 'en' ? 'Tell me about clean water & WASH' : 'ስለ ንጹህ ውሃ (WASH) ንገረኝ', query: 'What does ADRA Ethiopia do for clean water and solar boreholes?' },
-    { label: currentLang === 'en' ? 'History of ADRA since 1982' : 'የአድራ ታሪክ ከ1982 ጀምሮ', query: 'What is ADRA Ethiopia history since 1982 drought?' }
+    { label: chatCopy.prompts.donate, query: chatCopy.prompts.donate },
+    { label: chatCopy.prompts.ai, query: chatCopy.prompts.ai },
+    { label: chatCopy.prompts.somali, query: chatCopy.prompts.somali },
+    { label: chatCopy.prompts.wash, query: chatCopy.prompts.wash },
+    { label: chatCopy.prompts.history, query: chatCopy.prompts.history },
   ];
 
   const scrollToBottom = () => {
@@ -87,20 +123,17 @@ export const ChatbotModal: React.FC<ChatbotModalProps> = ({
     setIsTyping(true);
 
     setTimeout(() => {
-      // Analyze grounded query against website knowledge base
-      const isAmharic = /[\u1200-\u137F]/.test(query);
-      const results = findRelevantAnswers(query, isAmharic ? 'am' : 'en');
+      const replyLang = detectReplyLanguage(query, currentLang);
+      const results = findRelevantAnswers(query, replyLang);
 
       let replyText = '';
       let sourceItem: ChatKnowledgeItem | undefined = undefined;
 
       if (results.length > 0) {
         sourceItem = results[0].item;
-        replyText = isAmharic ? sourceItem.contentAm : sourceItem.content;
+        replyText = getLocalizedKnowledgeItem(sourceItem, replyLang).content;
       } else {
-        replyText = isAmharic
-          ? 'ጥያቄዎ በአድራ ኢትዮጵያ የድረ-ገጽ መረጃ ውስጥ ተፈልጓል። ስለ 6ቱ የልማት ዘርፎች (WASH፣ ትምህርት፣ የምግብ ዋስትና፣ ጤና፣ አደጋ ጊዜ፣ TVET)፣ የክልል ስራዎቻችን፣ ወይም በቴሌብር/CBE ስለመለገስ ተጨማሪ መጠየቅ ይችላሉ።'
-          : 'Thank you for your question. Based on ADRA Ethiopia\'s official documentation, we operate across six core pillars (WASH, Education, Food Security, Emergency Management, Health, and Green Energy TVET) across 8 Ethiopian regions. You can also ask specifically about our history since 1982, leadership, or how to donate via TeleBirr (Merchant: 251911) or CBE Birr.';
+        replyText = (UI_COPY[replyLang] || UI_COPY.en).chatbot.fallbackReply;
       }
 
       const botMsg: ChatMessage = {
@@ -129,22 +162,22 @@ export const ChatbotModal: React.FC<ChatbotModalProps> = ({
             <div>
               <div className="flex items-center gap-2">
                 <h3 className="font-bold text-sm tracking-wide font-sans">
-                  ADRA Ethiopia AI Assistant
+                  ADRA AI
                 </h3>
                 <span className="text-[10px] bg-emerald-800 text-emerald-200 px-2 py-0.5 rounded-full font-medium">
-                  Verified Data
+                  {chatCopy.verifiedBadge}
                 </span>
               </div>
               <p className="text-[11px] text-stone-300">
-                Grounded in all website sections & humanitarian records
+                {chatCopy.headerSub}
               </p>
             </div>
           </div>
 
           <button
             onClick={onClose}
-            className="p-1.5 text-stone-300 hover:text-white rounded-lg hover:bg-emerald-900/60 transition-colors"
-            aria-label="Close Chatbot"
+            className="p-1.5 text-stone-300 hover:text-white rounded-lg hover:bg-emerald-900/60 transition-colors cursor-pointer"
+            aria-label={chatCopy.closeAria}
           >
             <X className="w-5 h-5" />
           </button>
@@ -152,76 +185,82 @@ export const ChatbotModal: React.FC<ChatbotModalProps> = ({
 
         {/* Message Stream */}
         <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-stone-50/50">
-          {messages.map((msg) => (
-            <div
-              key={msg.id}
-              className={`flex items-start gap-2.5 ${
-                msg.sender === 'user' ? 'flex-row-reverse' : 'flex-row'
-              }`}
-            >
+          {messages.map((msg) => {
+            const locSource = msg.sourceItem
+              ? getLocalizedKnowledgeItem(msg.sourceItem, currentLang)
+              : null;
+
+            return (
               <div
-                className={`w-7 h-7 rounded-full flex items-center justify-center shrink-0 text-xs font-bold ${
-                  msg.sender === 'user'
-                    ? 'bg-stone-800 text-white'
-                    : 'bg-[#006643] text-amber-400'
+                key={msg.id}
+                className={`flex items-start gap-2.5 ${
+                  msg.sender === 'user' ? 'flex-row-reverse' : 'flex-row'
                 }`}
               >
-                {msg.sender === 'user' ? <User className="w-4 h-4" /> : <Bot className="w-4 h-4" />}
-              </div>
-
-              <div className={`max-w-[82%] space-y-2`}>
                 <div
-                  className={`p-3.5 rounded-2xl text-xs sm:text-sm leading-relaxed shadow-2xs font-sans ${
+                  className={`w-7 h-7 rounded-full flex items-center justify-center shrink-0 text-xs font-bold ${
                     msg.sender === 'user'
-                      ? 'bg-[#006643] text-white rounded-tr-xs'
-                      : 'bg-white text-stone-800 border border-stone-200/90 rounded-tl-xs'
+                      ? 'bg-stone-800 text-white'
+                      : 'bg-[#006643] text-amber-400'
                   }`}
                 >
-                  <p>{msg.text}</p>
+                  {msg.sender === 'user' ? <User className="w-4 h-4" /> : <Bot className="w-4 h-4" />}
                 </div>
 
-                {/* Grounded Information Source Citation & Direct Link */}
-                {msg.sourceItem && (
-                  <div className="flex flex-wrap items-center gap-2 text-[11px] text-stone-500 pl-1">
-                    <span className="font-semibold text-[#006643] flex items-center gap-1">
-                      <BookOpen className="w-3 h-3" />
-                      <span>Source: {msg.sourceItem.sourceSection}</span>
-                    </span>
-                    <span>·</span>
-                    <button
-                      onClick={() => {
-                        onClose();
-                        if (msg.sourceItem?.sourceSection.includes('Donate')) {
-                          onOpenDonate();
-                        } else {
-                          onNavigateToSection(msg.sourceItem?.sourceLink.replace('#', '') || '');
-                        }
-                      }}
-                      className="text-[#006643] hover:underline font-medium inline-flex items-center gap-0.5 cursor-pointer"
-                    >
-                      <span>Jump to section</span>
-                      <ExternalLink className="w-3 h-3" />
-                    </button>
+                <div className="max-w-[82%] space-y-2">
+                  <div
+                    className={`p-3.5 rounded-2xl text-xs sm:text-sm leading-relaxed shadow-2xs font-sans ${
+                      msg.sender === 'user'
+                        ? 'bg-[#006643] text-white rounded-tr-xs'
+                        : 'bg-white text-stone-800 border border-stone-200/90 rounded-tl-xs'
+                    }`}
+                  >
+                    <p>{msg.text}</p>
                   </div>
-                )}
 
-                <div
-                  className={`text-[10px] text-stone-400 px-1 ${
-                    msg.sender === 'user' ? 'text-right' : 'text-left'
-                  }`}
-                >
-                  {msg.timestamp}
+                  {/* Grounded Information Source Citation & Direct Link */}
+                  {msg.sourceItem && locSource && (
+                    <div className="flex flex-wrap items-center gap-2 text-[11px] text-stone-500 pl-1">
+                      <span className="font-semibold text-[#006643] flex items-center gap-1">
+                        <BookOpen className="w-3 h-3" />
+                        <span>{chatCopy.sourcePrefix} {locSource.sourceSection}</span>
+                      </span>
+                      <span aria-hidden="true">·</span>
+                      <button
+                        onClick={() => {
+                          onClose();
+                          if (msg.sourceItem?.sourceLink === '#donate') {
+                            onOpenDonate();
+                          } else {
+                            onNavigateToSection(msg.sourceItem?.sourceLink.replace('#', '') || '');
+                          }
+                        }}
+                        className="text-[#006643] hover:underline font-medium inline-flex items-center gap-0.5 cursor-pointer"
+                      >
+                        <span>{chatCopy.jumpToSection}</span>
+                        <ExternalLink className="w-3 h-3" />
+                      </button>
+                    </div>
+                  )}
+
+                  <div
+                    className={`text-[10px] text-stone-400 px-1 ${
+                      msg.sender === 'user' ? 'text-right' : 'text-left'
+                    }`}
+                  >
+                    {msg.timestamp}
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
 
           {isTyping && (
             <div className="flex items-center gap-2 text-xs text-stone-500 pl-9">
               <span className="w-2 h-2 rounded-full bg-[#006643] animate-bounce" />
               <span className="w-2 h-2 rounded-full bg-[#006643] animate-bounce [animation-delay:0.2s]" />
               <span className="w-2 h-2 rounded-full bg-[#006643] animate-bounce [animation-delay:0.4s]" />
-              <span className="text-[11px] ml-1">Searching official ADRA records...</span>
+              <span className="text-[11px] ml-1">{chatCopy.searchingText}</span>
             </div>
           )}
 
@@ -231,7 +270,7 @@ export const ChatbotModal: React.FC<ChatbotModalProps> = ({
         {/* Quick Suggestion Prompts */}
         <div className="px-4 py-2 bg-stone-100 border-t border-stone-200 overflow-x-auto scrollbar-none flex items-center gap-1.5 shrink-0">
           <span className="text-[10px] font-bold text-stone-500 uppercase tracking-wider shrink-0 mr-1">
-            Suggested:
+            {chatCopy.suggestedLabel}
           </span>
           {quickPrompts.map((qp, idx) => (
             <button
@@ -257,20 +296,20 @@ export const ChatbotModal: React.FC<ChatbotModalProps> = ({
               type="text"
               value={inputText}
               onChange={(e) => setInputText(e.target.value)}
-              placeholder={currentLang === 'en' ? "Ask about programs, regions, history, or donation..." : "ስለ ፕሮግራሞች፣ ክልሎች፣ ታሪክ ወይም እርዳታ ይጠይቁ..."}
+              placeholder={chatCopy.placeholder}
               className="flex-1 px-3.5 py-2.5 text-xs sm:text-sm bg-stone-50 border border-stone-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#006643] focus:bg-white"
             />
             <button
               type="submit"
               disabled={!inputText.trim()}
               className="p-2.5 bg-[#006643] hover:bg-[#073826] disabled:opacity-40 text-white rounded-xl transition-colors cursor-pointer shadow-2xs"
-              aria-label="Send message"
+              aria-label={chatCopy.sendAria}
             >
               <Send className="w-4 h-4" />
             </button>
           </form>
           <div className="text-[10px] text-stone-400 text-center mt-1.5">
-            Complies with ADRA Ethiopia AI for Good Principles (Human oversight & community privacy)
+            {chatCopy.footerNote}
           </div>
         </div>
 

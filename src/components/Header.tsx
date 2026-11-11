@@ -10,12 +10,11 @@ import {
   HeartPulse, 
   Wheat, 
   LifeBuoy, 
-  ArrowRight,
-  Sparkles,
-  ShieldCheck
+  ArrowRight
 } from 'lucide-react';
 import { Language } from '../types';
 import { TRANSLATIONS } from '../data/translations';
+import { UI_COPY } from '../data/uiCopy';
 import { AdraLogo } from './AdraLogo';
 
 interface HeaderProps {
@@ -23,8 +22,6 @@ interface HeaderProps {
   onToggleLang: (lang: Language) => void;
   onOpenDonate: (presetSector?: string, presetAmount?: number) => void;
   onOpenChatbot: () => void;
-  onOpenBrandGuide?: () => void;
-  onOpenBrandTest?: () => void;
   activeNavTab: string;
   setActiveNavTab: (tab: string) => void;
   whoWeAreSubTab: string;
@@ -35,8 +32,6 @@ export const Header: React.FC<HeaderProps> = ({
   currentLang,
   onToggleLang,
   onOpenDonate,
-  onOpenBrandGuide,
-  onOpenBrandTest,
   activeNavTab,
   setActiveNavTab,
   whoWeAreSubTab,
@@ -56,6 +51,7 @@ export const Header: React.FC<HeaderProps> = ({
   const whatWeDoDropdownRef = useRef<HTMLDivElement>(null);
 
   const t = TRANSLATIONS[currentLang] || TRANSLATIONS.en;
+  const ui = UI_COPY[currentLang] || UI_COPY.en;
 
   // Handle click outside to close dropdowns
   useEffect(() => {
@@ -90,32 +86,32 @@ export const Header: React.FC<HeaderProps> = ({
     {
       id: 'education',
       title: t.nav.education || 'Education',
-      subtitle: 'SEAQE II & Girls Schooling',
-      metric: '85,000+ Enrolled',
+      subtitle: ui.header.pillars.educationSub,
+      metric: ui.header.pillars.educationMetric,
       image: '/assets/images/adra_education_girls_1792612496863.jpg',
       icon: <GraduationCap className="w-3.5 h-3.5 text-amber-400" />
     },
     {
       id: 'health',
       title: t.nav.health || 'Health',
-      subtitle: 'Nutrition & Maternal CTC',
-      metric: '310,000+ Treated',
+      subtitle: ui.header.pillars.healthSub,
+      metric: ui.header.pillars.healthMetric,
       image: '/assets/images/adra_emergency_health_1792612497133.jpg',
       icon: <HeartPulse className="w-3.5 h-3.5 text-amber-400" />
     },
     {
       id: 'livelihood',
       title: t.nav.livelihoods || 'Livelihood',
-      subtitle: 'Solar Irrigation & VSLAs',
-      metric: '68,000+ Farmers',
+      subtitle: ui.header.pillars.livelihoodSub,
+      metric: ui.header.pillars.livelihoodMetric,
       image: '/assets/images/adra_agriculture_food_1792612497905.jpg',
       icon: <Wheat className="w-3.5 h-3.5 text-amber-400" />
     },
     {
       id: 'disaster-response',
       title: t.nav.disasterResponse || 'Disaster Response',
-      subtitle: '72-Hr Relief & Mobile Cash',
-      metric: '550,000+ Supported',
+      subtitle: ui.header.pillars.disasterSub,
+      metric: ui.header.pillars.disasterMetric,
       image: '/assets/images/solar_water_desert_1792618997738.jpg',
       icon: <LifeBuoy className="w-3.5 h-3.5 text-amber-400" />
     }
@@ -169,7 +165,7 @@ export const Header: React.FC<HeaderProps> = ({
 
   return (
     <header className="sticky top-0 z-40 bg-[#004D3A] border-b border-[#007B5F]/40 shadow-md text-white transition-colors duration-200">
-      <div className="max-w-[1580px] mx-auto px-4 sm:px-6 lg:px-8 py-2.5 flex items-center justify-between gap-3 lg:gap-5">
+      <div className="max-w-[1580px] mx-auto px-4 sm:px-6 lg:px-8 py-2 flex items-center justify-between gap-3 lg:gap-5">
         
         {/* Left Brand Lockup: Official ADRA Logo + Separated Country Office / Ethiopia + Kaushan Motto */}
         <div 
@@ -179,12 +175,14 @@ export const Header: React.FC<HeaderProps> = ({
           }}
           className="flex items-center gap-3 cursor-pointer group shrink-0 border-r border-emerald-600/30 pr-4 2xl:pr-6"
         >
-          {/* Official ADRA Logo: Horizontal configuration in White for high contrast, min-size enforced >= 100px */}
-          <div className="py-1 px-1.5 transition-transform group-hover:scale-102">
+          {/* Official ADRA Logo: Exact attached logo preserved as-is on crisp white clear-space plate, min-size >= 66px */}
+          <div className="transition-transform group-hover:scale-102 shrink-0">
             <AdraLogo
-              configuration="horizontal"
-              color="white"
-              size={118}
+              configuration="vertical"
+              color="green"
+              size={66}
+              surface="white-badge"
+              compact
               alt="ADRA - Adventist Development and Relief Agency"
             />
           </div>
@@ -195,11 +193,11 @@ export const Header: React.FC<HeaderProps> = ({
               {t.common.countryOffice}
             </span>
             <span className="text-xl sm:text-2xl font-bold tracking-tight text-white leading-tight font-sans">
-              Ethiopia
+              {ui.common.ethiopia}
             </span>
             {/* Kaushan Script Motto at 3-10 degree angle */}
             <span className="font-motto text-[11px] text-emerald-200/90 font-normal leading-none mt-1 hidden sm:inline-block">
-              Justice. Compassion. Love.
+              {ui.common.motto}
             </span>
           </div>
         </div>
@@ -214,7 +212,7 @@ export const Header: React.FC<HeaderProps> = ({
               <span className="text-[13px] font-bold text-white tracking-tight font-sans">
                 {t.nav.exploreOurWork}
               </span>
-              <div style={{ width: '720px' }} className="h-px bg-emerald-700/50 mt-1 mb-1.5" />
+              <div className="h-px bg-emerald-700/50 w-full mt-1 mb-1.5" />
             </div>
 
             {/* Bottom Row of Navigation Links: Who We Are | What We Do | Where We Work | AI for Good | Our Impact | Stories | Blog */}
@@ -293,12 +291,12 @@ export const Header: React.FC<HeaderProps> = ({
 
                 {/* Rich Programs Mega-Menu Dropdown */}
                 {whatWeDoDropdownOpen && (
-                  <div className="absolute top-full left-0 mt-1 w-[440px] bg-[#052b1d]/98 backdrop-blur-md rounded-2xl shadow-2xl border border-emerald-700/70 p-4 z-50 animate-in fade-in slide-in-from-top-1 duration-150">
+                  <div className="absolute top-full left-0 mt-1 w-[480px] bg-[#052b1d]/98 backdrop-blur-md rounded-2xl shadow-2xl border border-emerald-700/70 p-4 z-50 animate-in fade-in slide-in-from-top-1 duration-150">
                     <div className="flex items-center justify-between pb-2 mb-3 border-b border-emerald-800/80">
                       <div className="text-[11px] font-bold text-amber-300 uppercase tracking-wider">
-                        Core Program Pillars &amp; Interventions
+                        {ui.header.megaTitle}
                       </div>
-                      <span className="text-[10px] text-emerald-300">Click to explore dossier</span>
+                      <span className="text-[10px] text-emerald-300">{ui.header.megaHint}</span>
                     </div>
 
                     {/* 4 Rich Program Cards Grid: Education, Health, Livelihood, Disaster Response */}
@@ -336,28 +334,35 @@ export const Header: React.FC<HeaderProps> = ({
                       ))}
                     </div>
 
-                    {/* Footer Links for WASH and TVET */}
-                    <div className="pt-3 mt-3 border-t border-emerald-800/80 flex items-center justify-between text-[11px]">
+                    {/* Footer Links for WASH, Green Energy, and Peace Building */}
+                    <div className="pt-3 mt-3 border-t border-emerald-800/80 flex flex-wrap items-center justify-between gap-x-3 gap-y-2 text-[11px]">
                       <button
                         type="button"
                         onClick={() => handleOpenProgramDossier('wash')}
                         className="text-stone-300 hover:text-amber-300 transition-colors cursor-pointer"
                       >
-                        • Clean Water &amp; WASH
+                        {ui.header.cleanWaterLink}
                       </button>
                       <button
                         type="button"
                         onClick={() => handleOpenProgramDossier('economic-growth')}
                         className="text-stone-300 hover:text-amber-300 transition-colors cursor-pointer"
                       >
-                        • Green Energy TVET
+                        {ui.header.greenEnergyLink}
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => handleOpenProgramDossier('peace-building')}
+                        className="text-stone-300 hover:text-amber-300 transition-colors cursor-pointer"
+                      >
+                        {ui.header.peaceBuildingLink}
                       </button>
                       <button
                         type="button"
                         onClick={() => handleNavClick('what-we-do')}
-                        className="font-bold text-amber-400 hover:underline flex items-center gap-1 cursor-pointer"
+                        className="font-bold text-amber-400 hover:underline flex items-center gap-1 cursor-pointer ml-auto"
                       >
-                        <span>All 6 Areas</span>
+                        <span>{ui.header.allSevenAreas}</span>
                         <ArrowRight className="w-3 h-3" />
                       </button>
                     </div>
@@ -471,7 +476,7 @@ export const Header: React.FC<HeaderProps> = ({
                   className="flex items-center gap-1.5 text-[12px] 2xl:text-xs font-semibold text-white hover:text-amber-300 cursor-pointer transition-colors whitespace-nowrap"
                   aria-expanded={langDropdownOpen}
                   aria-haspopup="listbox"
-                  aria-label="Select Language"
+                  aria-label={ui.header.selectLangAria}
                 >
                   <Globe className="w-3.5 h-3.5 text-amber-400 shrink-0" />
                   <span>{currentOption.code} | {currentOption.nativeName}</span>
@@ -485,7 +490,7 @@ export const Header: React.FC<HeaderProps> = ({
                     role="listbox"
                   >
                     <div className="px-3.5 py-1.5 text-[10px] font-bold text-amber-300/90 uppercase tracking-wider border-b border-emerald-800/80 mb-1">
-                      Choose Language / ቋንቋ ይምረጡ
+                      {ui.header.chooseLangTitle}
                     </div>
 
                     {languageOptions.map((opt) => {
@@ -525,33 +530,6 @@ export const Header: React.FC<HeaderProps> = ({
                 )}
               </div>
 
-              {/* Item: Brand Standards & Test Route Buttons */}
-              {onOpenBrandGuide && (
-                <button
-                  type="button"
-                  onClick={onOpenBrandGuide}
-                  className="px-2.5 py-1.5 bg-emerald-900/60 hover:bg-emerald-800 text-emerald-200 hover:text-white border border-emerald-600/50 rounded-lg text-xs font-bold transition-all whitespace-nowrap cursor-pointer flex items-center gap-1.5 shrink-0"
-                  title="View official ADRA Graphic Standards Manual & Branding Guide"
-                >
-                  <ShieldCheck className="w-3.5 h-3.5 text-amber-400" />
-                  <span className="hidden 2xl:inline">Brand Standards</span>
-                  <span className="2xl:hidden">Brand</span>
-                </button>
-              )}
-
-              {onOpenBrandTest && (
-                <button
-                  type="button"
-                  onClick={onOpenBrandTest}
-                  className="px-2.5 py-1.5 bg-stone-900/70 hover:bg-stone-900 text-amber-300 hover:text-amber-200 border border-amber-400/40 rounded-lg text-xs font-bold transition-all whitespace-nowrap cursor-pointer flex items-center gap-1.5 shrink-0"
-                  title="Dev Route: Brand Test and Compliance Inspector"
-                >
-                  <Sparkles className="w-3.5 h-3.5 text-amber-400" />
-                  <span className="hidden 2xl:inline">Brand Test View</span>
-                  <span className="2xl:hidden">Test</span>
-                </button>
-              )}
-
               {/* Item: Donate Button matching Screenshot rounded pill styling */}
               <button
                 type="button"
@@ -585,7 +563,7 @@ export const Header: React.FC<HeaderProps> = ({
             type="button"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             className="p-2 text-stone-100 hover:text-amber-300 rounded-lg hover:bg-emerald-900/40 cursor-pointer"
-            aria-label="Toggle Menu"
+            aria-label={ui.header.toggleMenuAria}
           >
             {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
@@ -664,6 +642,36 @@ export const Header: React.FC<HeaderProps> = ({
                         </div>
                       </button>
                     ))}
+                    <div className="pt-2 flex flex-wrap items-center gap-x-3 gap-y-1.5 text-[11px]">
+                      <button
+                        type="button"
+                        onClick={() => handleOpenProgramDossier('wash')}
+                        className="text-stone-200 hover:text-amber-300"
+                      >
+                        {ui.header.cleanWaterLink}
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => handleOpenProgramDossier('economic-growth')}
+                        className="text-stone-200 hover:text-amber-300"
+                      >
+                        {ui.header.greenEnergyLink}
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => handleOpenProgramDossier('peace-building')}
+                        className="text-stone-200 hover:text-amber-300"
+                      >
+                        {ui.header.peaceBuildingLink}
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => handleNavClick('what-we-do')}
+                        className="font-bold text-amber-300 hover:underline"
+                      >
+                        {ui.header.allSevenAreas}
+                      </button>
+                    </div>
                   </div>
                 )}
               </div>
@@ -742,7 +750,7 @@ export const Header: React.FC<HeaderProps> = ({
                     onClick={() => setMobileLangDropdownOpen(!mobileLangDropdownOpen)}
                     className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#032015] border border-emerald-600/60 text-stone-100 text-xs font-semibold cursor-pointer"
                   >
-                    <span>Change</span>
+                    <span>{ui.header.changeLangBtn}</span>
                     <ChevronDown className={`w-3.5 h-3.5 transition-transform ${mobileLangDropdownOpen ? 'rotate-180' : ''}`} />
                   </button>
 
@@ -770,36 +778,6 @@ export const Header: React.FC<HeaderProps> = ({
                     </div>
                   )}
                 </div>
-              </div>
-
-              {/* Brand Standards & Brand Test Actions in Mobile Menu */}
-              <div className="pt-2 grid grid-cols-2 gap-2">
-                {onOpenBrandGuide && (
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setMobileMenuOpen(false);
-                      onOpenBrandGuide();
-                    }}
-                    className="py-2 px-2.5 bg-emerald-950/80 hover:bg-emerald-900 border border-emerald-600/60 rounded-xl text-xs font-bold text-emerald-200 flex items-center justify-center gap-1.5"
-                  >
-                    <ShieldCheck className="w-3.5 h-3.5 text-amber-400" />
-                    <span>Brand Guide</span>
-                  </button>
-                )}
-                {onOpenBrandTest && (
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setMobileMenuOpen(false);
-                      onOpenBrandTest();
-                    }}
-                    className="py-2 px-2.5 bg-stone-900/90 hover:bg-stone-800 border border-amber-400/50 rounded-xl text-xs font-bold text-amber-300 flex items-center justify-center gap-1.5"
-                  >
-                    <Sparkles className="w-3.5 h-3.5 text-amber-400" />
-                    <span>Brand Test</span>
-                  </button>
-                )}
               </div>
 
               {/* Donate Button */}

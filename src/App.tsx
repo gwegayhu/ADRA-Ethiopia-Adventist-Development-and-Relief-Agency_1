@@ -19,10 +19,10 @@ import { ContactSection } from './components/ContactSection';
 import { Footer } from './components/Footer';
 import { DonationModal } from './components/DonationModal';
 import { ChatbotModal } from './components/ChatbotModal';
-import { BrandStandardsModal } from './components/BrandStandardsModal';
 import { BrandTestView } from './components/brand/BrandTestView';
 import { Language } from './types';
-import { MessageSquare, Heart, Sparkles, ShieldCheck, WifiOff, Wifi, Gauge, X } from 'lucide-react';
+import { UI_COPY } from './data/uiCopy';
+import { MessageSquare, WifiOff, X } from 'lucide-react';
 
 export default function App() {
   const [currentLang, setCurrentLang] = useState<Language>(() => {
@@ -36,9 +36,6 @@ export default function App() {
   const [isOffline, setIsOffline] = useState<boolean>(() => !navigator.onLine);
   const [isSimulatedOffline, setIsSimulatedOffline] = useState<boolean>(false);
   const [dismissOfflineBanner, setDismissOfflineBanner] = useState<boolean>(false);
-  const [isDataSaver, setIsDataSaver] = useState<boolean>(() => {
-    return localStorage.getItem('adra-data-saver') === 'true';
-  });
 
   // Modals
   const [isDonateOpen, setIsDonateOpen] = useState(false);
@@ -46,7 +43,6 @@ export default function App() {
   const [donateInitialAmount, setDonateInitialAmount] = useState<number | undefined>(undefined);
   
   const [isChatbotOpen, setIsChatbotOpen] = useState(false);
-  const [isBrandGuideOpen, setIsBrandGuideOpen] = useState(false);
 
   // Sync language with HTML lang attribute and localStorage
   useEffect(() => {
@@ -91,20 +87,6 @@ export default function App() {
     setCurrentLang(lang);
   };
 
-  const handleToggleDataSaver = () => {
-    setIsDataSaver((prev) => {
-      const next = !prev;
-      localStorage.setItem('adra-data-saver', String(next));
-      return next;
-    });
-  };
-
-  const handleOpenBrandTest = () => {
-    window.location.hash = '#/brand-test';
-    setCurrentView('brand-test');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-
   const handleBackToPortal = () => {
     window.location.hash = '';
     setCurrentView('portal');
@@ -138,24 +120,25 @@ export default function App() {
   };
 
   const activeOffline = isOffline || isSimulatedOffline;
+  const appUi = (UI_COPY[currentLang] || UI_COPY.en).app;
 
   return (
-    <div className={`min-h-screen flex flex-col bg-[#f9faf9] text-stone-900 font-sans selection:bg-[#007B5F] selection:text-white text-left ${isDataSaver ? 'adra-data-saver' : ''}`}>
+    <div className="min-h-screen flex flex-col bg-[#f9faf9] text-stone-900 font-sans selection:bg-[#007B5F] selection:text-white text-left">
       {/* Offline Banner matching PWA Low-Bandwidth Resilience requirements */}
       {activeOffline && !dismissOfflineBanner && (
         <aside 
-          aria-label="Offline status banner"
+          aria-label={appUi.offlineBannerAria}
           className="bg-[#54585A] text-white py-2 px-4 text-xs font-sans border-b border-stone-600 transition-all sticky top-0 z-50 shadow-md"
         >
           <div className="max-w-7xl mx-auto flex items-center justify-between gap-3">
             <div className="flex items-center gap-2.5">
               <WifiOff className="w-4 h-4 text-amber-400 shrink-0" />
               <span>
-                <strong>Offline Mode Active:</strong> You are browsing cached application resources. Forms and donation pledges are safely queued until network reconnects.
+                <strong>{appUi.offlineActive}</strong> {appUi.offlineMsg}
               </span>
               {isSimulatedOffline && (
                 <span className="px-2 py-0.5 bg-amber-400 text-stone-900 font-bold rounded text-[10px] uppercase tracking-wider">
-                  Simulation
+                  {appUi.simulationBadge}
                 </span>
               )}
             </div>
@@ -166,14 +149,14 @@ export default function App() {
                   onClick={() => setIsSimulatedOffline(false)}
                   className="px-2 py-0.5 bg-stone-700 hover:bg-stone-600 rounded text-[11px] font-medium text-amber-200 cursor-pointer"
                 >
-                  End Simulation
+                  {appUi.endSimulation}
                 </button>
               ) : null}
               <button
                 type="button"
                 onClick={() => setDismissOfflineBanner(true)}
                 className="p-1 text-stone-300 hover:text-white cursor-pointer"
-                aria-label="Dismiss offline banner"
+                aria-label={appUi.dismissOfflineAria}
               >
                 <X className="w-3.5 h-3.5" />
               </button>
@@ -199,8 +182,6 @@ export default function App() {
             onToggleLang={handleToggleLang}
             onOpenDonate={handleOpenDonate}
             onOpenChatbot={() => setIsChatbotOpen(true)}
-            onOpenBrandGuide={() => setIsBrandGuideOpen(true)}
-            onOpenBrandTest={handleOpenBrandTest}
             activeNavTab={activeNavTab}
             setActiveNavTab={setActiveNavTab}
             whoWeAreSubTab={whoWeAreSubTab}
@@ -215,6 +196,7 @@ export default function App() {
               onOpenDonate={() => handleOpenDonate()}
               onExploreClick={() => handleNavigateToSection('what-we-do')}
               onPartnerClick={() => handleNavigateToSection('contact')}
+              onOpenChatbot={() => setIsChatbotOpen(true)}
             />
 
             {/* Who We Are Section matching Screenshots 4, 5, 6 with sub-navigation */}
@@ -224,7 +206,7 @@ export default function App() {
               setSubTab={setWhoWeAreSubTab}
             />
 
-            {/* What We Do Section matching Screenshot 2 (6 core areas with circular badges) */}
+            {/* What We Do Section (7 technical pillars with circular badges) */}
             <WhatWeDoSection
               currentLang={currentLang}
               onOpenDonate={handleOpenDonate}
@@ -289,75 +271,27 @@ export default function App() {
           <Footer
             currentLang={currentLang}
             onOpenDonate={() => handleOpenDonate()}
-            onOpenBrandGuide={() => setIsBrandGuideOpen(true)}
-            onOpenBrandTest={handleOpenBrandTest}
           />
         </>
       )}
 
-      {/* Floating Action Triggers (Bottom-Right) */}
+      {/* Floating Action Trigger (Bottom-Right) */}
       <div className="fixed bottom-6 right-6 z-40 flex flex-col items-end gap-2.5">
-        {/* Data Saver Mode Indicator & Toggle */}
-        <button
-          onClick={handleToggleDataSaver}
-          className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[11px] font-bold shadow-md transition-all cursor-pointer border ${
-            isDataSaver
-              ? 'bg-amber-100 text-amber-900 border-amber-300'
-              : 'bg-white/95 text-stone-700 hover:text-stone-900 border-stone-200'
-          }`}
-          title="Toggle Data Saver Mode for low-bandwidth mobile connections"
-        >
-          <Gauge className="w-3.5 h-3.5 text-stone-600" />
-          <span>Data Saver: {isDataSaver ? 'ON' : 'OFF'}</span>
-        </button>
-
-        {/* Brand Test Route Direct Trigger */}
-        <button
-          onClick={currentView === 'brand-test' ? handleBackToPortal : handleOpenBrandTest}
-          className="group flex items-center gap-2 px-3.5 py-2 bg-[#231F20] hover:bg-black text-amber-300 hover:text-amber-200 rounded-full shadow-md hover:shadow-lg transition-all cursor-pointer border border-amber-400/40"
-          aria-label="Toggle Brand Test and Design System Inspection View"
-          title="Inspect ADRA Design System & Graphic Standards Compliance"
-        >
-          <Sparkles className="w-4 h-4 text-amber-400" />
-          <span className="text-[11px] font-bold tracking-wide font-sans">
-            {currentView === 'brand-test' ? 'Exit Test View' : 'Brand Test (/brand-test)'}
-          </span>
-        </button>
-
-        {/* Brand Standards Guide Trigger */}
-        <button
-          onClick={() => setIsBrandGuideOpen(true)}
-          className="group flex items-center gap-2 px-3.5 py-2 bg-white hover:bg-stone-50 active:bg-stone-100 text-[#007B5F] rounded-full shadow-md hover:shadow-lg transition-all cursor-pointer border border-[#007B5F]/30"
-          aria-label="Open ADRA Brand Standards & Style Guide"
-          title="Open official ADRA Graphic Standards Manual"
-        >
-          <ShieldCheck className="w-4 h-4 text-[#007B5F]" />
-          <span className="text-[11px] font-bold tracking-wide font-sans text-stone-800">
-            Brand Standards
-          </span>
-        </button>
-
-        {/* AI Assistant Trigger */}
+        {/* ADRA AI Trigger */}
         <button
           onClick={() => setIsChatbotOpen(true)}
           className="group flex items-center gap-2.5 px-4 py-3 bg-[#007B5F] hover:bg-[#004D3A] active:bg-[#003326] text-white rounded-full shadow-lg hover:shadow-xl transition-all cursor-pointer border border-emerald-400/30"
-          aria-label="Open ADRA AI Chatbot"
+          aria-label={appUi.openAdraAiAria}
         >
           <div className="relative">
             <MessageSquare className="w-5 h-5 text-amber-300" />
             <span className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-[#f59e0b] rounded-full ring-2 ring-[#007B5F]" />
           </div>
-          <span className="text-xs font-bold tracking-wide hidden sm:inline font-sans">
-            Ask ADRA AI Assistant
+          <span className="text-xs font-bold tracking-wide font-sans">
+            ADRA AI
           </span>
         </button>
       </div>
-
-      {/* Brand Standards Manual Modal */}
-      <BrandStandardsModal
-        isOpen={isBrandGuideOpen}
-        onClose={() => setIsBrandGuideOpen(false)}
-      />
 
       {/* Chatbot Modal - linking information sources across all website contents */}
       <ChatbotModal

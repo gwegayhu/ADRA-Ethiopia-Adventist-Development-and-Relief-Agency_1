@@ -4,9 +4,13 @@ export interface Sector {
   id: string;
   title: string;
   titleAm: string;
+  titleOm?: string;
+  titleTi?: string;
   iconName: string;
   summary: string;
   summaryAm: string;
+  summaryOm?: string;
+  summaryTi?: string;
   keyStats: string;
   description: string;
   image: string;
@@ -19,17 +23,33 @@ export interface RegionData {
   name: string;
   nameAm: string;
   nameOm?: string;
+  nameTi?: string;
   capital: string;
+  capitalAm?: string;
+  capitalOm?: string;
+  capitalTi?: string;
   beneficiaries: string;
   beneficiariesCount: number;
   activeProjects: string[];
+  activeProjectsAm?: string[];
+  activeProjectsOm?: string[];
+  activeProjectsTi?: string[];
   activeProjectsCount: number;
   solarWellsCount: number;
   budgetDeployed: string;
   woredasCount: number;
   fieldHub: string;
+  fieldHubAm?: string;
+  fieldHubOm?: string;
+  fieldHubTi?: string;
   primaryInterventions: string[];
+  primaryInterventionsAm?: string[];
+  primaryInterventionsOm?: string[];
+  primaryInterventionsTi?: string[];
   summary: string;
+  summaryAm?: string;
+  summaryOm?: string;
+  summaryTi?: string;
   svgPath: string;
   labelCoord: { x: number; y: number };
   gisCoordinates: [number, number]; // [lat, lng]
@@ -81,6 +101,8 @@ export interface Story {
   sector: string;
   quote: string;
   quoteAm: string;
+  quoteOm?: string;
+  quoteTi?: string;
   fullStory: string;
   image: string;
   year: string;
@@ -90,19 +112,40 @@ export interface Opportunity {
   id: string;
   type: 'tender' | 'career';
   title: string;
+  titleAm?: string;
+  titleOm?: string;
+  titleTi?: string;
   category: string;
+  categoryAm?: string;
+  categoryOm?: string;
+  categoryTi?: string;
   location: string;
   deadline: string;
   referenceNumber: string;
   description: string;
+  descriptionAm?: string;
+  descriptionOm?: string;
+  descriptionTi?: string;
   requirements: string[];
+  requirementsAm?: string[];
+  requirementsOm?: string[];
+  requirementsTi?: string[];
 }
 
 export interface Publication {
   id: string;
   title: string;
+  titleAm?: string;
+  titleOm?: string;
+  titleTi?: string;
   year: string;
   fileSize: string;
   category: string;
+  categoryAm?: string;
+  categoryOm?: string;
+  categoryTi?: string;
   summary: string;
+  summaryAm?: string;
+  summaryOm?: string;
+  summaryTi?: string;
 }

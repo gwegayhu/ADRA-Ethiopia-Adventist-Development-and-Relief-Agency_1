@@ -1,24 +1,25 @@
 import React, { useState, useEffect } from 'react';
-import { 
-  X, 
-  Heart, 
-  CheckCircle, 
-  ShieldCheck, 
-  CreditCard, 
-  Smartphone, 
-  Building, 
-  ArrowRight, 
-  Download, 
-  Copy, 
-  Check, 
-  ExternalLink, 
-  PhoneCall, 
+import {
+  X,
+  Heart,
+  CheckCircle,
+  ShieldCheck,
+  CreditCard,
+  Smartphone,
+  Building,
+  ArrowRight,
+  Download,
+  Copy,
+  Check,
+  ExternalLink,
+  PhoneCall,
   QrCode,
-  Lock,
-  Sparkles
+  Lock
 } from 'lucide-react';
 import { Language } from '../types';
 import { TRANSLATIONS } from '../data/translations';
+import { UI_COPY } from '../data/uiCopy';
+import { MARKET_EXCHANGE_RATE_USD_TO_ETB } from '../data/adraData';
 import { QRCodeDisplay } from './QRCodeDisplay';
 
 interface DonationModalProps {
@@ -29,6 +30,29 @@ interface DonationModalProps {
   initialAmount?: number;
 }
 
+type CanonicalSector =
+  | 'general'
+  | 'wash'
+  | 'education'
+  | 'health'
+  | 'food-security'
+  | 'economic-growth'
+  | 'emergency'
+  | 'peace-building';
+
+function normalizeSector(raw?: string): CanonicalSector {
+  if (!raw) return 'general';
+  const s = raw.toLowerCase();
+  if (s.includes('wash') || s.includes('water')) return 'wash';
+  if (s.includes('edu')) return 'education';
+  if (s.includes('emerg') || s.includes('disaster')) return 'emergency';
+  if (s.includes('peace') || s.includes('cohesion') || s.includes('conflict')) return 'peace-building';
+  if (s.includes('health') || s.includes('nutrition') || s.includes('psycho')) return 'health';
+  if (s.includes('energy') || s.includes('economic') || s.includes('enterprise') || s.includes('tvet')) return 'economic-growth';
+  if (s.includes('food') || s.includes('agri') || s.includes('livelihood')) return 'food-security';
+  return 'general';
+}
+
 export const DonationModal: React.FC<DonationModalProps> = ({
   isOpen,
   onClose,
@@ -37,13 +61,19 @@ export const DonationModal: React.FC<DonationModalProps> = ({
   initialAmount
 }) => {
   const t = TRANSLATIONS[currentLang] || TRANSLATIONS.en;
+  const copy = UI_COPY[currentLang] || UI_COPY.en;
+  const dCopy = copy.donateModal;
+  const qrCopy = copy.qr;
+  const impactCopy = copy.impact;
+  const common = copy.common;
+
   const [currency, setCurrency] = useState<'ETB' | 'USD'>('ETB');
   const [frequency, setFrequency] = useState<'once' | 'monthly'>('once');
   const [selectedAmount, setSelectedAmount] = useState<number>(initialAmount || 1500);
   const [customAmount, setCustomAmount] = useState<string>('');
-  const [selectedSector, setSelectedSector] = useState<string>(initialSector || 'general');
+  const [selectedSector, setSelectedSector] = useState<CanonicalSector>(normalizeSector(initialSector));
   const [paymentMethod, setPaymentMethod] = useState<'telebirr' | 'cbe' | 'stripe'>('telebirr');
-  
+
   // Pay mode: 'scan' (QR code) or 'app' (manual details / card fields)
   const [payMode, setPayMode] = useState<'scan' | 'app'>('scan');
 
@@ -52,6 +82,7 @@ export const DonationModal: React.FC<DonationModalProps> = ({
   const [donorPhone, setDonorPhone] = useState('');
   const [donorEmail, setDonorEmail] = useState('');
   const [copiedCode, setCopiedCode] = useState<string | null>(null);
+  const [receiptSaved, setReceiptSaved] = useState(false);
 
   // Stripe card fields
   const [cardNumber, setCardNumber] = useState('');
@@ -62,9 +93,9 @@ export const DonationModal: React.FC<DonationModalProps> = ({
   const [receipt, setReceipt] = useState<{
     referenceId: string;
     amount: number;
-    currency: string;
+    currency: 'ETB' | 'USD';
     date: string;
-    sector: string;
+    sectorKey: CanonicalSector;
     method: string;
     donor: string;
   } | null>(null);
@@ -72,11 +103,20 @@ export const DonationModal: React.FC<DonationModalProps> = ({
   useEffect(() => {
     if (initialAmount) {
       setSelectedAmount(initialAmount);
+      setCustomAmount('');
     }
-    if (initialSector) {
-      setSelectedSector(initialSector);
+    if (initialSector !== undefined) {
+      setSelectedSector(normalizeSector(initialSector));
     }
   }, [initialAmount, initialSector]);
+
+  useEffect(() => {
+    if (!isOpen) {
+      setReceipt(null);
+      setReceiptSaved(false);
+      setCopiedCode(null);
+    }
+  }, [isOpen]);
 
   if (!isOpen) return null;
 
@@ -85,19 +125,23 @@ export const DonationModal: React.FC<DonationModalProps> = ({
   const amountTiers = currency === 'ETB' ? etbOptions : usdOptions;
 
   const activeAmount = customAmount ? parseFloat(customAmount) || 0 : selectedAmount;
+  const etbShort = currentLang === 'am' || currentLang === 'ti' ? 'ብር' : 'ETB';
 
-  const sectorLabels: Record<string, string> = {
-    general: 'Where Needed Most (Crisis & Dignity)',
-    wash: 'Clean Water & Solar Boreholes (WASH)',
-    education: 'Education & Girls Retention (SEAQE II)',
-    health: 'Community Therapeutic Health & Nutrition (CTC)',
-    'food-security': 'Climate-Smart Agriculture & Irrigation',
-    'economic-growth': 'Green Energy TVET Youth Solar Academy',
-    emergency: 'Emergency Relief & Disaster Response'
+  const sectorLabels: Record<CanonicalSector, string> = {
+    general: dCopy.sectors.general,
+    wash: dCopy.sectors.wash,
+    education: dCopy.sectors.education,
+    health: dCopy.sectors.health,
+    'food-security': dCopy.sectors.foodSecurity,
+    'economic-growth': dCopy.sectors.economicGrowth,
+    emergency: dCopy.sectors.emergency,
+    'peace-building': dCopy.sectors.peaceBuilding
   };
 
   const copyToClipboard = (text: string, type: string) => {
-    navigator.clipboard.writeText(text);
+    if (navigator.clipboard?.writeText) {
+      navigator.clipboard.writeText(text);
+    }
     setCopiedCode(type);
     setTimeout(() => setCopiedCode(null), 2500);
   };
@@ -105,16 +149,22 @@ export const DonationModal: React.FC<DonationModalProps> = ({
   const handleProcessDonation = (e: React.FormEvent) => {
     e.preventDefault();
     const refNum = `ADRA-ET-${new Date().getFullYear()}-${Math.floor(100000 + Math.random() * 900000)}`;
+    setReceiptSaved(false);
     setReceipt({
       referenceId: refNum,
       amount: activeAmount,
-      currency: currency,
-      date: new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }),
-      sector: sectorLabels[selectedSector] || 'Where Needed Most',
+      currency,
+      date: new Date().toISOString().slice(0, 10),
+      sectorKey: selectedSector,
       method: paymentMethod.toUpperCase(),
-      donor: donorName || 'Generous Donor'
+      donor: donorName.trim()
     });
   };
+
+  const formattedCtaAmount =
+    currency === 'USD'
+      ? `$${activeAmount.toLocaleString()}`
+      : `${activeAmount.toLocaleString()} ${etbShort}`;
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-stone-950/75 backdrop-blur-xs p-4 overflow-y-auto">
@@ -123,8 +173,8 @@ export const DonationModal: React.FC<DonationModalProps> = ({
         {/* Close Button */}
         <button
           onClick={onClose}
-          className="absolute top-5 right-5 p-2 rounded-full text-stone-400 hover:text-stone-800 hover:bg-stone-100 transition-colors"
-          aria-label="Close modal"
+          className="absolute top-5 right-5 p-2 rounded-full text-stone-400 hover:text-stone-800 hover:bg-stone-100 transition-colors cursor-pointer"
+          aria-label={dCopy.closeAria}
         >
           <X className="w-5 h-5" />
         </button>
@@ -138,61 +188,70 @@ export const DonationModal: React.FC<DonationModalProps> = ({
 
             <div className="space-y-1">
               <span className="text-xs font-semibold uppercase tracking-widest text-[#006643]">
-                Official Contribution Acknowledgment
+                {t.donate.completeTitle}
               </span>
               <h3 className="text-2xl font-bold text-stone-900 font-editorial">
-                Thank You, {receipt.donor}!
+                {dCopy.thankYouTemplate.replace('{donor}', receipt.donor || dCopy.generousDonor)}
               </h3>
               <p className="text-xs sm:text-sm text-stone-700 font-medium max-w-md mx-auto">
-                Your humanitarian contribution directly funds community resilience programs across Ethiopia.
+                {dCopy.ackSubtitle}
               </p>
             </div>
 
             {/* Official Receipt Box */}
             <div className="bg-stone-50 border border-stone-200 rounded-xl p-5 text-left text-xs space-y-3 font-sans">
               <div className="flex items-center justify-between border-b border-stone-200 pb-2">
-                <span className="font-bold text-stone-900">Receipt Ref Number:</span>
+                <span className="font-bold text-stone-900">{dCopy.receiptRef}</span>
                 <span className="font-mono font-bold text-[#006643]">{receipt.referenceId}</span>
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-stone-700 font-semibold">Contribution Amount:</span>
+                <span className="text-stone-700 font-semibold">{dCopy.contribAmount}</span>
                 <span className="font-bold text-stone-900 text-sm tabular-nums">
-                  {receipt.currency === 'USD' ? `$${receipt.amount}` : `${receipt.amount.toLocaleString()} ETB (ብር)`}
+                  {receipt.currency === 'USD'
+                    ? `$${receipt.amount.toLocaleString()}`
+                    : `${receipt.amount.toLocaleString()} ${etbShort}`}
                 </span>
               </div>
-              <div className="flex items-center justify-between">
-                <span className="text-stone-700 font-semibold">Designated Sector:</span>
-                <span className="font-bold text-stone-900">{receipt.sector}</span>
+              <div className="flex items-center justify-between gap-4">
+                <span className="text-stone-700 font-semibold shrink-0">{dCopy.designatedSector}</span>
+                <span className="font-bold text-stone-900 text-right">{sectorLabels[receipt.sectorKey]}</span>
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-stone-700 font-semibold">Payment Gateway:</span>
+                <span className="text-stone-700 font-semibold">{dCopy.paymentGateway}</span>
                 <span className="font-bold text-[#006643]">{receipt.method}</span>
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-stone-700 font-semibold">Date Issued:</span>
-                <span className="text-stone-800 font-medium">{receipt.date}</span>
+                <span className="text-stone-700 font-semibold">{dCopy.dateIssued}</span>
+                <span className="text-stone-800 font-medium tabular-nums">{receipt.date}</span>
               </div>
               <div className="pt-2 border-t border-stone-200 text-[11px] text-stone-700 leading-snug font-medium">
-                ADRA Ethiopia is legally registered with the Authority for Civil Society Organizations (ACSO) Certificate No. 0384. Contributions are tax-exempt under Ethiopian Proclamation No. 1113/2019.
+                {dCopy.taxNote}
               </div>
             </div>
 
+            {receiptSaved && (
+              <div className="px-4 py-2.5 bg-emerald-50 border border-emerald-200 rounded-lg text-xs font-semibold text-emerald-900 flex items-center justify-center gap-2">
+                <CheckCircle className="w-4 h-4 text-[#006643] shrink-0" />
+                <span>{dCopy.receiptSavedMsg} ({receipt.referenceId})</span>
+              </div>
+            )}
+
             <div className="flex items-center justify-center gap-3 pt-2">
               <button
-                onClick={() => {
-                  alert(`Receipt ${receipt.referenceId} saved successfully.`);
-                }}
-                className="px-4 py-2 bg-stone-100 hover:bg-stone-200 text-stone-800 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition-colors"
+                type="button"
+                onClick={() => setReceiptSaved(true)}
+                className="px-4 py-2 bg-stone-100 hover:bg-stone-200 text-stone-800 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition-colors cursor-pointer"
               >
                 <Download className="w-3.5 h-3.5" />
-                <span>Save Official Receipt</span>
+                <span>{dCopy.saveReceiptBtn}</span>
               </button>
 
               <button
+                type="button"
                 onClick={onClose}
-                className="px-5 py-2 bg-[#006643] hover:bg-[#073826] text-white rounded-lg text-xs font-semibold transition-colors"
+                className="px-5 py-2 bg-[#006643] hover:bg-[#073826] text-white rounded-lg text-xs font-semibold transition-colors cursor-pointer"
               >
-                Done
+                {common.finish}
               </button>
             </div>
           </div>
@@ -215,9 +274,11 @@ export const DonationModal: React.FC<DonationModalProps> = ({
             </div>
 
             {/* Going Market Rate Notice */}
-            <div className="flex items-center justify-between text-[11px] px-3 py-1.5 rounded-lg bg-emerald-50 text-emerald-950 border border-emerald-200 font-medium">
-              <span>Going Market Rate: <strong>1 USD ≈ 130.00 ETB</strong> (Official Interbank Float)</span>
-              <span className="font-mono text-[10px] text-emerald-800 font-bold">NBE Verified</span>
+            <div className="flex items-center justify-between text-[11px] px-3 py-1.5 rounded-lg bg-emerald-50 text-emerald-950 border border-emerald-200 font-medium gap-2">
+              <span>
+                {dCopy.rateLabel} <strong>1 USD ≈ {MARKET_EXCHANGE_RATE_USD_TO_ETB}.00 ETB</strong> {dCopy.rateFloat}
+              </span>
+              <span className="font-mono text-[10px] text-emerald-800 font-bold shrink-0">{dCopy.nbeVerified}</span>
             </div>
 
             {/* Currency & Frequency */}
@@ -229,11 +290,11 @@ export const DonationModal: React.FC<DonationModalProps> = ({
                     setCurrency('ETB');
                     setSelectedAmount(3250);
                   }}
-                  className={`w-1/2 py-1.5 rounded-md text-center transition-all ${
+                  className={`w-1/2 py-1.5 rounded-md text-center transition-all cursor-pointer ${
                     currency === 'ETB' ? 'bg-[#006643] text-white shadow-xs font-bold' : 'text-stone-700 hover:text-stone-950 font-semibold'
                   }`}
                 >
-                  ETB (ብር)
+                  {impactCopy.currencyEtbLabel}
                 </button>
                 <button
                   type="button"
@@ -241,11 +302,11 @@ export const DonationModal: React.FC<DonationModalProps> = ({
                     setCurrency('USD');
                     setSelectedAmount(25);
                   }}
-                  className={`w-1/2 py-1.5 rounded-md text-center transition-all ${
+                  className={`w-1/2 py-1.5 rounded-md text-center transition-all cursor-pointer ${
                     currency === 'USD' ? 'bg-[#006643] text-white shadow-xs font-bold' : 'text-stone-700 hover:text-stone-950 font-semibold'
                   }`}
                 >
-                  USD ($)
+                  {impactCopy.currencyUsdLabel}
                 </button>
               </div>
 
@@ -253,20 +314,20 @@ export const DonationModal: React.FC<DonationModalProps> = ({
                 <button
                   type="button"
                   onClick={() => setFrequency('once')}
-                  className={`w-1/2 py-1.5 rounded-md text-center transition-all ${
+                  className={`w-1/2 py-1.5 rounded-md text-center transition-all cursor-pointer ${
                     frequency === 'once' ? 'bg-white text-stone-950 shadow-xs font-bold' : 'text-stone-700 hover:text-stone-950 font-semibold'
                   }`}
                 >
-                  One-Time
+                  {dCopy.oneTime}
                 </button>
                 <button
                   type="button"
                   onClick={() => setFrequency('monthly')}
-                  className={`w-1/2 py-1.5 rounded-md text-center transition-all ${
+                  className={`w-1/2 py-1.5 rounded-md text-center transition-all cursor-pointer ${
                     frequency === 'monthly' ? 'bg-white text-stone-950 shadow-xs font-bold' : 'text-stone-700 hover:text-stone-950 font-semibold'
                   }`}
                 >
-                  Monthly
+                  {dCopy.monthly}
                 </button>
               </div>
             </div>
@@ -274,9 +335,9 @@ export const DonationModal: React.FC<DonationModalProps> = ({
             {/* Amount Selection */}
             <div className="space-y-2">
               <div className="flex items-center justify-between text-xs font-bold uppercase tracking-wider text-stone-800">
-                <span>Select Contribution Amount</span>
-                <span className="text-[#006643] font-bold">
-                  {currency === 'ETB' ? `${activeAmount.toLocaleString()} ብር` : `$${activeAmount}`}
+                <span>{dCopy.selectAmount}</span>
+                <span className="text-[#006643] font-bold tabular-nums">
+                  {currency === 'ETB' ? `${activeAmount.toLocaleString()} ${etbShort}` : `$${activeAmount}`}
                 </span>
               </div>
 
@@ -291,13 +352,13 @@ export const DonationModal: React.FC<DonationModalProps> = ({
                         setSelectedAmount(tier);
                         setCustomAmount('');
                       }}
-                      className={`py-2 px-1 rounded-lg text-xs font-bold tabular-nums border transition-all ${
+                      className={`py-2 px-1 rounded-lg text-xs font-bold tabular-nums border transition-all cursor-pointer ${
                         isSelected
                           ? 'bg-[#006643] text-white border-[#006643] shadow-xs'
                           : 'bg-white hover:bg-stone-50 text-stone-800 border-stone-300'
                       }`}
                     >
-                      {currency === 'USD' ? `$${tier}` : `${tier.toLocaleString()} ብር`}
+                      {currency === 'USD' ? `$${tier}` : `${tier.toLocaleString()} ${etbShort}`}
                     </button>
                   );
                 })}
@@ -308,7 +369,7 @@ export const DonationModal: React.FC<DonationModalProps> = ({
                 min="1"
                 value={customAmount}
                 onChange={(e) => setCustomAmount(e.target.value)}
-                placeholder={`Or enter custom amount in ${currency}...`}
+                placeholder={`${dCopy.customPlaceholderPrefix} ${currency}...`}
                 className="w-full px-3 py-2 text-xs border border-stone-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#006643] text-stone-900 placeholder:text-stone-500 font-medium"
               />
             </div>
@@ -316,20 +377,21 @@ export const DonationModal: React.FC<DonationModalProps> = ({
             {/* Targeted Sector */}
             <div className="space-y-1">
               <label className="block text-xs font-bold uppercase tracking-wider text-stone-800">
-                Designated Program Area
+                {dCopy.programAreaLabel}
               </label>
               <select
                 value={selectedSector}
-                onChange={(e) => setSelectedSector(e.target.value)}
+                onChange={(e) => setSelectedSector(e.target.value as CanonicalSector)}
                 className="w-full px-3 py-2 text-xs bg-stone-50 border border-stone-300 rounded-lg text-stone-900 font-semibold focus:outline-none focus:ring-2 focus:ring-[#006643]"
               >
-                <option value="general">Where Needed Most (Crisis & Long-Term Dignity)</option>
-                <option value="wash">Water, Sanitation & Hygiene (WASH Solar Boreholes)</option>
-                <option value="education">Education & Girls Retention (SEAQE II)</option>
-                <option value="health">Community Health & Severe Malnutrition (CTC)</option>
-                <option value="food-security">Food Security & Smallholder Drip Irrigation</option>
-                <option value="economic-growth">Green Energy TVET Youth Solar Academy</option>
-                <option value="emergency">Emergency Management & Disaster Relief</option>
+                <option value="general">{dCopy.sectors.general}</option>
+                <option value="wash">{dCopy.sectors.wash}</option>
+                <option value="education">{dCopy.sectors.education}</option>
+                <option value="health">{dCopy.sectors.health}</option>
+                <option value="food-security">{dCopy.sectors.foodSecurity}</option>
+                <option value="economic-growth">{dCopy.sectors.economicGrowth}</option>
+                <option value="emergency">{dCopy.sectors.emergency}</option>
+                <option value="peace-building">{dCopy.sectors.peaceBuilding}</option>
               </select>
             </div>
 
@@ -337,7 +399,7 @@ export const DonationModal: React.FC<DonationModalProps> = ({
             <div className="space-y-3">
               <div className="flex items-center justify-between">
                 <label className="block text-xs font-bold uppercase tracking-wider text-stone-800">
-                  Select Gateway
+                  {dCopy.selectGateway}
                 </label>
                 
                 {/* Pay Mode Switch: Scan QR Code vs Direct / In-App */}
@@ -345,21 +407,21 @@ export const DonationModal: React.FC<DonationModalProps> = ({
                   <button
                     type="button"
                     onClick={() => setPayMode('scan')}
-                    className={`px-2.5 py-1 rounded-md transition-all flex items-center gap-1 ${
+                    className={`px-2.5 py-1 rounded-md transition-all flex items-center gap-1 cursor-pointer ${
                       payMode === 'scan' ? 'bg-[#006643] text-white shadow-2xs font-bold' : 'text-stone-700 hover:text-stone-950 font-semibold'
                     }`}
                   >
                     <QrCode className="w-3 h-3" />
-                    <span>Scan QR</span>
+                    <span>{dCopy.scanQrTab}</span>
                   </button>
                   <button
                     type="button"
                     onClick={() => setPayMode('app')}
-                    className={`px-2.5 py-1 rounded-md transition-all flex items-center gap-1 ${
+                    className={`px-2.5 py-1 rounded-md transition-all flex items-center gap-1 cursor-pointer ${
                       payMode === 'app' ? 'bg-[#006643] text-white shadow-2xs font-bold' : 'text-stone-700 hover:text-stone-950 font-semibold'
                     }`}
                   >
-                    <span>App / Card</span>
+                    <span>{dCopy.appCardTab}</span>
                   </button>
                 </div>
               </div>
@@ -379,11 +441,11 @@ export const DonationModal: React.FC<DonationModalProps> = ({
                 >
                   <div className="flex items-center justify-between w-full">
                     <Smartphone className="w-5 h-5 text-[#006643]" />
-                    <span className="text-[10px] font-bold text-[#006643]">#1 ET</span>
+                    <span className="text-[10px] font-bold text-[#006643]">{dCopy.telebirrTag}</span>
                   </div>
                   <div className="mt-2">
                     <div className="text-xs font-bold">TeleBirr</div>
-                    <div className="text-[10px] text-stone-700 font-medium">Ethio Telecom</div>
+                    <div className="text-[10px] text-stone-700 font-medium">{dCopy.telebirrSub}</div>
                   </div>
                 </button>
 
@@ -399,11 +461,11 @@ export const DonationModal: React.FC<DonationModalProps> = ({
                 >
                   <div className="flex items-center justify-between w-full">
                     <Building className="w-5 h-5 text-purple-700" />
-                    <span className="text-[10px] font-bold text-purple-700">Bank</span>
+                    <span className="text-[10px] font-bold text-purple-700">{dCopy.cbeTag}</span>
                   </div>
                   <div className="mt-2">
                     <div className="text-xs font-bold">CBE Birr</div>
-                    <div className="text-[10px] text-stone-700 font-medium">Commercial Bank</div>
+                    <div className="text-[10px] text-stone-700 font-medium">{dCopy.cbeSub}</div>
                   </div>
                 </button>
 
@@ -419,11 +481,11 @@ export const DonationModal: React.FC<DonationModalProps> = ({
                 >
                   <div className="flex items-center justify-between w-full">
                     <CreditCard className="w-5 h-5 text-indigo-600" />
-                    <span className="text-[10px] font-bold text-indigo-600">Global</span>
+                    <span className="text-[10px] font-bold text-indigo-600">{dCopy.stripeTag}</span>
                   </div>
                   <div className="mt-2">
                     <div className="text-xs font-bold">Stripe</div>
-                    <div className="text-[10px] text-stone-700 font-medium">Card / Apple Pay</div>
+                    <div className="text-[10px] text-stone-700 font-medium">{dCopy.stripeSub}</div>
                   </div>
                 </button>
               </div>
@@ -434,10 +496,10 @@ export const DonationModal: React.FC<DonationModalProps> = ({
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
                       <Smartphone className="w-4 h-4 text-[#006643]" />
-                      <span className="text-xs font-bold text-emerald-950">TeleBirr Mobile Money</span>
+                      <span className="text-xs font-bold text-emerald-950">{dCopy.telebirrHeader}</span>
                     </div>
                     <span className="text-[11px] bg-emerald-200/70 text-[#006643] px-2 py-0.5 rounded font-bold">
-                      Scan Code Enabled
+                      {dCopy.scanCodeEnabled}
                     </span>
                   </div>
 
@@ -448,24 +510,24 @@ export const DonationModal: React.FC<DonationModalProps> = ({
                         value={`telebirr://pay?merchant=251911&amount=${activeAmount}&currency=ETB`}
                         brand="telebirr"
                         size={150}
-                        label="TeleBirr Quick Scan"
+                        label={qrCopy.telebirrQuickLabel}
+                        currentLang={currentLang}
                       />
                       <div className="space-y-2 text-xs text-stone-800 text-center sm:text-left">
-                        <div className="font-bold text-stone-950">How to Scan & Pay:</div>
+                        <div className="font-bold text-stone-950">{dCopy.howToScanPay}</div>
                         <ol className="space-y-1 text-[11px] list-decimal pl-4 text-stone-700 font-medium">
-                          <li>Open the <strong>TeleBirr App</strong> on your phone</li>
-                          <li>Tap the <strong>Scan QR</strong> icon</li>
-                          <li>Scan this code to contribute <strong>{activeAmount.toLocaleString()} ETB</strong></li>
-                          <li>Confirm transaction with your TeleBirr PIN</li>
+                          {dCopy.telebirrSteps.map((step, i) => (
+                            <li key={i}>{step}</li>
+                          ))}
                         </ol>
                         <div className="pt-1 flex items-center justify-center sm:justify-start gap-2">
                           <button
                             type="button"
                             onClick={() => copyToClipboard('251911', 'merchant')}
-                            className="px-2.5 py-1 text-[11px] font-bold bg-emerald-100 hover:bg-emerald-200 text-[#006643] rounded flex items-center gap-1"
+                            className="px-2.5 py-1 text-[11px] font-bold bg-emerald-100 hover:bg-emerald-200 text-[#006643] rounded flex items-center gap-1 cursor-pointer"
                           >
                             {copiedCode === 'merchant' ? <Check className="w-3 h-3" /> : <Copy className="w-3 h-3" />}
-                            <span>Merchant Code: 251911</span>
+                            <span>{copiedCode === 'merchant' ? dCopy.copied : `${dCopy.merchantCodeLabel} 251911`}</span>
                           </button>
                         </div>
                       </div>
@@ -474,16 +536,16 @@ export const DonationModal: React.FC<DonationModalProps> = ({
                     <div className="space-y-3 bg-white p-3 rounded-lg border border-emerald-100 text-xs">
                       <div className="flex items-center justify-between">
                         <div>
-                          <div className="text-stone-700 font-semibold text-[11px]">ADRA Merchant Short Code:</div>
+                          <div className="text-stone-700 font-semibold text-[11px]">{dCopy.merchantShortCode}</div>
                           <div className="font-mono font-bold text-stone-900 text-sm">251911</div>
                         </div>
                         <button
                           type="button"
                           onClick={() => copyToClipboard('251911', 'merchant')}
-                          className="px-2.5 py-1 text-xs font-bold bg-emerald-100 hover:bg-emerald-200 text-[#006643] rounded flex items-center gap-1 transition-colors"
+                          className="px-2.5 py-1 text-xs font-bold bg-emerald-100 hover:bg-emerald-200 text-[#006643] rounded flex items-center gap-1 transition-colors cursor-pointer"
                         >
                           {copiedCode === 'merchant' ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
-                          <span>{copiedCode === 'merchant' ? 'Copied!' : 'Copy Code'}</span>
+                          <span>{copiedCode === 'merchant' ? dCopy.copied : dCopy.copyCode}</span>
                         </button>
                       </div>
 
@@ -495,7 +557,7 @@ export const DonationModal: React.FC<DonationModalProps> = ({
                           className="flex-1 py-2 px-3 bg-[#006643] hover:bg-[#073826] text-white rounded-lg text-xs font-bold flex items-center justify-center gap-1.5 transition-colors shadow-2xs"
                         >
                           <ExternalLink className="w-3.5 h-3.5" />
-                          <span>Launch TeleBirr App</span>
+                          <span>{dCopy.launchTelebirr}</span>
                         </a>
 
                         <a
@@ -503,7 +565,7 @@ export const DonationModal: React.FC<DonationModalProps> = ({
                           className="py-2 px-3 bg-white hover:bg-stone-50 border border-stone-300 text-stone-900 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-colors"
                         >
                           <PhoneCall className="w-3.5 h-3.5 text-[#006643]" />
-                          <span>Dial *127# USSD</span>
+                          <span>{dCopy.dialTelebirrUssd}</span>
                         </a>
                       </div>
                     </div>
@@ -517,10 +579,10 @@ export const DonationModal: React.FC<DonationModalProps> = ({
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
                       <Building className="w-4 h-4 text-purple-800" />
-                      <span className="text-xs font-bold text-purple-950">Commercial Bank of Ethiopia</span>
+                      <span className="text-xs font-bold text-purple-950">{dCopy.cbeHeader}</span>
                     </div>
                     <span className="text-[11px] bg-purple-200/70 text-purple-900 px-2 py-0.5 rounded font-bold">
-                      Scan Code Enabled
+                      {dCopy.scanCodeEnabled}
                     </span>
                   </div>
 
@@ -530,24 +592,24 @@ export const DonationModal: React.FC<DonationModalProps> = ({
                         value={`cbe://pay?biller=847123&account=1000012345678&amount=${activeAmount}&currency=ETB`}
                         brand="cbe"
                         size={150}
-                        label="CBE Birr QR Code"
+                        label={qrCopy.cbeQrLabel}
+                        currentLang={currentLang}
                       />
                       <div className="space-y-2 text-xs text-stone-800 text-center sm:text-left">
-                        <div className="font-bold text-purple-950">How to Scan & Pay:</div>
+                        <div className="font-bold text-purple-950">{dCopy.howToScanPay}</div>
                         <ol className="space-y-1 text-[11px] list-decimal pl-4 text-stone-700 font-medium">
-                          <li>Open <strong>CBE Mobile Banking</strong> or <strong>CBE Birr</strong></li>
-                          <li>Select <strong>Scan to Pay</strong></li>
-                          <li>Scan this official ADRA QR code</li>
-                          <li>Confirm transfer to Account <strong>1000012345678</strong></li>
+                          {dCopy.cbeSteps.map((step, i) => (
+                            <li key={i}>{step}</li>
+                          ))}
                         </ol>
                         <div className="pt-1 flex items-center justify-center sm:justify-start gap-2">
                           <button
                             type="button"
                             onClick={() => copyToClipboard('1000012345678', 'cbe-acc')}
-                            className="px-2.5 py-1 text-[11px] font-bold bg-purple-100 hover:bg-purple-200 text-purple-900 rounded flex items-center gap-1"
+                            className="px-2.5 py-1 text-[11px] font-bold bg-purple-100 hover:bg-purple-200 text-purple-900 rounded flex items-center gap-1 cursor-pointer"
                           >
                             {copiedCode === 'cbe-acc' ? <Check className="w-3 h-3" /> : <Copy className="w-3 h-3" />}
-                            <span>Acc: 1000012345678</span>
+                            <span>{copiedCode === 'cbe-acc' ? dCopy.copied : '1000012345678'}</span>
                           </button>
                         </div>
                       </div>
@@ -556,17 +618,17 @@ export const DonationModal: React.FC<DonationModalProps> = ({
                     <div className="space-y-2.5 bg-white p-3 rounded-lg border border-purple-100 text-xs">
                       <div className="flex items-center justify-between">
                         <div>
-                          <div className="text-stone-700 font-semibold text-[11px]">CBE Account:</div>
+                          <div className="text-stone-700 font-semibold text-[11px]">{dCopy.cbeAccountLabel}</div>
                           <div className="font-mono font-bold text-stone-900 text-sm">1000012345678</div>
-                          <div className="text-[10px] text-stone-600 font-medium">ADRA Ethiopia, Kirkos Branch</div>
+                          <div className="text-[10px] text-stone-600 font-medium">{dCopy.cbeBranchLabel}</div>
                         </div>
                         <button
                           type="button"
                           onClick={() => copyToClipboard('1000012345678', 'cbe-acc')}
-                          className="px-2.5 py-1 text-xs font-bold bg-purple-100 hover:bg-purple-200 text-purple-900 rounded flex items-center gap-1 transition-colors"
+                          className="px-2.5 py-1 text-xs font-bold bg-purple-100 hover:bg-purple-200 text-purple-900 rounded flex items-center gap-1 transition-colors cursor-pointer"
                         >
                           {copiedCode === 'cbe-acc' ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
-                          <span>{copiedCode === 'cbe-acc' ? 'Copied!' : 'Copy'}</span>
+                          <span>{copiedCode === 'cbe-acc' ? dCopy.copied : dCopy.copyBtn}</span>
                         </button>
                       </div>
 
@@ -578,7 +640,7 @@ export const DonationModal: React.FC<DonationModalProps> = ({
                           className="flex-1 py-2 px-3 bg-purple-800 hover:bg-purple-900 text-white rounded-lg text-xs font-bold flex items-center justify-center gap-1.5 transition-colors shadow-2xs"
                         >
                           <ExternalLink className="w-3.5 h-3.5" />
-                          <span>Open CBE App</span>
+                          <span>{dCopy.openCbeApp}</span>
                         </a>
 
                         <a
@@ -586,7 +648,7 @@ export const DonationModal: React.FC<DonationModalProps> = ({
                           className="py-2 px-3 bg-white hover:bg-stone-50 border border-stone-300 text-stone-900 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-colors"
                         >
                           <PhoneCall className="w-3.5 h-3.5 text-purple-800" />
-                          <span>Dial *847#</span>
+                          <span>{dCopy.dialCbeUssd}</span>
                         </a>
                       </div>
                     </div>
@@ -600,7 +662,7 @@ export const DonationModal: React.FC<DonationModalProps> = ({
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
                       <CreditCard className="w-4 h-4 text-indigo-700" />
-                      <span className="text-xs font-bold text-indigo-950">Stripe Global Checkout</span>
+                      <span className="text-xs font-bold text-indigo-950">{dCopy.stripeHeader}</span>
                     </div>
                     <span className="text-[11px] bg-indigo-100 text-indigo-700 px-2 py-0.5 rounded font-bold flex items-center gap-1">
                       <Lock className="w-3 h-3" />
@@ -614,20 +676,21 @@ export const DonationModal: React.FC<DonationModalProps> = ({
                         value={`https://checkout.stripe.com/pay/adra-ethiopia?amount=${activeAmount}&currency=${currency.toLowerCase()}`}
                         brand="stripe"
                         size={150}
-                        label="Stripe Mobile Scan"
+                        label={qrCopy.stripeMobileLabel}
+                        currentLang={currentLang}
                       />
                       <div className="space-y-2 text-xs text-stone-800 text-center sm:text-left">
-                        <div className="font-bold text-indigo-950">Instant Mobile Pay:</div>
+                        <div className="font-bold text-indigo-950">{dCopy.instantMobilePay}</div>
                         <p className="text-[11px] text-stone-700 font-medium leading-relaxed">
-                          Scan with your mobile camera to pay instantly using <strong>Apple Pay</strong>, <strong>Google Pay</strong>, or your saved cards via Stripe Checkout.
+                          {dCopy.stripeMobileDesc}
                         </p>
                         <div className="pt-1">
                           <button
                             type="button"
                             onClick={() => setPayMode('app')}
-                            className="text-[11px] font-bold text-indigo-800 hover:underline"
+                            className="text-[11px] font-bold text-indigo-800 hover:underline cursor-pointer"
                           >
-                            Or enter card details directly on this screen &rarr;
+                            {dCopy.enterCardLink}
                           </button>
                         </div>
                       </div>
@@ -637,7 +700,7 @@ export const DonationModal: React.FC<DonationModalProps> = ({
                     <div className="space-y-3 bg-white p-4 rounded-xl border border-indigo-100 text-xs">
                       <div>
                         <label className="block text-[11px] font-bold text-stone-800 mb-1">
-                          Card Number (Visa, Mastercard, Amex)
+                          {dCopy.cardNumberLabel}
                         </label>
                         <div className="relative">
                           <input
@@ -654,7 +717,7 @@ export const DonationModal: React.FC<DonationModalProps> = ({
 
                       <div className="grid grid-cols-2 gap-3">
                         <div>
-                          <label className="block text-[11px] font-bold text-stone-800 mb-1">Expires (MM/YY)</label>
+                          <label className="block text-[11px] font-bold text-stone-800 mb-1">{dCopy.expiryLabel}</label>
                           <input
                             type="text"
                             maxLength={5}
@@ -665,7 +728,7 @@ export const DonationModal: React.FC<DonationModalProps> = ({
                           />
                         </div>
                         <div>
-                          <label className="block text-[11px] font-bold text-stone-800 mb-1">CVC Code</label>
+                          <label className="block text-[11px] font-bold text-stone-800 mb-1">{dCopy.cvcLabel}</label>
                           <input
                             type="text"
                             maxLength={4}
@@ -687,18 +750,18 @@ export const DonationModal: React.FC<DonationModalProps> = ({
             <div className="space-y-3 pt-1">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-[11px] font-bold text-stone-800 mb-1">Donor Name (For Official Receipt)</label>
+                  <label className="block text-[11px] font-bold text-stone-800 mb-1">{dCopy.donorNameLabel}</label>
                   <input
                     type="text"
                     required
                     value={donorName}
                     onChange={(e) => setDonorName(e.target.value)}
-                    placeholder="e.g. Dawit Alemayehu"
+                    placeholder={dCopy.donorNamePlaceholder}
                     className="w-full px-3 py-2 text-xs border border-stone-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#006643] text-stone-900"
                   />
                 </div>
                 <div>
-                  <label className="block text-[11px] font-bold text-stone-800 mb-1">Mobile Number (TeleBirr / CBE)</label>
+                  <label className="block text-[11px] font-bold text-stone-800 mb-1">{dCopy.donorPhoneLabel}</label>
                   <input
                     type="tel"
                     required
@@ -711,7 +774,7 @@ export const DonationModal: React.FC<DonationModalProps> = ({
               </div>
 
               <div>
-                <label className="block text-[11px] font-bold text-stone-800 mb-1">Email (For Tax Exemption Certificate)</label>
+                <label className="block text-[11px] font-bold text-stone-800 mb-1">{dCopy.donorEmailLabel}</label>
                 <input
                   type="email"
                   value={donorEmail}
@@ -728,18 +791,14 @@ export const DonationModal: React.FC<DonationModalProps> = ({
               className="w-full py-3.5 bg-[#f59e0b] hover:bg-[#d97706] active:bg-[#b45309] text-stone-950 font-bold text-sm rounded-xl transition-all shadow-xs flex items-center justify-center gap-2 cursor-pointer"
             >
               <Heart className="w-4 h-4 fill-stone-950/20 text-stone-950" />
-              <span>
-                {currentLang === 'en'
-                  ? `Confirm Contribution of ${currency === 'USD' ? `$${activeAmount}` : `${activeAmount.toLocaleString()} ETB`}`
-                  : `${currency === 'USD' ? `$${activeAmount}` : `${activeAmount.toLocaleString()} ብር`} አረጋግጥ`}
-              </span>
+              <span>{dCopy.confirmTemplate.replace('{amount}', formattedCtaAmount)}</span>
               <ArrowRight className="w-4 h-4" />
             </button>
 
             {/* Security Guarantee */}
             <div className="flex items-center justify-center gap-2 text-[11px] text-stone-700 font-semibold">
               <ShieldCheck className="w-4 h-4 text-[#006643]" />
-              <span>Verified Humanitarian Gateway · Stripe, CBE & TeleBirr Encrypted</span>
+              <span>{dCopy.securityFooter}</span>
             </div>
 
           </form>

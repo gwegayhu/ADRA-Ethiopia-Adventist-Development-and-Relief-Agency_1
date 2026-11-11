@@ -2,27 +2,21 @@ import React, { useEffect, useRef, useState } from 'react';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { RegionData, Language, GISProject } from '../types';
-import { GIS_PROJECTS_DATA } from '../data/adraData';
-import { 
-  Users, 
-  Droplets, 
-  Building2, 
-  Layers, 
-  Compass, 
-  ZoomIn, 
-  ZoomOut, 
-  RotateCcw, 
-  MapPin, 
-  Check, 
-  Activity, 
-  ArrowRight,
+import { GIS_PROJECTS_DATA, getLocalizedGisProject, getLocalizedRegion } from '../data/adraData';
+import { UI_COPY } from '../data/uiCopy';
+import {
+  Users,
+  Building2,
+  Layers,
+  Compass,
+  ZoomIn,
+  ZoomOut,
+  RotateCcw,
+  MapPin,
+  Check,
   Sparkles,
   Calendar,
-  Layers3,
-  Search,
-  Filter,
-  CheckCircle2,
-  Clock
+  CheckCircle2
 } from 'lucide-react';
 
 interface ActualGISMapProps {
@@ -32,7 +26,6 @@ interface ActualGISMapProps {
   currentLang: Language;
 }
 
-// Sector visual color mappings for GIS pins
 const SECTOR_COLORS: Record<string, { bg: string; border: string; text: string; pinBg: string }> = {
   'Education': { bg: 'bg-blue-500', border: 'border-blue-400', text: 'text-blue-300', pinBg: '#3b82f6' },
   'Livelihood': { bg: 'bg-amber-500', border: 'border-amber-400', text: 'text-amber-300', pinBg: '#f59e0b' },
@@ -43,6 +36,13 @@ const SECTOR_COLORS: Record<string, { bg: string; border: string; text: string; 
   'Emergency Food Assistance / Livelihood': { bg: 'bg-orange-600', border: 'border-orange-400', text: 'text-orange-300', pinBg: '#ea580c' },
   'Agriculture': { bg: 'bg-lime-500', border: 'border-lime-400', text: 'text-lime-300', pinBg: '#84cc16' },
   'Nutrition': { bg: 'bg-purple-500', border: 'border-purple-400', text: 'text-purple-300', pinBg: '#a855f7' }
+};
+
+const formatMarkerRegionName = (fullName: string, lang: Language): string => {
+  if (lang === 'am') return fullName.replace(/^የ/, '').replace(/ ክልል$/, '');
+  if (lang === 'om') return fullName.replace(/^Naannoo /, '');
+  if (lang === 'ti') return fullName.replace(/^ክልል /, '');
+  return fullName.replace(/ Region$/, '');
 };
 
 export const ActualGISMap: React.FC<ActualGISMapProps> = ({
@@ -58,47 +58,47 @@ export const ActualGISMap: React.FC<ActualGISMapProps> = ({
 
   const GIS_API_KEY = (import.meta.env.VITE_GIS_MAP_API_KEY || import.meta.env.VITE_GOOGLE_MAPS_API_KEY || '').trim();
 
-  // Active Map View Mode: 'projects' (15 Projects) vs 'regions' (7 Hubs)
   const [viewMode, setViewMode] = useState<'projects' | 'regions'>('projects');
-
-  // Active Project Selection and Hover
   const [selectedProjectId, setSelectedProjectId] = useState<number>(1);
   const [hoveredProjectId, setHoveredProjectId] = useState<number | null>(null);
-
-  // Active Region Hover for regions view
   const [hoveredRegion, setHoveredRegion] = useState<RegionData | null>(null);
 
-  // Filters for GIS Projects
-  const [sectorFilter, setSectorFilter] = useState<string>('All');
+  const [sectorFilter] = useState<string>('All');
   const [statusFilter, setStatusFilter] = useState<'All' | 'Ongoing' | 'Recently Completed'>('All');
-  const [searchQuery, setSearchQuery] = useState<string>('');
+  const [searchQuery] = useState<string>('');
 
-  // Basemap tile selection
   const [basemapType, setBasemapType] = useState<'satellite' | 'terrain' | 'carto' | 'osm'>(
     GIS_API_KEY ? 'satellite' : 'carto'
   );
   const [showLayerMenu, setShowLayerMenu] = useState(false);
 
-  // Filter projects
+  const g = UI_COPY[currentLang].gisMap;
+  const c = UI_COPY[currentLang].common;
+
   const filteredProjects = GIS_PROJECTS_DATA.filter((proj) => {
+    const loc = getLocalizedGisProject(proj, currentLang);
     const matchesSector = sectorFilter === 'All' || proj.sector.toLowerCase().includes(sectorFilter.toLowerCase());
     const matchesStatus = statusFilter === 'All' || proj.status === statusFilter;
-    const matchesSearch = 
-      proj.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      proj.location.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      proj.objective.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      proj.sector.toLowerCase().includes(searchQuery.toLowerCase());
+    const q = searchQuery.toLowerCase();
+    const matchesSearch =
+      !q ||
+      proj.name.toLowerCase().includes(q) ||
+      proj.location.toLowerCase().includes(q) ||
+      proj.objective.toLowerCase().includes(q) ||
+      proj.sector.toLowerCase().includes(q) ||
+      loc.name.toLowerCase().includes(q) ||
+      loc.location.toLowerCase().includes(q) ||
+      loc.objective.toLowerCase().includes(q);
     return matchesSector && matchesStatus && matchesSearch;
   });
 
-  // Current active project in inspection panel
   const activeProjectId = hoveredProjectId || selectedProjectId;
   const activeProject = GIS_PROJECTS_DATA.find((p) => p.id === activeProjectId) || GIS_PROJECTS_DATA[0];
+  const locActiveProject = getLocalizedGisProject(activeProject, currentLang);
 
-  // Active region for regional mode
   const activeRegion = hoveredRegion || regions.find((r) => r.id === selectedRegionId) || regions[0];
+  const locActiveRegion = getLocalizedRegion(activeRegion, currentLang);
 
-  // Tile configuration helper
   const getTileConfig = (type: 'satellite' | 'terrain' | 'carto' | 'osm') => {
     if (type === 'satellite') {
       const url = GIS_API_KEY
@@ -136,7 +136,6 @@ export const ActualGISMap: React.FC<ActualGISMapProps> = ({
       };
     }
 
-    // Default 'carto'
     return {
       url: 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
       options: {
@@ -146,7 +145,6 @@ export const ActualGISMap: React.FC<ActualGISMapProps> = ({
     };
   };
 
-  // Initialize Leaflet Map
   useEffect(() => {
     if (!mapContainerRef.current) return;
 
@@ -155,7 +153,6 @@ export const ActualGISMap: React.FC<ActualGISMapProps> = ({
       mapInstanceRef.current = null;
     }
 
-    // Center of Ethiopia
     const ethiopiaCenter: [number, number] = [9.145, 40.489];
     const map = L.map(mapContainerRef.current, {
       center: ethiopiaCenter,
@@ -178,12 +175,10 @@ export const ActualGISMap: React.FC<ActualGISMapProps> = ({
 
     tileLayerRef.current = tileLayer;
 
-    // LayerGroup for markers
     const layersGroup = L.layerGroup().addTo(map);
     layersGroupRef.current = layersGroup;
     mapInstanceRef.current = map;
 
-    // Fit Ethiopia geographic bounds
     const ethiopiaBounds = L.latLngBounds([3.4, 33.0], [14.9, 48.0]);
     map.fitBounds(ethiopiaBounds, { padding: [30, 30] });
 
@@ -204,7 +199,6 @@ export const ActualGISMap: React.FC<ActualGISMapProps> = ({
     };
   }, []);
 
-  // Update Basemap when basemapType changes
   useEffect(() => {
     if (!mapInstanceRef.current) return;
     const map = mapInstanceRef.current;
@@ -231,16 +225,15 @@ export const ActualGISMap: React.FC<ActualGISMapProps> = ({
     newTileLayer.bringToBack();
   }, [basemapType]);
 
-  // Render Leaflet Markers: Projects Mode or Regional Hubs Mode
   useEffect(() => {
     if (!mapInstanceRef.current || !layersGroupRef.current) return;
     const layersGroup = layersGroupRef.current;
     layersGroup.clearLayers();
 
     if (viewMode === 'projects') {
-      // Plot the 15 verified projects with exact coordinates
       filteredProjects.forEach((proj) => {
         const isSelected = proj.id === activeProjectId;
+        const locProj = getLocalizedGisProject(proj, currentLang);
         const colorConfig = SECTOR_COLORS[proj.sector] || {
           bg: 'bg-emerald-500',
           border: 'border-emerald-400',
@@ -250,17 +243,14 @@ export const ActualGISMap: React.FC<ActualGISMapProps> = ({
 
         const isOngoing = proj.status === 'Ongoing';
 
-        // Pin marker HTML
         const markerHtml = `
           <div class="gis-project-pin relative group cursor-pointer flex items-center justify-center -translate-x-1/2 -translate-y-1/2 select-none">
-            <!-- Ripple Wave -->
             <span class="absolute w-9 h-9 rounded-full ${
-              isSelected 
-                ? 'bg-amber-400/50 animate-ping' 
+              isSelected
+                ? 'bg-amber-400/50 animate-ping'
                 : 'bg-emerald-400/0 group-hover:bg-amber-400/30 group-hover:animate-ping'
             } pointer-events-none transition-all duration-300"></span>
 
-            <!-- Core Pin Badge -->
             <div class="relative min-w-[28px] h-7 px-1.5 rounded-full flex items-center justify-center shadow-xl border-2 transition-all duration-200 ${
               isSelected
                 ? 'bg-[#f59e0b] border-white scale-125 z-40 ring-4 ring-amber-400/40'
@@ -271,7 +261,6 @@ export const ActualGISMap: React.FC<ActualGISMapProps> = ({
               </span>
             </div>
 
-            <!-- Floating Label Pill -->
             <div class="absolute left-8 pointer-events-none whitespace-nowrap px-2.5 py-1 rounded-md text-[11px] font-bold tracking-tight shadow-lg border transition-all duration-200 ${
               isSelected
                 ? 'bg-[#073826] text-amber-300 border-[#f59e0b] scale-105 z-40 opacity-100'
@@ -279,7 +268,7 @@ export const ActualGISMap: React.FC<ActualGISMapProps> = ({
             }">
               <div class="flex items-center gap-1.5">
                 <span class="w-1.5 h-1.5 rounded-full ${isOngoing ? 'bg-emerald-400' : 'bg-stone-400'}"></span>
-                <span class="max-w-[200px] truncate">${proj.name}</span>
+                <span class="max-w-[200px] truncate">${locProj.name}</span>
               </div>
             </div>
           </div>
@@ -312,23 +301,17 @@ export const ActualGISMap: React.FC<ActualGISMapProps> = ({
 
         marker.addTo(layersGroup);
       });
-
     } else {
-      // Plot regional hubs
       regions.forEach((region) => {
         const isSelected = region.id === selectedRegionId;
-        const displayName =
-          currentLang === 'am'
-            ? region.nameAm.replace(' ክልል', '')
-            : currentLang === 'om' && region.nameOm
-            ? region.nameOm.replace('Naannoo ', '')
-            : region.name.replace(' Region', '');
+        const locR = getLocalizedRegion(region, currentLang);
+        const displayName = formatMarkerRegionName(locR.name, currentLang);
 
         const pointHtml = `
           <div class="smart-point-marker relative group cursor-pointer flex items-center justify-center -translate-x-1/2 -translate-y-1/2 select-none">
             <span class="absolute w-8 h-8 rounded-full ${
-              isSelected 
-                ? 'bg-amber-400/40 animate-ping' 
+              isSelected
+                ? 'bg-amber-400/40 animate-ping'
                 : 'bg-emerald-400/0 group-hover:bg-amber-400/30 group-hover:animate-ping'
             } pointer-events-none transition-all duration-300"></span>
 
@@ -377,7 +360,6 @@ export const ActualGISMap: React.FC<ActualGISMapProps> = ({
     }
   }, [viewMode, filteredProjects, activeProjectId, regions, selectedRegionId, currentLang]);
 
-  // Pan to project when selectedProjectId changes
   const handleSelectProject = (proj: GISProject) => {
     setSelectedProjectId(proj.id);
     setHoveredProjectId(null);
@@ -403,21 +385,29 @@ export const ActualGISMap: React.FC<ActualGISMapProps> = ({
     if (mapInstanceRef.current) mapInstanceRef.current.zoomOut();
   };
 
+  const layerOptions: { id: 'satellite' | 'terrain' | 'carto' | 'osm'; label: string; sub: string }[] = [
+    { id: 'satellite', label: g.layers.satellite.label, sub: g.layers.satellite.sub },
+    { id: 'terrain', label: g.layers.terrain.label, sub: g.layers.terrain.sub },
+    { id: 'carto', label: g.layers.carto.label, sub: g.layers.carto.sub },
+    { id: 'osm', label: g.layers.osm.label, sub: g.layers.osm.sub }
+  ];
+
   return (
     <div className="relative w-full rounded-2xl overflow-hidden border border-emerald-900/40 bg-stone-900 shadow-2xl">
-      
+
       {/* Top HUD Operations Bar */}
       <div className="bg-[#073826] text-white px-4 py-3 border-b border-emerald-800/80 flex flex-wrap items-center justify-between gap-3 text-xs">
-        <div className="flex items-center gap-2.5">
+        <div className="flex items-center gap-2.5 flex-wrap">
           <div className="w-2.5 h-2.5 rounded-full bg-[#f59e0b] animate-pulse"></div>
           <span className="font-bold tracking-wider uppercase text-amber-400 font-sans">
-            ADRA Ethiopia GIS Operations
+            {g.hudTitle}
           </span>
           <span className="text-emerald-300/80 hidden sm:inline">|</span>
-          
+
           {/* Mode Switcher Pill */}
           <div className="flex items-center bg-stone-950/60 p-0.5 rounded-lg border border-emerald-700/60 text-[11px]">
             <button
+              type="button"
               onClick={() => setViewMode('projects')}
               className={`px-2.5 py-1 rounded-md font-bold transition-all cursor-pointer flex items-center gap-1.5 ${
                 viewMode === 'projects'
@@ -426,9 +416,10 @@ export const ActualGISMap: React.FC<ActualGISMapProps> = ({
               }`}
             >
               <Building2 className="w-3 h-3" />
-              <span>15 Official Projects</span>
+              <span>{g.modeProjects}</span>
             </button>
             <button
+              type="button"
               onClick={() => setViewMode('regions')}
               className={`px-2.5 py-1 rounded-md font-bold transition-all cursor-pointer flex items-center gap-1.5 ${
                 viewMode === 'regions'
@@ -437,55 +428,54 @@ export const ActualGISMap: React.FC<ActualGISMapProps> = ({
               }`}
             >
               <Compass className="w-3 h-3" />
-              <span>7 Regional Hubs</span>
+              <span>{g.modeRegions}</span>
             </button>
           </div>
         </div>
 
         {/* Aggregated National Operational Numbers */}
         <div className="flex items-center gap-4 sm:gap-6 text-[11px] font-mono">
-          <div className="flex items-center gap-1.5" title="Total Projects in Portfolio">
+          <div className="flex items-center gap-1.5" title={g.totalProjectsCount}>
             <Building2 className="w-3.5 h-3.5 text-amber-400" />
-            <span className="text-white font-bold">15 Projects</span>
-            <span className="text-stone-300 hidden md:inline text-[10px]">(10 Active, 5 Done)</span>
+            <span className="text-white font-bold">{g.totalProjectsCount}</span>
+            <span className="text-stone-300 hidden md:inline text-[10px]">{g.activeDoneRatio}</span>
           </div>
 
-          <div className="flex items-center gap-1.5" title="Total Direct Beneficiaries">
+          <div className="flex items-center gap-1.5" title={g.beneficiariesShort}>
             <Users className="w-3.5 h-3.5 text-emerald-300" />
             <span className="text-white font-bold">345,000+</span>
-            <span className="text-stone-300 hidden md:inline text-[10px]">Beneficiaries</span>
+            <span className="text-stone-300 hidden md:inline text-[10px]">{g.beneficiariesShort}</span>
           </div>
 
-          <div className="flex items-center gap-1.5" title="Federal Regions Covered">
+          <div className="flex items-center gap-1.5" title={g.regionsShort}>
             <MapPin className="w-3.5 h-3.5 text-rose-400" />
-            <span className="text-white font-bold">7</span>
-            <span className="text-stone-300 hidden md:inline text-[10px]">Regions</span>
+            <span className="text-white font-bold">{g.regionsCountLabel}</span>
+            <span className="text-stone-300 hidden md:inline text-[10px]">{g.regionsShort}</span>
           </div>
         </div>
       </div>
 
       {/* Main Workspace: Left Information Panel + Right GIS Map */}
       <div className="flex flex-col lg:flex-row min-h-[620px] sm:min-h-[680px] bg-stone-900">
-        
+
         {/* DEDICATED LEFT-SIDE SMART INFORMATION PANEL */}
         <div className="w-full lg:w-[420px] xl:w-[460px] shrink-0 bg-[#072418] text-white flex flex-col justify-between border-b lg:border-b-0 lg:border-r border-emerald-900/70 p-5 sm:p-6 overflow-y-auto">
-          
+
           {viewMode === 'projects' ? (
-            /* PROJECT INSPECTION PANEL (Strict 15 projects data) */
             <div className="space-y-4">
-              
+
               {/* Header Strip with Sector & Status */}
               <div className="flex items-center justify-between gap-2 pb-3 border-b border-emerald-900/80">
                 <div className="flex items-center gap-2">
                   <span className="bg-[#f59e0b] text-stone-950 font-mono font-black text-xs px-2.5 py-0.5 rounded shadow-sm">
-                    Project #{activeProject.id}
+                    {g.projectNumPrefix}{activeProject.id}
                   </span>
                   <span className={`text-[11px] font-bold px-2.5 py-0.5 rounded-full border ${
                     activeProject.status === 'Ongoing'
                       ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40'
                       : 'bg-stone-500/20 text-stone-300 border-stone-500/40'
                   }`}>
-                    {activeProject.status}
+                    {locActiveProject.status}
                   </span>
                 </div>
 
@@ -497,10 +487,10 @@ export const ActualGISMap: React.FC<ActualGISMapProps> = ({
               {/* Sector Pill & Title */}
               <div>
                 <span className="text-[11px] font-bold uppercase tracking-wider text-amber-400 block mb-1">
-                  {activeProject.sector}
+                  {locActiveProject.sector}
                 </span>
                 <h3 className="text-lg sm:text-xl font-bold font-editorial text-white leading-snug">
-                  {activeProject.name}
+                  {locActiveProject.name}
                 </h3>
               </div>
 
@@ -508,10 +498,10 @@ export const ActualGISMap: React.FC<ActualGISMapProps> = ({
               <div className="p-3 rounded-xl bg-white/5 border border-white/10 space-y-1">
                 <div className="text-[11px] font-semibold text-emerald-300 flex items-center gap-1.5">
                   <MapPin className="w-3.5 h-3.5 text-amber-400 shrink-0" />
-                  <span>Target Location &amp; Woredas</span>
+                  <span>{g.targetLocationLabel}</span>
                 </div>
                 <div className="text-xs text-white font-medium pl-5 leading-relaxed">
-                  {activeProject.location}
+                  {locActiveProject.location}
                 </div>
               </div>
 
@@ -519,10 +509,10 @@ export const ActualGISMap: React.FC<ActualGISMapProps> = ({
               <div className="p-3.5 rounded-xl bg-emerald-950/80 border border-emerald-800/80 space-y-1">
                 <div className="text-[11px] font-bold text-amber-300 uppercase tracking-wider flex items-center gap-1">
                   <Sparkles className="w-3.5 h-3.5 text-amber-400" />
-                  <span>Project Goal / Objective</span>
+                  <span>{g.goalLabel}</span>
                 </div>
                 <p className="text-xs text-stone-200 leading-relaxed font-sans">
-                  {activeProject.objective}
+                  {locActiveProject.objective}
                 </p>
               </div>
 
@@ -531,20 +521,20 @@ export const ActualGISMap: React.FC<ActualGISMapProps> = ({
                 <div className="bg-white/10 border border-white/20 rounded-xl p-3">
                   <div className="flex items-center gap-1.5 text-stone-300 text-xs font-semibold">
                     <Calendar className="w-3.5 h-3.5 text-amber-300" />
-                    <span>Duration</span>
+                    <span>{c.duration}</span>
                   </div>
                   <div className="text-xs font-mono font-bold text-white mt-1 leading-snug">
-                    {activeProject.duration}
+                    {locActiveProject.duration}
                   </div>
                 </div>
 
                 <div className="bg-white/10 border border-white/20 rounded-xl p-3">
                   <div className="flex items-center gap-1.5 text-stone-300 text-xs font-semibold">
                     <Users className="w-3.5 h-3.5 text-emerald-300" />
-                    <span>Beneficiaries</span>
+                    <span>{c.beneficiaries}</span>
                   </div>
                   <div className="text-xs font-mono font-bold text-amber-300 mt-1 leading-snug">
-                    {activeProject.beneficiaries}
+                    {locActiveProject.beneficiaries}
                   </div>
                 </div>
               </div>
@@ -552,15 +542,17 @@ export const ActualGISMap: React.FC<ActualGISMapProps> = ({
               {/* Quick Jump Buttons for All 15 Projects */}
               <div className="pt-2 border-t border-emerald-900/80">
                 <div className="flex items-center justify-between text-[11px] text-stone-400 mb-2">
-                  <span className="font-bold uppercase tracking-wider">Quick Project Selector:</span>
-                  <span className="text-emerald-400 font-mono">15 Operations</span>
+                  <span className="font-bold uppercase tracking-wider">{g.quickSelectorLabel}</span>
+                  <span className="text-emerald-400 font-mono">{g.fifteenOps}</span>
                 </div>
                 <div className="grid grid-cols-5 gap-1.5">
                   {GIS_PROJECTS_DATA.map((p) => {
                     const isCur = p.id === activeProject.id;
+                    const locP = getLocalizedGisProject(p, currentLang);
                     return (
                       <button
                         key={p.id}
+                        type="button"
                         onClick={() => handleSelectProject(p)}
                         onMouseEnter={() => setHoveredProjectId(p.id)}
                         onMouseLeave={() => setHoveredProjectId(null)}
@@ -569,11 +561,11 @@ export const ActualGISMap: React.FC<ActualGISMapProps> = ({
                             ? 'bg-[#f59e0b] text-stone-950 border-amber-300 shadow-md scale-105'
                             : 'bg-white/10 hover:bg-white/20 text-stone-300 border-white/10 hover:border-amber-400/50'
                         }`}
-                        title={`${p.name} - ${p.location}`}
+                        title={`${locP.name} - ${locP.location}`}
                       >
                         <span>#{p.id}</span>
                         <span className="text-[9px] font-sans font-normal opacity-75">
-                          {p.status === 'Ongoing' ? 'Act' : 'Done'}
+                          {p.status === 'Ongoing' ? g.quickAct : g.quickEnded}
                         </span>
                       </button>
                     );
@@ -585,11 +577,11 @@ export const ActualGISMap: React.FC<ActualGISMapProps> = ({
           ) : (
             /* REGIONAL HUBS INSPECTION PANEL */
             <div className="space-y-4">
-              
+
               <div className="flex items-center justify-between gap-2 pb-3 border-b border-emerald-900/80">
                 <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-500/20 text-emerald-300 text-xs font-semibold border border-emerald-500/30">
                   <MapPin className="w-3.5 h-3.5" />
-                  <span>Regional Field Hub</span>
+                  <span>{g.regionalHubBadge}</span>
                 </span>
 
                 <div className="text-[11px] font-mono text-emerald-400/90 bg-emerald-950/80 px-2 py-0.5 rounded-md border border-emerald-800/60">
@@ -600,35 +592,35 @@ export const ActualGISMap: React.FC<ActualGISMapProps> = ({
               <div>
                 <div className="text-[11px] font-bold uppercase tracking-wider text-amber-400 flex items-center gap-1.5">
                   <Sparkles className="w-3.5 h-3.5" />
-                  <span>{activeRegion.fieldHub}</span>
+                  <span>{locActiveRegion.fieldHub}</span>
                 </div>
                 <h3 className="text-2xl sm:text-3xl font-bold font-editorial text-white tracking-tight mt-1">
-                  {activeRegion.name}
+                  {locActiveRegion.name}
                 </h3>
                 <div className="text-xs text-stone-300 flex items-center gap-2 mt-1">
-                  <span>Capital: <strong className="text-white font-medium">{activeRegion.capital}</strong></span>
+                  <span>{g.capitalLabel} <strong className="text-white font-medium">{locActiveRegion.capital}</strong></span>
                 </div>
               </div>
 
               {/* 4-Card Regional Grid */}
               <div className="grid grid-cols-2 gap-2.5 pt-1">
                 <div className="bg-white/10 border border-white/20 rounded-xl p-3">
-                  <div className="text-stone-300 text-xs font-semibold">Beneficiaries</div>
-                  <div className="text-lg font-bold font-mono text-white mt-1">{activeRegion.beneficiaries}</div>
+                  <div className="text-stone-300 text-xs font-semibold">{g.statBeneficiaries}</div>
+                  <div className="text-lg font-bold font-mono text-white mt-1">{locActiveRegion.beneficiaries}</div>
                 </div>
 
                 <div className="bg-white/10 border border-white/20 rounded-xl p-3">
-                  <div className="text-stone-300 text-xs font-semibold">Projects</div>
+                  <div className="text-stone-300 text-xs font-semibold">{g.statProjects}</div>
                   <div className="text-lg font-bold font-mono text-white mt-1">{activeRegion.activeProjectsCount}</div>
                 </div>
 
                 <div className="bg-white/10 border border-white/20 rounded-xl p-3">
-                  <div className="text-stone-300 text-xs font-semibold">Solar Wells</div>
+                  <div className="text-stone-300 text-xs font-semibold">{g.statSolarWells}</div>
                   <div className="text-lg font-bold font-mono text-sky-300 mt-1">{activeRegion.solarWellsCount}</div>
                 </div>
 
                 <div className="bg-white/10 border border-white/20 rounded-xl p-3">
-                  <div className="text-stone-300 text-xs font-semibold">Woredas</div>
+                  <div className="text-stone-300 text-xs font-semibold">{g.statWoredas}</div>
                   <div className="text-lg font-bold font-mono text-rose-300 mt-1">{activeRegion.woredasCount}</div>
                 </div>
               </div>
@@ -636,10 +628,10 @@ export const ActualGISMap: React.FC<ActualGISMapProps> = ({
               {/* Projects in this Region */}
               <div className="space-y-1.5 pt-1">
                 <div className="text-xs font-bold uppercase tracking-wider text-amber-400">
-                  Projects Operating Here:
+                  {g.projectsOperatingLabel}
                 </div>
                 <div className="space-y-1">
-                  {activeRegion.activeProjects.map((pName, idx) => (
+                  {locActiveRegion.activeProjects.map((pName, idx) => (
                     <div key={idx} className="p-2 rounded-lg bg-white/5 border border-white/10 text-xs text-stone-200 flex items-start gap-2">
                       <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0 mt-0.5" />
                       <span className="leading-snug">{pName}</span>
@@ -653,13 +645,14 @@ export const ActualGISMap: React.FC<ActualGISMapProps> = ({
 
           {/* Footer Navigation Strip */}
           <div className="pt-4 border-t border-emerald-900/80">
-            <div className="flex items-center justify-between text-[11px] text-stone-400">
-              <span>* Click any point marker on the map to zoom &amp; inspect</span>
+            <div className="flex items-center justify-between gap-2 text-[11px] text-stone-400">
+              <span>{g.zoomPrompt}</span>
               <button
+                type="button"
                 onClick={handleResetView}
-                className="text-amber-400 hover:text-amber-300 font-bold underline cursor-pointer"
+                className="text-amber-400 hover:text-amber-300 font-bold underline cursor-pointer shrink-0"
               >
-                Reset Ethiopia View
+                {g.resetViewBtn}
               </button>
             </div>
           </div>
@@ -673,52 +666,57 @@ export const ActualGISMap: React.FC<ActualGISMapProps> = ({
           {/* Floating Top-Left: Filter Chips on Map */}
           {viewMode === 'projects' && (
             <div className="absolute top-3 left-3 z-10 hidden sm:flex items-center gap-1.5 bg-stone-900/85 backdrop-blur-md p-1.5 rounded-xl border border-stone-700 shadow-lg text-xs">
-              <span className="text-stone-400 font-bold px-1 text-[11px]">Filter:</span>
+              <span className="text-stone-400 font-bold px-1 text-[11px]">{g.filterLabel}</span>
               <button
+                type="button"
                 onClick={() => setStatusFilter('All')}
                 className={`px-2.5 py-1 rounded-lg font-semibold text-[11px] transition-all cursor-pointer ${
                   statusFilter === 'All' ? 'bg-[#f59e0b] text-stone-950 font-bold' : 'text-stone-300 hover:text-white'
                 }`}
               >
-                All (15)
+                {g.filterAll15}
               </button>
               <button
+                type="button"
                 onClick={() => setStatusFilter('Ongoing')}
                 className={`px-2.5 py-1 rounded-lg font-semibold text-[11px] transition-all cursor-pointer ${
                   statusFilter === 'Ongoing' ? 'bg-emerald-600 text-white font-bold' : 'text-stone-300 hover:text-white'
                 }`}
               >
-                Ongoing (10)
+                {g.filterOngoing10}
               </button>
               <button
+                type="button"
                 onClick={() => setStatusFilter('Recently Completed')}
                 className={`px-2.5 py-1 rounded-lg font-semibold text-[11px] transition-all cursor-pointer ${
                   statusFilter === 'Recently Completed' ? 'bg-stone-700 text-white font-bold' : 'text-stone-300 hover:text-white'
                 }`}
               >
-                Completed (5)
+                {g.filterCompleted5}
               </button>
             </div>
           )}
 
           {/* Floating Top-Right: Navigation & Basemap Switcher */}
           <div className="absolute top-3 right-3 z-10 flex flex-col gap-2">
-            
+
             {/* Zoom Controls */}
             <div className="bg-white/95 backdrop-blur-md rounded-xl shadow-md border border-stone-200 overflow-hidden flex flex-col">
               <button
+                type="button"
                 onClick={handleZoomIn}
                 className="w-11 h-11 flex items-center justify-center hover:bg-stone-100 text-stone-700 transition-colors border-b border-stone-200 cursor-pointer"
-                title="Zoom In"
-                aria-label="Zoom in map"
+                title={g.zoomInAria}
+                aria-label={g.zoomInAria}
               >
                 <ZoomIn className="w-5 h-5" />
               </button>
               <button
+                type="button"
                 onClick={handleZoomOut}
                 className="w-11 h-11 flex items-center justify-center hover:bg-stone-100 text-stone-700 transition-colors cursor-pointer"
-                title="Zoom Out"
-                aria-label="Zoom out map"
+                title={g.zoomOutAria}
+                aria-label={g.zoomOutAria}
               >
                 <ZoomOut className="w-5 h-5" />
               </button>
@@ -726,10 +724,11 @@ export const ActualGISMap: React.FC<ActualGISMapProps> = ({
 
             {/* Reset View Button */}
             <button
+              type="button"
               onClick={handleResetView}
               className="w-11 h-11 flex items-center justify-center bg-white/95 backdrop-blur-md rounded-xl shadow-md border border-stone-200 hover:bg-stone-100 text-stone-700 transition-colors cursor-pointer"
-              title="Reset View to Full Ethiopia"
-              aria-label="Reset map view"
+              title={g.resetMapAria}
+              aria-label={g.resetMapAria}
             >
               <RotateCcw className="w-5 h-5" />
             </button>
@@ -737,14 +736,15 @@ export const ActualGISMap: React.FC<ActualGISMapProps> = ({
             {/* Basemap Switcher Menu */}
             <div className="relative">
               <button
+                type="button"
                 onClick={() => setShowLayerMenu(!showLayerMenu)}
                 className={`w-11 h-11 flex items-center justify-center backdrop-blur-md rounded-xl shadow-md border transition-all cursor-pointer ${
                   showLayerMenu
                     ? 'bg-[#006643] text-white border-[#006643]'
                     : 'bg-white/95 text-stone-700 border-stone-200 hover:bg-stone-100'
                 }`}
-                title="Select GIS Basemap Layer"
-                aria-label="Toggle basemap layer menu"
+                title={g.layersMenuAria}
+                aria-label={g.layersMenuAria}
               >
                 <Layers className="w-5 h-5" />
               </button>
@@ -752,18 +752,14 @@ export const ActualGISMap: React.FC<ActualGISMapProps> = ({
               {showLayerMenu && (
                 <div className="absolute right-0 top-12 bg-white/95 backdrop-blur-md rounded-xl shadow-xl border border-stone-200 p-2 min-w-[220px] z-30 space-y-1 text-xs">
                   <div className="text-[10px] font-bold uppercase tracking-wider text-stone-400 px-2 py-1">
-                    GIS Imagery Layers
+                    {g.layersMenuTitle}
                   </div>
-                  {[
-                    { id: 'satellite', label: 'Satellite Hybrid (GIS)', sub: 'High-Res Aerial + Labels' },
-                    { id: 'terrain', label: 'Topographic Relief', sub: 'Elevation & Contours' },
-                    { id: 'carto', label: 'Clean Humanitarian', sub: 'Voyager GIS Vector' },
-                    { id: 'osm', label: 'OpenStreetMap', sub: 'Standard Humanitarian' }
-                  ].map((layer) => (
+                  {layerOptions.map((layer) => (
                     <button
                       key={layer.id}
+                      type="button"
                       onClick={() => {
-                        setBasemapType(layer.id as any);
+                        setBasemapType(layer.id);
                         setShowLayerMenu(false);
                       }}
                       className={`w-full text-left px-2.5 py-2 rounded-lg transition-colors flex items-center justify-between cursor-pointer ${
@@ -788,35 +784,35 @@ export const ActualGISMap: React.FC<ActualGISMapProps> = ({
           </div>
 
           {/* Floating Bottom-Right: Smart Project Legend */}
-          <div className="absolute bottom-3 right-3 z-10 bg-white/95 backdrop-blur-md px-3.5 py-2.5 rounded-xl shadow-md border border-stone-200 text-xs space-y-1.5 max-w-[220px]">
+          <div className="absolute bottom-3 right-3 z-10 bg-white/95 backdrop-blur-md px-3.5 py-2.5 rounded-xl shadow-md border border-stone-200 text-xs space-y-1.5 max-w-[230px]">
             <div className="font-bold text-stone-900 flex items-center gap-1.5">
               <Compass className="w-3.5 h-3.5 text-[#006643]" />
-              <span>GIS Map Guide</span>
+              <span>{g.guideTitle}</span>
             </div>
             {viewMode === 'projects' ? (
               <div className="space-y-1 text-[11px] text-stone-600">
                 <div className="flex items-center gap-1.5">
-                  <span className="w-3 h-3 rounded-full bg-[#f59e0b] ring-2 ring-amber-300"></span>
-                  <span className="font-medium text-stone-900">Selected Project (#1–#15)</span>
+                  <span className="w-3 h-3 rounded-full bg-[#f59e0b] ring-2 ring-amber-300 shrink-0"></span>
+                  <span className="font-medium text-stone-900">{g.selectedProjectLegend}</span>
                 </div>
                 <div className="flex items-center gap-1.5">
-                  <span className="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
-                  <span>Ongoing Interventions</span>
+                  <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 shrink-0"></span>
+                  <span>{g.ongoingLegend}</span>
                 </div>
                 <div className="flex items-center gap-1.5">
-                  <span className="w-2.5 h-2.5 rounded-full bg-stone-500"></span>
-                  <span>Recently Completed</span>
+                  <span className="w-2.5 h-2.5 rounded-full bg-stone-500 shrink-0"></span>
+                  <span>{g.completedLegend}</span>
                 </div>
               </div>
             ) : (
               <div className="space-y-1 text-[11px] text-stone-600">
                 <div className="flex items-center gap-1.5">
-                  <span className="w-3 h-3 rounded-full bg-[#f59e0b]"></span>
-                  <span>Active Hub</span>
+                  <span className="w-3 h-3 rounded-full bg-[#f59e0b] shrink-0"></span>
+                  <span>{g.activeHubLegend}</span>
                 </div>
                 <div className="flex items-center gap-1.5">
-                  <span className="w-3 h-3 rounded-full bg-[#006643]"></span>
-                  <span>Regional Coordination Base</span>
+                  <span className="w-3 h-3 rounded-full bg-[#006643] shrink-0"></span>
+                  <span>{g.baseLegend}</span>
                 </div>
               </div>
             )}

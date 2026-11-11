@@ -21,7 +21,7 @@ export interface AdraLogoProps {
  * - Strict prohibition: No off-brand colors, shadows, tilting, or welded country names.
  */
 export const AdraLogo: React.FC<AdraLogoProps> = ({
-  variant = 'horizontal',
+  variant = 'vertical',
   tone = 'green',
   className = '',
   showClearSpaceGuide = false,
@@ -31,13 +31,13 @@ export const AdraLogo: React.FC<AdraLogoProps> = ({
   const [loadFailed, setLoadFailed] = useState(false);
 
   // Map variant and tone to official attached logo assets in /public/brand/
-  let src = '/brand/adra-horizontal-green.png';
+  let src = '/brand/adra-logo.png';
   if (variant === 'vertical') {
-    src = tone === 'white' 
-      ? '/brand/adra-vertical-white.png' 
-      : tone === 'black' 
-      ? '/brand/adra-vertical-black.png' 
-      : '/brand/adra-vertical-green.png';
+    src = tone === 'white'
+      ? '/brand/adra-vertical-white.png'
+      : tone === 'black'
+      ? '/brand/adra-vertical-black.png'
+      : '/brand/adra-logo.png';
   } else if (variant === 'horizontal') {
     src = tone === 'white' 
       ? '/brand/adra-horizontal-white.png' 
