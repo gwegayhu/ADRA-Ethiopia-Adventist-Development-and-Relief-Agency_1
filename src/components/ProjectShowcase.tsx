@@ -206,14 +206,14 @@ export const ProjectShowcase: React.FC<ProjectShowcaseProps> = ({
   selectedSectorFilter = 'All',
   onOpenDonate
 }) => {
-  const [selectedProjectId, setSelectedProjectId] = useState<number | null>(null);
+  const [selectedProjectId, setSelectedProjectId] = useState<string | null>(null);
   const [sectorFilter, setSectorFilter] = useState<string>(selectedSectorFilter);
   const [statusFilter, setStatusFilter] = useState<'All' | 'Active' | 'Completed'>('All');
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [activeTab, setActiveTab] = useState<'regional-cards' | 'cards'>('regional-cards');
   const [selectedRegionTab, setSelectedRegionTab] = useState<string>('all');
 
-  const ui = UI_COPY[currentLang].projectShowcase;
+  const ui = UI_COPY[currentLang].projects;
   const common = UI_COPY[currentLang].common;
   const nav = TRANSLATIONS[currentLang].nav;
 
@@ -754,7 +754,7 @@ export const ProjectShowcase: React.FC<ProjectShowcaseProps> = ({
               {/* Objective */}
               <div>
                 <div className="text-xs font-bold uppercase tracking-wider text-emerald-800 mb-1">
-                  {ui.modalObjectiveTitle}
+                  {ui.modalGoalTitle}
                 </div>
                 <p className="text-stone-700 text-xs sm:text-sm leading-relaxed">
                   {selectedLoc.objective || selectedLoc.summary}
@@ -765,7 +765,7 @@ export const ProjectShowcase: React.FC<ProjectShowcaseProps> = ({
               {selectedLoc.summary && selectedLoc.summary !== selectedLoc.objective && (
                 <div className="p-4 bg-emerald-50/60 rounded-xl border border-emerald-100">
                   <div className="text-xs font-bold text-emerald-950 mb-1">
-                    {ui.modalSummaryTitle}
+                    {common.details}
                   </div>
                   <p className="text-xs text-stone-700 leading-relaxed">
                     {selectedLoc.summary}

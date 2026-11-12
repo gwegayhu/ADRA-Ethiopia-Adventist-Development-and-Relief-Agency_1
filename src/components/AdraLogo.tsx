@@ -1,118 +1,64 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 export type AdraLogoConfiguration = 'vertical' | 'horizontal' | 'mark-only';
 export type AdraLogoColor = 'green' | 'white' | 'black';
 
-interface AdraLogoProps {
+export interface AdraLogoProps {
   configuration?: AdraLogoConfiguration;
   color?: AdraLogoColor;
   className?: string;
   showClearSpaceGuide?: boolean;
   alt?: string;
-  size?: number; // size in px, enforces on-screen min size: >=66 for vertical/mark, >=100 for horizontal
+  size?: number; // Height in px
   surface?: 'none' | 'white-badge';
   compact?: boolean;
 }
 
 /**
  * Official ADRA Logo Component
- * Uses the official attached ADRA logo (/brand/adra-logo.png / /assets/aistudio/17943458034881586714568978738653_a6364af5.png)
- * Strictly conforms to the ADRA Graphic Standards Manual & Branding Guide:
- * - Configurations: Vertical (primary standard), Horizontal, Globe Mark
- * - Colors: Pantone 335 C (#007B5F), White (#FFFFFF), or Black (#231F20)
- * - Minimum on-screen size: >= 66px (vertical/mark), >= 100px (horizontal)
- * - Clear space: Height of 'A' on all sides
- * - Zero violations: No drop shadows, tints, rotations, or welded country names
+ * Uses the official attached ADRA logo directly (/assets/aistudio/17943458034881586714568978738653_a6364af5.png)
+ * Strictly conforms to the official ADRA Graphic Standards Manual & Branding Guide.
  */
 export const AdraLogo: React.FC<AdraLogoProps> = ({
-  configuration = 'vertical',
   color = 'green',
   className = '',
   showClearSpaceGuide = false,
-  alt = 'Adventist Development and Relief Agency (ADRA)',
-  size,
-  surface = 'none',
-  compact = false
+  alt = 'ADRA - Adventist Development and Relief Agency',
+  size = 48,
 }) => {
-  const [loadError, setLoadError] = useState(false);
+  const logoSrc = '/assets/aistudio/17943458034881586714568978738653_a6364af5.png';
 
-  // Sizing enforcement per Section 2 minimum on-screen sizing
-  const defaultSize = configuration === 'horizontal' ? 120 : 72;
-  const actualSize = size ? Math.max(size, configuration === 'horizontal' ? 100 : 66) : defaultSize;
-
-  // Use the exact attached logo as the primary vertical green mark
-  let src = '/brand/adra-logo.png';
-  if (configuration === 'vertical') {
-    src = color === 'white'
-      ? '/brand/adra-vertical-white.png'
+  const filterStyle =
+    color === 'white'
+      ? 'brightness(0) invert(1)'
       : color === 'black'
-      ? '/brand/adra-vertical-black.png'
-      : '/brand/adra-logo.png';
-  } else if (configuration === 'horizontal') {
-    src = color === 'white'
-      ? '/brand/adra-horizontal-white.png'
-      : color === 'black'
-      ? '/brand/adra-horizontal-black.png'
-      : '/brand/adra-horizontal-green.png';
-  } else if (configuration === 'mark-only') {
-    src = color === 'white'
-      ? '/brand/adra-globe-white.png'
-      : color === 'black'
-      ? '/brand/adra-globe-black.png'
-      : '/brand/adra-globe-green.png';
-  }
-
-  // Clear space padding calculation: X = height of 'A'
-  const clearSpacePadding = compact
-    ? 'p-1.5'
-    : configuration === 'horizontal'
-    ? 'p-2'
-    : 'p-2.5';
-
-  const surfaceStyles =
-    surface === 'white-badge' ? 'bg-white rounded-lg shadow-xs' : '';
-
-  if (loadError) {
-    // Graceful fallback to user attachment path directly
-    return (
-      <div
-        className={`relative inline-flex items-center justify-center ${clearSpacePadding} ${surfaceStyles} ${className}`}
-        role="img"
-        aria-label={alt}
-      >
-        <img
-          src="/assets/aistudio/17943458034881586714568978738653_a6364af5.png"
-          alt={alt}
-          width={actualSize}
-          style={{ width: `${actualSize}px`, height: 'auto' }}
-          className="block select-none pointer-events-none shrink-0 object-contain"
-        />
-      </div>
-    );
-  }
+      ? 'brightness(0)'
+      : 'none';
 
   return (
     <div
-      className={`relative inline-flex items-center justify-center ${clearSpacePadding} ${surfaceStyles} ${className}`}
+      className={`relative inline-flex items-center justify-center ${className}`}
       role="img"
       aria-label={alt}
     >
-      {/* Visual Clear Space Inspection Boundary (Section 2 rule: clear space equals height of 'A') */}
+      {/* Visual Clear Space Inspection Boundary */}
       {showClearSpaceGuide && (
-        <div className="absolute inset-0 border border-dashed border-amber-400 pointer-events-none rounded flex items-start justify-end p-0.5 z-10">
+        <div className="absolute inset-[-8px] border border-dashed border-amber-400 pointer-events-none rounded flex items-start justify-end p-0.5 z-10">
           <span className="text-[9px] font-mono text-amber-600 font-bold bg-white/95 px-1 rounded-xs leading-none shadow-2xs">
-            X (Clear Space = Height of 'A')
+            Clear Space
           </span>
         </div>
       )}
 
       <img
-        src={src}
+        src={logoSrc}
         alt={alt}
-        width={actualSize}
-        style={{ width: `${actualSize}px`, height: 'auto' }}
-        className="block select-none pointer-events-none shrink-0 object-contain transition-opacity duration-150"
-        onError={() => setLoadError(true)}
+        style={{
+          height: `${size}px`,
+          width: 'auto',
+          filter: filterStyle,
+        }}
+        className="block select-none pointer-events-none object-contain"
       />
     </div>
   );

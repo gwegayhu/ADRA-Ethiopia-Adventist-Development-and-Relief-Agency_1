@@ -57,9 +57,8 @@ export const Footer: React.FC<FooterProps> = ({ currentLang, onOpenDonate }) => 
             <div className="flex items-center gap-3">
               <AdraLogo
                 configuration="vertical"
-                color="green"
-                size={84}
-                surface="white-badge"
+                color="white"
+                size={64}
                 alt="ADRA - Adventist Development and Relief Agency"
               />
               <div className="border-l border-emerald-600/40 pl-3">

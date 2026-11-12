@@ -267,445 +267,305 @@ export const Header: React.FC<HeaderProps> = ({
   };
 
   return (
-    <header className="sticky top-0 z-40 bg-[#004D3A] border-b border-[#007B5F]/40 shadow-md text-white transition-colors duration-200">
-      <div className="max-w-[1580px] mx-auto px-4 sm:px-6 lg:px-8 py-2 flex items-center justify-between gap-3 lg:gap-5">
+    <header className="sticky top-0 z-40 bg-white border-b border-stone-200/90 shadow-xs text-stone-900 transition-colors duration-200">
+      <div className="max-w-[1580px] mx-auto px-4 sm:px-6 lg:px-8 py-2.5 flex items-center justify-between gap-3 lg:gap-5">
         
-        {/* Left Brand Lockup: Official ADRA Logo + Separated Country Office / Ethiopia + Kaushan Motto */}
+        {/* Left Brand Lockup: Official attached ADRA Logo + Separated Country Office / Ethiopia */}
         <div 
           onClick={() => {
             setActiveNavTab('home');
             window.scrollTo({ top: 0, behavior: 'smooth' });
           }}
-          className="flex items-center gap-3 cursor-pointer group shrink-0 border-r border-emerald-600/30 pr-4 2xl:pr-6"
+          className="flex items-center gap-2.5 sm:gap-3 cursor-pointer group shrink-0 pr-3 sm:pr-4"
         >
-          {/* Official ADRA Logo: Exact attached logo preserved as-is on crisp white clear-space plate, min-size >= 66px */}
-          <div className="transition-transform group-hover:scale-102 shrink-0">
-            <AdraLogo
-              configuration="vertical"
-              color="green"
-              size={66}
-              surface="white-badge"
-              compact
-              alt="ADRA - Adventist Development and Relief Agency"
-            />
-          </div>
+          {/* Official attached ADRA Logo: Direct authentic master asset */}
+          <img
+            src="/assets/aistudio/17943458034881586714568978738653_a6364af5.png"
+            alt="ADRA - Adventist Development and Relief Agency"
+            className="h-11 sm:h-12 w-auto object-contain select-none transition-transform group-hover:scale-102"
+          />
 
-          {/* Typography Lockup: Country Office / Ethiopia distinctly separated by clear space & divider */}
-          <div className="flex flex-col border-l border-emerald-500/40 pl-3 py-0.5">
-            <span className="text-[10px] font-bold text-[#f59e0b] tracking-[0.16em] uppercase leading-none font-sans">
+          {/* Typography Lockup: Country Office / Ethiopia distinctly separated by divider */}
+          <div className="flex flex-col border-l border-stone-300 pl-2.5 sm:pl-3 py-0.5">
+            <span className="text-[10px] sm:text-[11px] font-bold text-stone-500 tracking-[0.16em] uppercase leading-none font-sans">
               {t.common.countryOffice}
             </span>
-            <span className="text-xl sm:text-2xl font-bold tracking-tight text-white leading-tight font-sans">
+            <span className="text-xl sm:text-2xl font-bold tracking-tight text-[#007B5F] leading-tight font-sans mt-0.5">
               {ui.common.ethiopia}
-            </span>
-            {/* Kaushan Script Motto at 3-10 degree angle */}
-            <span className="font-motto text-[11px] text-emerald-200/90 font-normal leading-none mt-1 hidden sm:inline-block">
-              {ui.common.motto}
             </span>
           </div>
         </div>
 
-        {/* Center / Right Desktop Navigation: Formatted per menu_237eb8fd.jpg */}
-        <div className="hidden xl:flex items-stretch gap-3 2xl:gap-5">
+        {/* Center / Right Desktop Navigation */}
+        <div className="hidden xl:flex items-center gap-4 2xl:gap-6">
           
-          {/* Cluster 1: Explore Our Work */}
-          <div className="flex flex-col justify-between">
-            {/* Top Category Title + Underline extending across */}
-            <div>
-              <span className="text-[13px] font-bold text-white tracking-tight font-sans">
-                {t.nav.exploreOurWork}
-              </span>
-              <div className="h-px bg-emerald-700/50 w-full mt-1 mb-1.5" />
-            </div>
-
-            {/* Bottom Row of Navigation Links: Who We Are | What We Do | Where We Work | AI for Good | Our Impact | Stories | Blog */}
-            <div className="flex items-end gap-3.5 2xl:gap-5 pb-0.5">
-              
-              {/* Item: About Us / Who We Are ⌵ */}
-              <div 
-                ref={whoWeAreDropdownRef}
-                className="relative flex flex-col"
-                onMouseEnter={() => setWhoWeAreDropdownOpen(true)}
-                onMouseLeave={() => setWhoWeAreDropdownOpen(false)}
-              >
-                <span className="text-[10px] font-medium text-emerald-200/80 leading-none mb-1">
-                  {t.nav.aboutUs}
-                </span>
-                <button
-                  type="button"
-                  onClick={() => handleNavClick('who-we-are')}
-                  className={`flex items-center gap-1 text-[13px] 2xl:text-sm font-bold transition-colors whitespace-nowrap cursor-pointer ${
-                    activeNavTab === 'who-we-are' ? 'text-amber-300' : 'text-white hover:text-amber-300'
-                  }`}
-                  aria-expanded={whoWeAreDropdownOpen}
-                >
-                  <span>{t.nav.whoWeAre}</span>
-                  <ChevronDown className={`w-3.5 h-3.5 opacity-80 transition-transform duration-150 ${whoWeAreDropdownOpen ? 'rotate-180 text-amber-300' : ''}`} />
-                </button>
-
-                {/* Who We Are Dropdown Menu */}
-                {whoWeAreDropdownOpen && (
-                  <div className="absolute top-full left-0 mt-1 w-52 bg-[#052b1d]/98 backdrop-blur-md rounded-xl shadow-2xl border border-emerald-700/60 py-2 z-50 animate-in fade-in slide-in-from-top-1 duration-150">
-                    <div className="px-3.5 py-1 text-[10px] font-bold text-amber-300/90 uppercase tracking-wider">
-                      {t.nav.whoWeAre}
-                    </div>
-                    {whoWeAreSubItems.map((sub) => (
-                      <button
-                        key={sub.id}
-                        type="button"
-                        onClick={() => handleSubItemClick(sub.id)}
-                        className={`w-full text-left px-3.5 py-2 text-xs transition-colors flex items-center justify-between cursor-pointer ${
-                          whoWeAreSubTab === sub.id && activeNavTab === 'who-we-are'
-                            ? 'bg-emerald-900/80 text-amber-300 font-bold'
-                            : 'text-stone-100 hover:bg-emerald-900/50 hover:text-white'
-                        }`}
-                      >
-                        <span>{sub.label}</span>
-                        {whoWeAreSubTab === sub.id && (
-                          <span className="w-1.5 h-1.5 rounded-full bg-[#f59e0b]" />
-                        )}
-                      </button>
-                    ))}
-                  </div>
-                )}
-              </div>
-
-              {/* Item: Programs / What We Do ⌵ (Rich Programs Mega-Menu for Education, Health, Livelihood, Disaster Response) */}
-              <div 
-                ref={whatWeDoDropdownRef}
-                className="relative flex flex-col"
-                onMouseEnter={() => setWhatWeDoDropdownOpen(true)}
-                onMouseLeave={() => setWhatWeDoDropdownOpen(false)}
-              >
-                <span className="text-[10px] font-medium text-emerald-200/80 leading-none mb-1">
-                  {t.nav.programs}
-                </span>
-                <button
-                  type="button"
-                  onClick={() => handleNavClick('what-we-do')}
-                  className={`flex items-center gap-1 text-[13px] 2xl:text-sm font-bold transition-colors whitespace-nowrap cursor-pointer ${
-                    activeNavTab === 'what-we-do' ? 'text-amber-300' : 'text-white hover:text-amber-300'
-                  }`}
-                  aria-expanded={whatWeDoDropdownOpen}
-                >
-                  <span>{t.nav.whatWeDo}</span>
-                  <ChevronDown className={`w-3.5 h-3.5 opacity-80 transition-transform duration-150 ${whatWeDoDropdownOpen ? 'rotate-180 text-amber-300' : ''}`} />
-                </button>
-
-                {/* Rich Programs Mega-Menu Dropdown */}
-                {whatWeDoDropdownOpen && (
-                  <div className="absolute top-full left-0 mt-1 w-[480px] bg-[#052b1d]/98 backdrop-blur-md rounded-2xl shadow-2xl border border-emerald-700/70 p-4 z-50 animate-in fade-in slide-in-from-top-1 duration-150">
-                    <div className="flex items-center justify-between pb-2 mb-3 border-b border-emerald-800/80">
-                      <div className="text-[11px] font-bold text-amber-300 uppercase tracking-wider">
-                        {ui.header.megaTitle}
-                      </div>
-                      <span className="text-[10px] text-emerald-300">{ui.header.megaHint}</span>
-                    </div>
-
-                    {/* 4 Rich Program Cards Grid: Education, Health, Livelihood, Disaster Response */}
-                    <div className="grid grid-cols-2 gap-2.5">
-                      {programPillars.map((p) => (
-                        <div
-                          key={p.id}
-                          onClick={() => handleOpenProgramDossier(p.id)}
-                          className="group/card p-2 rounded-xl bg-emerald-950/60 hover:bg-emerald-900/80 border border-emerald-800/60 hover:border-amber-400/60 transition-all cursor-pointer flex flex-col justify-between"
-                        >
-                          <div className="relative aspect-[16/9] w-full rounded-lg overflow-hidden mb-2 bg-stone-900">
-                            <img
-                              src={p.image}
-                              alt={p.title}
-                              className="w-full h-full object-cover transition-transform duration-300 group-hover/card:scale-105 opacity-90"
-                              referrerPolicy="no-referrer"
-                            />
-                            <div className="absolute top-1.5 left-1.5 p-1 rounded-full bg-[#073826]/90 backdrop-blur-xs">
-                              {p.icon}
-                            </div>
-                            <div className="absolute bottom-1 right-1 bg-stone-950/80 text-emerald-300 text-[9px] font-mono px-1.5 py-0.5 rounded">
-                              {p.metric}
-                            </div>
-                          </div>
-
-                          <div>
-                            <div className="text-xs font-bold text-white group-hover/card:text-amber-300 transition-colors">
-                              {p.title}
-                            </div>
-                            <div className="text-[10px] text-stone-300 leading-tight mt-0.5 line-clamp-1">
-                              {p.subtitle}
-                            </div>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-
-                    {/* Footer Links for WASH, Green Energy, and Peace Building */}
-                    <div className="pt-3 mt-3 border-t border-emerald-800/80 flex flex-wrap items-center justify-between gap-x-3 gap-y-2 text-[11px]">
-                      <button
-                        type="button"
-                        onClick={() => handleOpenProgramDossier('wash')}
-                        className="text-stone-300 hover:text-amber-300 transition-colors cursor-pointer"
-                      >
-                        {ui.header.cleanWaterLink}
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => handleOpenProgramDossier('economic-growth')}
-                        className="text-stone-300 hover:text-amber-300 transition-colors cursor-pointer"
-                      >
-                        {ui.header.greenEnergyLink}
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => handleOpenProgramDossier('peace-building')}
-                        className="text-stone-300 hover:text-amber-300 transition-colors cursor-pointer"
-                      >
-                        {ui.header.peaceBuildingLink}
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => handleNavClick('what-we-do')}
-                        className="font-bold text-amber-400 hover:underline flex items-center gap-1 cursor-pointer ml-auto"
-                      >
-                        <span>{ui.header.allSevenAreas}</span>
-                        <ArrowRight className="w-3 h-3" />
-                      </button>
-                    </div>
-                  </div>
-                )}
-              </div>
-
-              {/* Vertical Separator */}
-              <div className="h-5 w-px bg-emerald-700/70 self-center mb-0.5" />
-
-              {/* Item 3: Presence / Where We Work ⌵ */}
-              <div 
-                ref={whereWeWorkDropdownRef}
-                className="relative flex flex-col"
-                onMouseEnter={() => setWhereWeWorkDropdownOpen(true)}
-                onMouseLeave={() => setWhereWeWorkDropdownOpen(false)}
-              >
-                <span className="text-[10px] font-medium text-emerald-200/80 leading-none mb-1">
-                  {currentLang === 'am' ? 'ክልሎች' : currentLang === 'om' ? 'Bakka' : currentLang === 'ti' ? 'ቦታታት' : 'Presence'}
-                </span>
-                <button
-                  type="button"
-                  onClick={() => handleNavClick('where-we-work')}
-                  className={`flex items-center gap-1 text-[13px] 2xl:text-sm font-bold transition-colors whitespace-nowrap cursor-pointer ${
-                    activeNavTab === 'where-we-work' ? 'text-amber-300' : 'text-white hover:text-amber-300'
-                  }`}
-                  aria-expanded={whereWeWorkDropdownOpen}
-                >
-                  <span>{t.nav.whereWeWork}</span>
-                  <ChevronDown className={`w-3.5 h-3.5 opacity-80 transition-transform duration-150 ${whereWeWorkDropdownOpen ? 'rotate-180 text-amber-300' : ''}`} />
-                </button>
-
-                {/* Where We Work Dropdown */}
-                {whereWeWorkDropdownOpen && (
-                  <div className="absolute top-full left-0 mt-1 w-52 bg-[#052b1d]/98 backdrop-blur-md rounded-xl shadow-2xl border border-emerald-700/60 py-2 z-50 animate-in fade-in slide-in-from-top-1 duration-150">
-                    <div className="px-3.5 py-1 text-[10px] font-bold text-amber-300/90 uppercase tracking-wider">
-                      {t.nav.whereWeWork}
-                    </div>
-                    {whereWeWorkSubItems[currentLang].map((sub) => (
-                      <button
-                        key={sub.id}
-                        type="button"
-                        onClick={() => handleNavClick(sub.targetId)}
-                        className="w-full text-left px-3.5 py-2 text-xs transition-colors flex items-center gap-2.5 cursor-pointer text-stone-100 hover:bg-emerald-900/50 hover:text-white"
-                      >
-                        <span className="text-amber-400 shrink-0">{sub.icon}</span>
-                        <span>{sub.label}</span>
-                      </button>
-                    ))}
-                  </div>
-                )}
-              </div>
-
-              {/* Vertical Separator */}
-              <div className="h-5 w-px bg-emerald-700/70 self-center mb-0.5" />
-
-              {/* Item 4: Results / Our Impact ⌵ (contains Stories, Blog, AI for Good) */}
-              <div 
-                ref={ourImpactDropdownRef}
-                className="relative flex flex-col"
-                onMouseEnter={() => setOurImpactDropdownOpen(true)}
-                onMouseLeave={() => setOurImpactDropdownOpen(false)}
-              >
-                <span className="text-[10px] font-medium text-emerald-200/80 leading-none mb-1">
-                  {currentLang === 'am' ? 'ውጤት' : currentLang === 'om' ? 'Bu\'aa' : currentLang === 'ti' ? 'ጽልዋ' : 'Results'}
-                </span>
-                <button
-                  type="button"
-                  onClick={() => handleNavClick('our-impact')}
-                  className={`flex items-center gap-1 text-[13px] 2xl:text-sm font-bold transition-colors whitespace-nowrap cursor-pointer ${
-                    activeNavTab === 'our-impact' ? 'text-amber-300' : 'text-white hover:text-amber-300'
-                  }`}
-                  aria-expanded={ourImpactDropdownOpen}
-                >
-                  <span>{t.nav.ourImpact}</span>
-                  <ChevronDown className={`w-3.5 h-3.5 opacity-80 transition-transform duration-150 ${ourImpactDropdownOpen ? 'rotate-180 text-amber-300' : ''}`} />
-                </button>
-
-                {/* Our Impact Dropdown */}
-                {ourImpactDropdownOpen && (
-                  <div className="absolute top-full left-0 mt-1 w-56 bg-[#052b1d]/98 backdrop-blur-md rounded-xl shadow-2xl border border-emerald-700/60 py-2 z-50 animate-in fade-in slide-in-from-top-1 duration-150">
-                    <div className="px-3.5 py-1 text-[10px] font-bold text-amber-300/90 uppercase tracking-wider">
-                      {t.nav.ourImpact}
-                    </div>
-                    {ourImpactSubItems[currentLang].map((sub) => (
-                      <button
-                        key={sub.id}
-                        type="button"
-                        onClick={() => handleNavClick(sub.targetId)}
-                        className="w-full text-left px-3.5 py-2 text-xs transition-colors flex items-center gap-2.5 cursor-pointer text-stone-100 hover:bg-emerald-900/50 hover:text-white"
-                      >
-                        <span className="text-amber-400 shrink-0">{sub.icon}</span>
-                        <span>{sub.label}</span>
-                      </button>
-                    ))}
-                  </div>
-                )}
-              </div>
-
-            </div>
-          </div>
-
-          {/* Vertical Separator between Explore Our Work and Connect with Us */}
-          <div className="w-px bg-emerald-700/60 my-0.5 self-stretch shrink-0" />
-
-          {/* Cluster 2: Connect with Us */}
-          <div className="flex flex-col justify-between">
-            {/* Top Category Title + Underline */}
-            <div>
-              <span className="text-[13px] font-bold text-white tracking-tight font-sans">
-                {t.nav.connectWithUs}
-              </span>
-              <div className="h-px bg-emerald-700/50 w-full mt-1 mb-1.5" />
-            </div>
-
-            {/* Bottom Row: Item 5: Work with Us ⌵ | Language | Donate */}
-            <div className="flex items-end gap-3.5 2xl:gap-4 pb-0.5">
-              
-              {/* Item 5: Get Involved / Work with Us ⌵ (contains Careers, Tenders, Reports, Contact) */}
-              <div 
-                ref={workWithUsDropdownRef}
-                className="relative flex flex-col"
-                onMouseEnter={() => setWorkWithUsDropdownOpen(true)}
-                onMouseLeave={() => setWorkWithUsDropdownOpen(false)}
-              >
-                <span className="text-[10px] font-medium text-emerald-200/80 leading-none mb-1">
-                  {t.nav.getInvolved}
-                </span>
-                <button
-                  type="button"
-                  onClick={() => handleNavClick('work-with-us')}
-                  className={`flex items-center gap-1 text-[13px] 2xl:text-sm font-bold transition-colors whitespace-nowrap cursor-pointer ${
-                    activeNavTab === 'work-with-us' ? 'text-amber-300' : 'text-white hover:text-amber-300'
-                  }`}
-                  aria-expanded={workWithUsDropdownOpen}
-                >
-                  <span>{t.nav.workWithUs}</span>
-                  <ChevronDown className={`w-3.5 h-3.5 opacity-80 transition-transform duration-150 ${workWithUsDropdownOpen ? 'rotate-180 text-amber-300' : ''}`} />
-                </button>
-
-                {/* Work with Us Dropdown */}
-                {workWithUsDropdownOpen && (
-                  <div className="absolute top-full left-0 mt-1 w-56 bg-[#052b1d]/98 backdrop-blur-md rounded-xl shadow-2xl border border-emerald-700/60 py-2 z-50 animate-in fade-in slide-in-from-top-1 duration-150">
-                    <div className="px-3.5 py-1 text-[10px] font-bold text-amber-300/90 uppercase tracking-wider">
-                      {t.nav.workWithUs}
-                    </div>
-                    {workWithUsSubItems[currentLang].map((sub) => (
-                      <button
-                        key={sub.id}
-                        type="button"
-                        onClick={() => handleNavClick(sub.targetId)}
-                        className="w-full text-left px-3.5 py-2 text-xs transition-colors flex items-center gap-2.5 cursor-pointer text-stone-100 hover:bg-emerald-900/50 hover:text-white"
-                      >
-                        <span className="text-amber-400 shrink-0">{sub.icon}</span>
-                        <span>{sub.label}</span>
-                      </button>
-                    ))}
-                  </div>
-                )}
-              </div>
-
-              {/* Thin Vertical Separator */}
-              <div className="h-5 w-px bg-emerald-700/70 self-center mb-0.5" />
-
-              {/* Item: Language / Single Clickable Dropdown Menu */}
-              <div className="relative flex flex-col" ref={langDropdownRef}>
-                <span className="text-[10px] font-medium text-emerald-200/80 leading-none mb-1">
-                  {t.nav.language}
-                </span>
-                <button
-                  type="button"
-                  onClick={() => setLangDropdownOpen(!langDropdownOpen)}
-                  className="flex items-center gap-1.5 text-[12px] 2xl:text-xs font-semibold text-white hover:text-amber-300 cursor-pointer transition-colors whitespace-nowrap"
-                  aria-expanded={langDropdownOpen}
-                  aria-haspopup="listbox"
-                  aria-label={ui.header.selectLangAria}
-                >
-                  <Globe className="w-3.5 h-3.5 text-amber-400 shrink-0" />
-                  <span>{currentOption.code} | {currentOption.nativeName}</span>
-                  <ChevronDown className={`w-3.5 h-3.5 text-stone-300 transition-transform duration-200 ${langDropdownOpen ? 'rotate-180 text-amber-300' : ''}`} />
-                </button>
-
-                {/* Dropdown Menu Popup */}
-                {langDropdownOpen && (
-                  <div 
-                    className="absolute right-0 top-full mt-2 w-60 bg-[#04261a]/98 backdrop-blur-md rounded-xl shadow-2xl border border-emerald-600/60 py-2 z-50 animate-in fade-in slide-in-from-top-1 duration-150"
-                    role="listbox"
-                  >
-                    <div className="px-3.5 py-1.5 text-[10px] font-bold text-amber-300/90 uppercase tracking-wider border-b border-emerald-800/80 mb-1">
-                      {ui.header.chooseLangTitle}
-                    </div>
-
-                    {languageOptions.map((opt) => {
-                      const isSelected = currentLang === opt.id;
-                      return (
-                        <button
-                          key={opt.id}
-                          type="button"
-                          onClick={() => {
-                            onToggleLang(opt.id);
-                            setLangDropdownOpen(false);
-                          }}
-                          className={`w-full text-left px-3.5 py-2 text-xs transition-colors flex items-center justify-between cursor-pointer ${
-                            isSelected 
-                              ? 'bg-emerald-800/90 text-amber-300 font-bold' 
-                              : 'text-stone-100 hover:bg-emerald-900/60 hover:text-white'
-                          }`}
-                        >
-                          <div className="flex items-center gap-2.5">
-                            <span className={`w-8 h-5.5 rounded flex items-center justify-center text-[10px] font-bold shrink-0 ${
-                              isSelected ? 'bg-amber-400 text-stone-950 font-bold' : 'bg-emerald-950/80 text-emerald-200 border border-emerald-700/60'
-                            }`}>
-                              {opt.code}
-                            </span>
-                            <div className="flex flex-col">
-                              <span className="leading-tight font-medium">{opt.nativeName}</span>
-                              <span className="text-[10px] text-stone-300/80 leading-tight font-normal">{opt.label}</span>
-                            </div>
-                          </div>
-                          {isSelected && (
-                            <Check className="w-3.5 h-3.5 text-amber-400 shrink-0" />
-                          )}
-                        </button>
-                      );
-                    })}
-                  </div>
-                )}
-              </div>
-
-              {/* Item: Donate Button matching Screenshot rounded pill styling */}
+          {/* Horizontal Row of Navigation Links: Who We Are | What We Do | Where We Work | Our Impact | Stories | AI for Good | Work with Us */}
+          <nav className="flex items-center gap-1 2xl:gap-2">
+            
+            {/* Item 1: Who We Are ⌵ */}
+            <div 
+              ref={whoWeAreDropdownRef}
+              className="relative"
+              onMouseEnter={() => setWhoWeAreDropdownOpen(true)}
+              onMouseLeave={() => setWhoWeAreDropdownOpen(false)}
+            >
               <button
                 type="button"
-                onClick={() => onOpenDonate()}
-                className="px-3.5 py-1.5 2xl:px-4 2xl:py-2 bg-[#dce5df] hover:bg-white active:bg-[#c8d4cc] text-[#004D3A] font-bold text-xs 2xl:text-sm rounded-full shadow-xs hover:shadow-md transition-all whitespace-nowrap cursor-pointer flex items-center gap-1.5 shrink-0"
+                onClick={() => handleNavClick('who-we-are')}
+                className={`flex items-center gap-1 text-[13px] 2xl:text-sm font-semibold transition-colors whitespace-nowrap cursor-pointer px-2.5 py-1.5 rounded-lg ${
+                  activeNavTab === 'who-we-are' ? 'text-[#007B5F] font-bold bg-emerald-50' : 'text-stone-700 hover:text-[#007B5F] hover:bg-stone-50'
+                }`}
+                aria-expanded={whoWeAreDropdownOpen}
               >
-                <Heart className="w-3.5 h-3.5 text-[#007B5F]" />
-                <span>{t.nav.donate}</span>
+                <span>{t.nav.whoWeAre}</span>
+                <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-150 ${whoWeAreDropdownOpen ? 'rotate-180 text-[#007B5F]' : 'text-stone-400'}`} />
               </button>
 
+              {/* Who We Are Dropdown Menu */}
+              {whoWeAreDropdownOpen && (
+                <div className="absolute top-full left-0 mt-1 w-52 bg-white rounded-xl shadow-xl border border-stone-200 py-2 z-50 animate-in fade-in slide-in-from-top-1 duration-150">
+                  <div className="px-3.5 py-1 text-[10px] font-bold text-stone-400 uppercase tracking-wider">
+                    {t.nav.whoWeAre}
+                  </div>
+                  {whoWeAreSubItems.map((sub) => (
+                    <button
+                      key={sub.id}
+                      type="button"
+                      onClick={() => handleSubItemClick(sub.id)}
+                      className={`w-full text-left px-3.5 py-2 text-xs transition-colors flex items-center justify-between cursor-pointer ${
+                        whoWeAreSubTab === sub.id && activeNavTab === 'who-we-are'
+                          ? 'bg-emerald-50 text-[#007B5F] font-bold'
+                          : 'text-stone-700 hover:bg-stone-50 hover:text-[#007B5F]'
+                      }`}
+                    >
+                      <span>{sub.label}</span>
+                      {whoWeAreSubTab === sub.id && (
+                        <span className="w-1.5 h-1.5 rounded-full bg-[#007B5F]" />
+                      )}
+                    </button>
+                  ))}
+                </div>
+              )}
             </div>
+
+            {/* Item 2: What We Do ⌵ */}
+            <div 
+              ref={whatWeDoDropdownRef}
+              className="relative"
+              onMouseEnter={() => setWhatWeDoDropdownOpen(true)}
+              onMouseLeave={() => setWhatWeDoDropdownOpen(false)}
+            >
+              <button
+                type="button"
+                onClick={() => handleNavClick('what-we-do')}
+                className={`flex items-center gap-1 text-[13px] 2xl:text-sm font-semibold transition-colors whitespace-nowrap cursor-pointer px-2.5 py-1.5 rounded-lg ${
+                  activeNavTab === 'what-we-do' ? 'text-[#007B5F] font-bold bg-emerald-50' : 'text-stone-700 hover:text-[#007B5F] hover:bg-stone-50'
+                }`}
+                aria-expanded={whatWeDoDropdownOpen}
+              >
+                <span>{t.nav.whatWeDo}</span>
+                <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-150 ${whatWeDoDropdownOpen ? 'rotate-180 text-[#007B5F]' : 'text-stone-400'}`} />
+              </button>
+
+              {/* Programs Dropdown */}
+              {whatWeDoDropdownOpen && (
+                <div className="absolute top-full left-0 mt-1 w-[460px] bg-white rounded-2xl shadow-xl border border-stone-200 p-4 z-50 animate-in fade-in slide-in-from-top-1 duration-150">
+                  <div className="flex items-center justify-between pb-2 mb-3 border-b border-stone-100">
+                    <div className="text-[11px] font-bold text-[#007B5F] uppercase tracking-wider">
+                      {ui.header.megaTitle}
+                    </div>
+                    <span className="text-[10px] text-stone-400">{ui.header.megaHint}</span>
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-2.5">
+                    {programPillars.map((p) => (
+                      <div
+                        key={p.id}
+                        onClick={() => handleOpenProgramDossier(p.id)}
+                        className="group/card p-2 rounded-xl bg-stone-50 hover:bg-emerald-50/70 border border-stone-100 hover:border-emerald-200 transition-all cursor-pointer flex flex-col justify-between"
+                      >
+                        <div className="relative aspect-[16/9] w-full rounded-lg overflow-hidden mb-2 bg-stone-100">
+                          <img
+                            src={p.image}
+                            alt={p.title}
+                            className="w-full h-full object-cover transition-transform duration-300 group-hover/card:scale-105"
+                            referrerPolicy="no-referrer"
+                          />
+                          <div className="absolute top-1.5 left-1.5 p-1 rounded-full bg-white/90 shadow-2xs">
+                            {p.icon}
+                          </div>
+                          <div className="absolute bottom-1 right-1 bg-stone-900/80 text-white text-[9px] font-mono px-1.5 py-0.5 rounded">
+                            {p.metric}
+                          </div>
+                        </div>
+
+                        <div>
+                          <div className="text-xs font-bold text-stone-900 group-hover/card:text-[#007B5F] transition-colors">
+                            {p.title}
+                          </div>
+                          <div className="text-[10px] text-stone-500 leading-tight mt-0.5 line-clamp-1">
+                            {p.subtitle}
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+
+                  <div className="pt-3 mt-3 border-t border-stone-100 flex items-center justify-between text-[11px]">
+                    <button
+                      type="button"
+                      onClick={() => handleNavClick('what-we-do')}
+                      className="font-bold text-[#007B5F] hover:underline flex items-center gap-1 cursor-pointer"
+                    >
+                      <span>{ui.header.allSevenAreas}</span>
+                      <ArrowRight className="w-3 h-3" />
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Item 3: Where We Work */}
+            <button
+              type="button"
+              onClick={() => handleNavClick('where-we-work')}
+              className={`text-[13px] 2xl:text-sm font-semibold transition-colors whitespace-nowrap cursor-pointer px-2.5 py-1.5 rounded-lg ${
+                activeNavTab === 'where-we-work' ? 'text-[#007B5F] font-bold bg-emerald-50' : 'text-stone-700 hover:text-[#007B5F] hover:bg-stone-50'
+              }`}
+            >
+              {t.nav.whereWeWork}
+            </button>
+
+            {/* Item 4: Our Impact */}
+            <button
+              type="button"
+              onClick={() => handleNavClick('our-impact')}
+              className={`text-[13px] 2xl:text-sm font-semibold transition-colors whitespace-nowrap cursor-pointer px-2.5 py-1.5 rounded-lg ${
+                activeNavTab === 'our-impact' ? 'text-[#007B5F] font-bold bg-emerald-50' : 'text-stone-700 hover:text-[#007B5F] hover:bg-stone-50'
+              }`}
+            >
+              {t.nav.ourImpact}
+            </button>
+
+            {/* Item 5: Stories */}
+            <button
+              type="button"
+              onClick={() => handleNavClick('stories')}
+              className={`text-[13px] 2xl:text-sm font-semibold transition-colors whitespace-nowrap cursor-pointer px-2.5 py-1.5 rounded-lg ${
+                activeNavTab === 'stories' ? 'text-[#007B5F] font-bold bg-emerald-50' : 'text-stone-700 hover:text-[#007B5F] hover:bg-stone-50'
+              }`}
+            >
+              {t.nav.stories}
+            </button>
+
+            {/* Item 6: AI for Good */}
+            <button
+              type="button"
+              onClick={() => handleNavClick('ai-for-good')}
+              className={`text-[13px] 2xl:text-sm font-semibold transition-colors whitespace-nowrap cursor-pointer px-2.5 py-1.5 rounded-lg ${
+                activeNavTab === 'ai-for-good' ? 'text-[#007B5F] font-bold bg-emerald-50' : 'text-stone-700 hover:text-[#007B5F] hover:bg-stone-50'
+              }`}
+            >
+              {t.nav.aiForGood}
+            </button>
+
+            {/* Item 7: Work with Us / Get Involved */}
+            <button
+              type="button"
+              onClick={() => handleNavClick('work-with-us')}
+              className={`text-[13px] 2xl:text-sm font-semibold transition-colors whitespace-nowrap cursor-pointer px-2.5 py-1.5 rounded-lg ${
+                activeNavTab === 'work-with-us' ? 'text-[#007B5F] font-bold bg-emerald-50' : 'text-stone-700 hover:text-[#007B5F] hover:bg-stone-50'
+              }`}
+            >
+              {t.nav.workWithUs}
+            </button>
+
+            {/* Item 8: Contact */}
+            <button
+              type="button"
+              onClick={() => handleNavClick('contact')}
+              className={`text-[13px] 2xl:text-sm font-semibold transition-colors whitespace-nowrap cursor-pointer px-2.5 py-1.5 rounded-lg ${
+                activeNavTab === 'contact' ? 'text-[#007B5F] font-bold bg-emerald-50' : 'text-stone-700 hover:text-[#007B5F] hover:bg-stone-50'
+              }`}
+            >
+              {t.nav.contact}
+            </button>
+
+          </nav>
+
+          {/* Right Action Utilities: Language Switcher Pill + Donate Button + Brand Guide */}
+          <div className="flex items-center gap-2.5 2xl:gap-3 shrink-0">
+            
+            {/* Language Switcher Pill matching media_1792614102673_ff970b3d.png */}
+            <div className="relative flex items-center bg-stone-100 p-0.5 rounded-full border border-stone-200 text-xs" ref={langDropdownRef}>
+              <button
+                type="button"
+                onClick={() => onToggleLang('en')}
+                className={`px-2.5 py-1 text-xs font-bold rounded-full transition-colors cursor-pointer ${
+                  currentLang === 'en' ? 'bg-[#007B5F] text-white shadow-2xs' : 'text-stone-600 hover:text-stone-900'
+                }`}
+              >
+                EN
+              </button>
+              <button
+                type="button"
+                onClick={() => onToggleLang('am')}
+                className={`px-2.5 py-1 text-xs font-bold rounded-full transition-colors cursor-pointer ${
+                  currentLang === 'am' ? 'bg-[#007B5F] text-white shadow-2xs' : 'text-stone-600 hover:text-stone-900'
+                }`}
+              >
+                አማ
+              </button>
+              <button
+                type="button"
+                onClick={() => setLangDropdownOpen(!langDropdownOpen)}
+                className={`px-1.5 py-1 text-xs text-stone-600 hover:text-stone-900 flex items-center gap-0.5 cursor-pointer ${
+                  currentLang === 'om' || currentLang === 'ti' ? 'bg-[#007B5F] text-white font-bold rounded-full px-2' : ''
+                }`}
+                title="Afaan Oromoo, Tigrinya"
+              >
+                {currentLang === 'om' ? 'ORO' : currentLang === 'ti' ? 'ትግ' : <Globe className="w-3.5 h-3.5 text-stone-500" />}
+                <ChevronDown className="w-3 h-3 text-stone-400" />
+              </button>
+
+              {/* Language Dropdown Menu */}
+              {langDropdownOpen && (
+                <div 
+                  className="absolute right-0 top-full mt-2 w-56 bg-white rounded-xl shadow-xl border border-stone-200 py-1.5 z-50 animate-in fade-in slide-in-from-top-1 duration-150"
+                  role="listbox"
+                >
+                  <div className="px-3.5 py-1 text-[10px] font-bold text-stone-400 uppercase tracking-wider border-b border-stone-100 mb-1">
+                    {ui.header.chooseLangTitle}
+                  </div>
+                  {languageOptions.map((opt) => (
+                    <button
+                      key={opt.id}
+                      type="button"
+                      onClick={() => {
+                        onToggleLang(opt.id);
+                        setLangDropdownOpen(false);
+                      }}
+                      className={`w-full text-left px-3 py-1.5 text-xs flex items-center justify-between cursor-pointer ${
+                        currentLang === opt.id ? 'bg-emerald-50 text-[#007B5F] font-bold' : 'text-stone-700 hover:bg-stone-50'
+                      }`}
+                    >
+                      <span>{opt.nativeName} ({opt.code})</span>
+                      {currentLang === opt.id && <Check className="w-3.5 h-3.5 text-[#007B5F]" />}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {/* Donate Button matching Screenshot rounded amber pill */}
+            <button
+              type="button"
+              onClick={() => onOpenDonate()}
+              className="px-5 py-2 bg-[#F59E0B] hover:bg-[#D97706] active:bg-[#B45309] text-white font-bold text-xs 2xl:text-sm rounded-full shadow-xs hover:shadow-md transition-all whitespace-nowrap cursor-pointer flex items-center gap-1.5 shrink-0"
+            >
+              <span>{t.nav.donate}</span>
+            </button>
+
           </div>
 
         </div>
@@ -717,9 +577,8 @@ export const Header: React.FC<HeaderProps> = ({
           <button
             type="button"
             onClick={() => onOpenDonate()}
-            className="px-3 py-1.5 bg-[#dce5df] hover:bg-white text-[#052c1e] font-bold text-xs rounded-full shadow-xs flex items-center gap-1 cursor-pointer"
+            className="px-3.5 py-1.5 bg-[#F59E0B] hover:bg-[#D97706] text-white font-bold text-xs rounded-full shadow-xs flex items-center gap-1 cursor-pointer"
           >
-            <Heart className="w-3.5 h-3.5 text-[#052c1e]" />
             <span>{t.nav.donate}</span>
           </button>
 
@@ -727,7 +586,7 @@ export const Header: React.FC<HeaderProps> = ({
           <button
             type="button"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="p-2 text-stone-100 hover:text-amber-300 rounded-lg hover:bg-emerald-900/40 cursor-pointer"
+            className="p-2 text-stone-700 hover:text-[#007B5F] rounded-lg hover:bg-stone-100 cursor-pointer"
             aria-label={ui.header.toggleMenuAria}
           >
             {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
