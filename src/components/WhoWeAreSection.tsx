@@ -96,7 +96,7 @@ export const WhoWeAreSection: React.FC<WhoWeAreSectionProps> = ({ currentLang, s
   const activeSubLabel = whoWeAreSubItems.find((item) => item.id === subTab)?.label || w.subLabels.aboutUs;
 
   return (
-    <section id="who-we-are" className="border-b border-stone-200 bg-white scroll-mt-28">
+    <section id="who-we-are" className="border-b border-stone-200 bg-white scroll-mt-32">
       <div className="bg-[#004D3A] text-white py-14 sm:py-16 relative overflow-hidden">
         <div className="absolute inset-0 z-0">
           <img

@@ -254,7 +254,7 @@ export const WaysToGivePage: React.FC<WaysToGivePageProps> = ({
       </section>
 
       {/* Current Appeal Band with Overlapping Solid Green Tab */}
-      <section id="current-appeal" className="bg-white pb-16 scroll-mt-24">
+      <section id="current-appeal" className="bg-white pb-16 scroll-mt-32">
         <div className="w-full bg-[#007B5F] h-5" />
         <div className="flex justify-center -mt-px">
           <div
@@ -294,7 +294,7 @@ export const WaysToGivePage: React.FC<WaysToGivePageProps> = ({
       </section>
 
       {/* Gift Catalog Grid on #E2E4E0 Warm Grey with Overlapping White Tab */}
-      <section id="gift-catalog" className="bg-[#E2E4E0] pb-16 sm:pb-20 scroll-mt-24">
+      <section id="gift-catalog" className="bg-[#E2E4E0] pb-16 sm:pb-20 scroll-mt-32">
         <div className="flex justify-center">
           <div
             className={`bg-white text-[#007B5F] font-bold text-sm px-10 py-2.5 rounded-b-lg shadow-2xs font-sans ${
@@ -363,7 +363,7 @@ export const WaysToGivePage: React.FC<WaysToGivePageProps> = ({
       </section>
 
       {/* How It Works / Impact Calculator */}
-      <section id="how-it-works" className="bg-white scroll-mt-24">
+      <section id="how-it-works" className="bg-white scroll-mt-32">
         <div className="w-full bg-[#007B5F] h-5" />
         <div className="flex justify-center -mt-px">
           <div

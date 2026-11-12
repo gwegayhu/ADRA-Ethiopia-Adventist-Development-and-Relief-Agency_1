@@ -230,7 +230,7 @@ export const StoriesFromField: React.FC<StoriesFromFieldProps> = ({ currentLang,
     : null;
 
   return (
-    <section id="stories" className="border-b border-stone-200 scroll-mt-20">
+    <section id="stories" className="border-b border-stone-200 scroll-mt-32">
 
       {/* Top Emerald Banner */}
       <div className="bg-[#073826] text-white py-16 sm:py-20 relative overflow-hidden">

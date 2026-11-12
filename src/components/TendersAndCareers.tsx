@@ -87,7 +87,7 @@ export const TendersAndCareers: React.FC<TendersAndCareersProps> = ({ currentLan
   const selectedPubLoc = selectedPub ? getLocalizedPublication(selectedPub, currentLang) : null;
 
   return (
-    <section id="work-with-us" className="border-b border-stone-200 scroll-mt-20">
+    <section id="work-with-us" className="border-b border-stone-200 scroll-mt-32">
       
       {/* Top Emerald Banner */}
       <div className="bg-[#073826] text-white py-16 sm:py-20 relative overflow-hidden">

@@ -34,7 +34,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ currentLang }) =
   const categoryLabel = cCopy.inquiries[category] || cCopy.inquiries.general;
 
   return (
-    <section id="contact" className="py-16 sm:py-24 adra-section-texture border-b border-emerald-800/50 scroll-mt-20">
+    <section id="contact" className="py-16 sm:py-24 adra-section-texture border-b border-emerald-800/50 scroll-mt-32">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}

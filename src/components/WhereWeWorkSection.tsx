@@ -72,7 +72,7 @@ export const WhereWeWorkSection: React.FC<WhereWeWorkSectionProps> = ({ currentL
       : `${www.ourWorkInPrefix} ${locRegion.name}`;
 
   return (
-    <section id="where-we-work" className="border-b border-stone-200 scroll-mt-20 bg-stone-50">
+    <section id="where-we-work" className="border-b border-stone-200 scroll-mt-32 bg-stone-50">
 
       {/* Dark Green Banner */}
       <div className="bg-[#073826] text-white py-14 sm:py-16 relative overflow-hidden">

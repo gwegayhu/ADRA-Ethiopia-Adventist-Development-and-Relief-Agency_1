@@ -110,7 +110,7 @@ export const WhatWeDoSection: React.FC<WhatWeDoSectionProps> = ({ currentLang, o
   ];
 
   return (
-    <section id="what-we-do" className="border-b border-stone-200 scroll-mt-20">
+    <section id="what-we-do" className="border-b border-stone-200 scroll-mt-32">
 
       {/* Top Emerald Banner */}
       <div className="bg-[#004D3A] text-white py-16 sm:py-20 relative overflow-hidden text-left">
@@ -166,7 +166,7 @@ export const WhatWeDoSection: React.FC<WhatWeDoSectionProps> = ({ currentLang, o
       </div>
 
       {/* Main Focus Areas Content */}
-      <div id="focus-areas-grid" className="py-16 sm:py-20 bg-[#f4f7f4] scroll-mt-28">
+      <div id="focus-areas-grid" className="py-16 sm:py-20 bg-[#f4f7f4] scroll-mt-32">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
           {/* Section Header with Filter Pills */}

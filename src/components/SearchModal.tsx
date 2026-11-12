@@ -111,7 +111,7 @@ export const SearchModal: React.FC<SearchModalProps> = ({
         title: loc.title,
         summary: loc.summary,
         actionLabel: 'READ ARTICLE',
-        onSelect: () => onNavigatePage('media', { subSection: blog.id }),
+        onSelect: () => onNavigatePage('media', { subSection: 'blogs' }),
       });
     });
 

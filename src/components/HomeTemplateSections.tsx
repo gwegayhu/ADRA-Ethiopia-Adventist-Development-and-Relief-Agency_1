@@ -359,7 +359,7 @@ export const LatestNewsGridSection: React.FC<{
   };
 
   return (
-    <section id="latest-news" className="bg-[#E2E4E0] pb-16 sm:pb-20 scroll-mt-28">
+    <section id="latest-news" className="bg-[#E2E4E0] pb-16 sm:pb-20 scroll-mt-32">
       {/* Overlapping White Rectangular Tab Header */}
       <div className="flex justify-center">
         <div

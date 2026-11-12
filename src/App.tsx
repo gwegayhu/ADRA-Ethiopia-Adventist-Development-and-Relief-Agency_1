@@ -297,12 +297,10 @@ export default function App() {
               onOpenDonate={handleOpenDonate}
             />
 
-            <div id="programs" className="scroll-mt-20">
-              <ProjectShowcase
-                currentLang={currentLang}
-                onOpenDonate={handleOpenDonate}
-              />
-            </div>
+            <ProjectShowcase
+              currentLang={currentLang}
+              onOpenDonate={handleOpenDonate}
+            />
           </>
         )}
 
@@ -326,9 +324,7 @@ export default function App() {
               subTab={whoWeAreSubTab}
               setSubTab={setWhoWeAreSubTab}
             />
-            <div id="work-with-us" className="scroll-mt-20">
-              <TendersAndCareers currentLang={currentLang} />
-            </div>
+            <TendersAndCareers currentLang={currentLang} />
           </>
         )}
 

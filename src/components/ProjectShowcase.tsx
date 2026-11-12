@@ -253,7 +253,7 @@ export const ProjectShowcase: React.FC<ProjectShowcaseProps> = ({
   });
 
   return (
-    <section id="programs" className="border-b border-stone-200 scroll-mt-20">
+    <section id="programs" className="border-b border-stone-200 scroll-mt-32">
 
       {/* Top Emerald Header Banner */}
       <div className="bg-[#073826] text-white py-14 sm:py-18 relative overflow-hidden">
