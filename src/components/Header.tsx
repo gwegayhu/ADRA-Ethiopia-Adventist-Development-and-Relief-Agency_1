@@ -733,21 +733,19 @@ export const Header: React.FC<HeaderProps> = ({
             className="bg-white max-w-lg w-full p-6 sm:p-8 shadow-2xl border-t-4 border-[#007B5F] space-y-5"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="flex items-center justify-between">
-              <AdraLogo configuration="horizontal" color="green" size={38} />
+            <div className="flex items-start justify-between gap-4">
+              <h3 className="text-xl font-bold text-[#007B5F] font-sans">
+                {labels.internationalTitle}
+              </h3>
               <button
                 type="button"
                 onClick={() => setIntlModalOpen(false)}
                 aria-label="Close"
-                className="p-1.5 text-[#54585A] hover:text-[#231F20] cursor-pointer"
+                className="p-1.5 -mt-1 -mr-1 text-[#54585A] hover:text-[#231F20] cursor-pointer shrink-0"
               >
                 <X className="w-5 h-5" />
               </button>
             </div>
-
-            <h3 className="text-xl font-bold text-[#007B5F] font-sans">
-              {labels.internationalTitle}
-            </h3>
 
             <p className="text-sm sm:text-base text-[#231F20] font-serif leading-relaxed">
               {labels.internationalDesc}
