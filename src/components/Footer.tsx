@@ -170,6 +170,7 @@ export const Footer: React.FC<FooterProps> = ({ currentLang, onOpenDonate }) => 
             © {new Date().getFullYear()} {ui.footer.copyright}
           </div>
           <div className="flex items-center gap-6">
+            <a href="#brand-test" className="text-emerald-300 hover:text-white transition-colors underline-offset-2 hover:underline font-semibold">Brand &amp; Template Guide</a>
             <a href="#who-we-are" className="hover:text-white transition-colors underline-offset-2 hover:underline">{ui.footer.safeguarding}</a>
             <a href="#who-we-are" className="hover:text-white transition-colors underline-offset-2 hover:underline">{ui.footer.whistleblower}</a>
             <a href="#contact" className="hover:text-white transition-colors underline-offset-2 hover:underline">{ui.footer.privacy}</a>

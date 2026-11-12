@@ -307,8 +307,9 @@ export const Hero: React.FC<HeroProps> = ({
   });
 
   return (
-    <section 
-      className="relative min-h-[580px] lg:min-h-[640px] flex items-center overflow-hidden bg-[#073826] select-none group"
+    <>
+      <section 
+        className="relative min-h-[580px] lg:min-h-[640px] flex items-center overflow-hidden bg-[#073826] select-none group"
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
       aria-roledescription="carousel"
@@ -360,15 +361,11 @@ export const Hero: React.FC<HeroProps> = ({
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-28 w-full text-left">
         <div className="max-w-2xl space-y-6">
           
-          {/* Brand Kicker + Kaushan Motto Accent */}
-          <div className="flex flex-wrap items-center gap-3">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-400/15 border border-amber-400/30 text-[#f59e0b] text-xs font-bold tracking-widest uppercase font-sans backdrop-blur-xs">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#f59e0b] animate-pulse" />
-              <span>{currentKicker}</span>
-            </div>
-
-            {/* Official ADRA Motto in Kaushan Script at 3-10 degree angle */}
-            <span className="font-motto text-sm sm:text-base text-emerald-200 font-normal">
+          {/* Brand Kicker + Official Motto */}
+          <div className="flex flex-wrap items-center gap-2.5 text-xs font-bold tracking-widest uppercase font-sans text-amber-300">
+            <span>{currentKicker}</span>
+            <span aria-hidden="true" className="text-white/40">·</span>
+            <span className="font-motto text-sm sm:text-base text-emerald-200 font-normal lowercase tracking-normal">
               {ui.common.motto}
             </span>
           </div>
@@ -463,5 +460,65 @@ export const Hero: React.FC<HeroProps> = ({
         />
       </div>
     </section>
-  );
+
+    {/* Official ADRA Web Template Key Operational Indicators Ribbon */}
+    <section className="bg-[#00382B] text-white border-y border-emerald-900/90 relative z-20 shadow-xs">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5">
+        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-6 lg:gap-8 items-center divide-y md:divide-y-0 md:divide-x divide-emerald-800/60 text-left">
+          <div className="pt-2 md:pt-0">
+            <div className="text-2xl sm:text-3xl font-bold font-sans tracking-tight text-white tabular-nums">42+</div>
+            <div className="text-[11px] uppercase tracking-wider text-amber-300 font-bold font-sans mt-0.5">
+              {currentLang === 'am' ? 'ዓመታት በኢትዮጵያ' : currentLang === 'om' ? 'Waggaa 42+ Itoophiyaatti' : currentLang === 'ti' ? 'ዓመታት ኣብ ኢትዮጵያ' : 'Years in Ethiopia'}
+            </div>
+            <div className="text-[11px] text-stone-300 font-serif line-clamp-1 mt-0.5">
+              {currentLang === 'am' ? 'ከ1982 ጀምሮ ቀጣይነት ያለው አገልግሎት' : 'Continuous service since 1982'}
+            </div>
+          </div>
+
+          <div className="pt-4 md:pt-0 md:pl-6">
+            <div className="text-2xl sm:text-3xl font-bold font-sans tracking-tight text-white tabular-nums">7</div>
+            <div className="text-[11px] uppercase tracking-wider text-amber-300 font-bold font-sans mt-0.5">
+              {currentLang === 'am' ? 'የክልል ማዕከላት' : currentLang === 'om' ? 'Damee Naannoo 7' : currentLang === 'ti' ? '7 ማእከላት ክልል' : 'Regional Hubs'}
+            </div>
+            <div className="text-[11px] text-stone-300 font-serif line-clamp-1 mt-0.5">
+              {currentLang === 'am' ? 'ሶማሌ፣ ኦሮሚያ፣ አማራ፣ ትግራይ+' : 'Somali, Oromia, Amhara, Tigray+'}
+            </div>
+          </div>
+
+          <div className="pt-4 md:pt-0 md:pl-6">
+            <div className="text-2xl sm:text-3xl font-bold font-sans tracking-tight text-white tabular-nums">15+</div>
+            <div className="text-[11px] uppercase tracking-wider text-amber-300 font-bold font-sans mt-0.5">
+              {currentLang === 'am' ? 'የመስክ ፕሮጀክቶች' : currentLang === 'om' ? 'Pirojektiiwwan 15+' : currentLang === 'ti' ? '15+ ስሉጣት መደባት' : 'Active Operations'}
+            </div>
+            <div className="text-[11px] text-stone-300 font-serif line-clamp-1 mt-0.5">
+              {currentLang === 'am' ? 'ውሃ፣ ትምህርት፣ ጤናና ግብርና' : 'WASH, Education, Health & Food'}
+            </div>
+          </div>
+
+          <div className="pt-4 md:pt-0 md:pl-6">
+            <div className="text-2xl sm:text-3xl font-bold font-sans tracking-tight text-white tabular-nums">850K+</div>
+            <div className="text-[11px] uppercase tracking-wider text-amber-300 font-bold font-sans mt-0.5">
+              {currentLang === 'am' ? 'ዓመታዊ ተጠቃሚዎች' : currentLang === 'om' ? 'Fayyadamaa Waggaa' : currentLang === 'ti' ? 'ተጠቀምቲ ኣብ ዓመት' : 'Reached Annually'}
+            </div>
+            <div className="text-[11px] text-stone-300 font-serif line-clamp-1 mt-0.5">
+              {currentLang === 'am' ? 'ቀጥተኛ የማህበረሰብ ተጠቃሚዎች' : 'Direct community beneficiaries'}
+            </div>
+          </div>
+
+          <div className="col-span-2 md:col-span-4 lg:col-span-1 pt-4 lg:pt-0 lg:pl-6">
+            <div className="text-xs font-bold font-sans tracking-tight text-emerald-300 uppercase">
+              {currentLang === 'am' ? 'ሕጋዊ ምዝገባ' : 'Accreditation'}
+            </div>
+            <div className="text-[11px] text-stone-200 font-sans mt-0.5 font-bold">
+              ACSO #2049
+            </div>
+            <div className="text-[10px] text-stone-300 font-serif mt-0.5 leading-tight">
+              {currentLang === 'am' ? 'በሲቪል ማህበረሰብ ድርጅቶች አዋጅ ቁጥር 1113/2011' : 'FDRE Authority for Civil Society Organizations'}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </>
+);
 };

@@ -43,10 +43,10 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ currentLang }) =
             <span className="inline-block w-2 h-0.5 bg-[#f59e0b]" />
             <span>{cCopy.eyebrow}</span>
           </div>
-          <h2 className="text-3xl sm:text-4xl font-bold text-[#0f0101] tracking-tight font-editorial">
+          <h2 className="text-3xl sm:text-4xl font-bold text-stone-900 tracking-tight font-sans">
             {cCopy.title}
           </h2>
-          <p className="mt-3 text-base text-[#0c6639] leading-relaxed font-sans">
+          <p className="mt-3 text-base text-stone-600 leading-relaxed font-serif">
             {cCopy.subtitle}
           </p>
         </div>

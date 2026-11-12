@@ -276,11 +276,8 @@ export const ProjectShowcase: React.FC<ProjectShowcaseProps> = ({
             <span className="text-amber-400 font-semibold">{ui.breadcrumbSummary}</span>
           </div>
 
-          <div className="flex items-center gap-2.5">
-            <span className="w-2.5 h-2.5 rounded-full bg-amber-400 animate-pulse" />
-            <span className="text-xs font-bold tracking-widest text-amber-400 uppercase font-sans">
-              {ui.kicker}
-            </span>
+          <div className="text-xs font-bold tracking-widest text-amber-400 uppercase font-sans">
+            {ui.kicker}
           </div>
 
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight font-editorial leading-tight text-white max-w-4xl">

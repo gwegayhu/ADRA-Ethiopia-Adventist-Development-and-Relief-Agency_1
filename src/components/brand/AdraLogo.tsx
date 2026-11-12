@@ -21,19 +21,28 @@ export interface AdraLogoProps {
  * - Strict prohibition: No off-brand colors, shadows, tilting, or welded country names.
  */
 export const AdraLogo: React.FC<AdraLogoProps> = ({
+  variant = 'vertical',
   tone = 'green',
   className = '',
   showClearSpaceGuide = false,
   width = 68,
   alt = 'ADRA - Adventist Development and Relief Agency'
 }) => {
-  const logoSrc = '/assets/aistudio/17943458034881586714568978738653_a6364af5.png';
+  const masterVertical = '/assets/aistudio/17943458034881586714568978738653_a6364af5.png';
+  const logoSrc =
+    variant === 'horizontal'
+      ? `/brand/adra-horizontal-${tone}.svg`
+      : variant === 'globe'
+      ? `/brand/adra-globe-${tone}.svg`
+      : masterVertical;
 
   const filterStyle =
-    tone === 'white'
-      ? 'brightness(0) invert(1)'
-      : tone === 'black'
-      ? 'brightness(0)'
+    variant === 'vertical'
+      ? tone === 'white'
+        ? 'brightness(0) invert(1)'
+        : tone === 'black'
+        ? 'brightness(0)'
+        : 'none'
       : 'none';
 
   return (

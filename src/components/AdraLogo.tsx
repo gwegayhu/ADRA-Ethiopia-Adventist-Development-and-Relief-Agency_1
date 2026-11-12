@@ -20,19 +20,28 @@ export interface AdraLogoProps {
  * Strictly conforms to the official ADRA Graphic Standards Manual & Branding Guide.
  */
 export const AdraLogo: React.FC<AdraLogoProps> = ({
+  configuration = 'vertical',
   color = 'green',
   className = '',
   showClearSpaceGuide = false,
   alt = 'ADRA - Adventist Development and Relief Agency',
   size = 48,
 }) => {
-  const logoSrc = '/assets/aistudio/17943458034881586714568978738653_a6364af5.png';
+  const masterVertical = '/assets/aistudio/17943458034881586714568978738653_a6364af5.png';
+  const logoSrc =
+    configuration === 'horizontal'
+      ? `/brand/adra-horizontal-${color}.svg`
+      : configuration === 'mark-only'
+      ? `/brand/adra-globe-${color}.svg`
+      : masterVertical;
 
   const filterStyle =
-    color === 'white'
-      ? 'brightness(0) invert(1)'
-      : color === 'black'
-      ? 'brightness(0)'
+    configuration === 'vertical'
+      ? color === 'white'
+        ? 'brightness(0) invert(1)'
+        : color === 'black'
+        ? 'brightness(0)'
+        : 'none'
       : 'none';
 
   return (

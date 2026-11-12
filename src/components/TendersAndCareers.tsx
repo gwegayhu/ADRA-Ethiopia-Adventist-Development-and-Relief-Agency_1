@@ -107,11 +107,8 @@ export const TendersAndCareers: React.FC<TendersAndCareersProps> = ({ currentLan
             {common.home} &gt; {nav.workWithUs}
           </div>
           
-          <div className="flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-[#f59e0b] animate-ping" />
-            <span className="text-xs font-bold tracking-widest text-[#f59e0b] uppercase font-sans">
-              {tCopy.kicker} · {nav.workWithUs}
-            </span>
+          <div className="text-xs font-bold tracking-widest text-[#f59e0b] uppercase font-sans">
+            {tCopy.kicker} · {nav.workWithUs}
           </div>
 
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight font-editorial leading-tight text-white max-w-3xl">

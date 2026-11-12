@@ -111,11 +111,8 @@ export const BlogsSection: React.FC<BlogsSectionProps> = ({ currentLang, onOpenD
             {common.home} &gt; {ui.breadcrumbCurrent}
           </div>
 
-          <div className="flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-[#f59e0b] animate-ping" />
-            <span className="text-xs font-bold tracking-widest text-[#f59e0b] uppercase font-sans">
-              {ui.kicker}
-            </span>
+          <div className="text-xs font-bold tracking-widest text-[#f59e0b] uppercase font-sans">
+            {ui.kicker}
           </div>
 
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight font-editorial leading-tight text-white max-w-3xl">

@@ -557,6 +557,16 @@ export const Header: React.FC<HeaderProps> = ({
               )}
             </div>
 
+            {/* Direct Brand & Template Standards Toggle */}
+            <a
+              href="#brand-test"
+              className="hidden 2xl:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold text-stone-600 hover:text-[#007B5F] hover:bg-emerald-50 transition-colors border border-stone-200/80"
+              title="Official ADRA Graphic Standards & Cloud Template"
+            >
+              <ShieldCheck className="w-3.5 h-3.5 text-[#007B5F]" />
+              <span>Brand Standards</span>
+            </a>
+
             {/* Donate Button matching Screenshot rounded amber pill */}
             <button
               type="button"
@@ -850,7 +860,7 @@ export const Header: React.FC<HeaderProps> = ({
               </div>
 
               {/* Donate Button */}
-              <div className="pt-1">
+              <div className="pt-1 space-y-2">
                 <button
                   type="button"
                   onClick={() => {
@@ -862,6 +872,14 @@ export const Header: React.FC<HeaderProps> = ({
                   <Heart className="w-4 h-4 text-[#052c1e]" />
                   <span>{t.nav.donate}</span>
                 </button>
+
+                <a
+                  href="#brand-test"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="block w-full text-center py-2 text-xs font-semibold text-emerald-200 hover:text-white"
+                >
+                  ADRA Brand &amp; Template Guide
+                </a>
               </div>
 
             </div>

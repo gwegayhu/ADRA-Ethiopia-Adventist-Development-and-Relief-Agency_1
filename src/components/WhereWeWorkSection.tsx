@@ -89,11 +89,8 @@ export const WhereWeWorkSection: React.FC<WhereWeWorkSectionProps> = ({ currentL
           <div className="text-xs text-stone-300 font-sans">
             {c.home} &gt; {nav.whereWeWork}
           </div>
-          <div className="flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-[#f59e0b] animate-ping" />
-            <span className="text-xs font-bold tracking-widest text-[#f59e0b] uppercase font-sans">
-              {www.kicker}
-            </span>
+          <div className="text-xs font-bold tracking-widest text-[#f59e0b] uppercase font-sans">
+            {www.kicker}
           </div>
 
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight font-editorial leading-tight text-white">
