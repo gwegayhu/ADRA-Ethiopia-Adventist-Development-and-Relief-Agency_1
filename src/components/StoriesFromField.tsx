@@ -102,9 +102,9 @@ const FIELD_STORIES: FieldStoryItem[] = [
       ti: 'ኣብ ክልል ሶማሌ ኣገልግሎት ጥዕና ኣዴታትን ህጻናትን ተጠናኺሩ'
     },
     excerpt: {
-      en: 'In partnership with USAID and Regional Health Bureaus, ADRA scales Community Therapeutic Care (CTC) to treat severe acute malnutrition across remote woredas.',
+      en: 'In partnership with USAID and Regional Health Bureaus, ADRA scales Community Therapeutic Care (CTC) to treat severe acute malnutrition across remote communities.',
       am: 'አድራ ኢትዮጵያ ከዩኤስኤአይዲ (USAID) ጋር በመተባበር ከባድ የተመጣጠነ ምግብ እጥረትን በመንደር ደረጃ የማከም ስራውን አስፋፋ።',
-      om: 'USAID fi Biiroo Fayyaa Naannoo waliin ADRAn yaala CTC hanqina nyaataa cimaa aanaalee fagoo keessatti bal’iseera.',
+      om: 'USAID fi Biiroo Fayyaa Naannoo waliin ADRAn yaala CTC hanqina nyaataa cimaa hawaasa fagoo keessatti bal’iseera.',
       ti: 'ኣድራ ኢትዮጵያ ምስ USAIDን ቢሮ ጥዕና ክልልን ብምትሕብባር ኣብ ገጠራት ሕክምና CTC ኣስፊሑ።'
     },
     fullContent: {
@@ -119,7 +119,7 @@ const FIELD_STORIES: FieldStoryItem[] = [
       om: 'Suuraa: hojjetaa fayyaa haadhaa fi daa’ima waliin hayyamaan ka’e.',
       ti: 'ስእሊ፡ ሰራሕተኛ ጥዕና ምስ ኣደን ህጻንን (ብፍቓድ ዝተሰኣለ)።'
     },
-    location: { en: 'Kelafo & Gode, Somali Region', am: 'ቀላፎ እና ጎዴ፣ ሶማሌ ክልል', om: 'Qalaafoo & Goodee, Somaalee', ti: 'ቀላፎን ጎዴን፣ ክልል ሶማሌ' },
+    location: { en: 'Somali Region', am: 'የሶማሌ ክልል', om: 'Naannoo Somaalee', ti: 'ክልል ሶማሌ' },
     date: { en: 'January 2026', am: 'ጥር 2026', om: 'Amajjii 2026', ti: 'ጥሪ 2026' },
     image: '/assets/images/adra_emergency_health_1792612497133.jpg'
   },
@@ -150,7 +150,7 @@ const FIELD_STORIES: FieldStoryItem[] = [
       om: 'Suuraa: barattuu shamarranii daree ibsaa aduu keessatti kitaaba dubbistu.',
       ti: 'ስእሊ፡ ተምሃሪት ኣብ ብጸሓይ ዝበርህ ክፍሊ መጽሓፍ ከተንብብ።'
     },
-    location: { en: 'Bensa Woreda, Sidama', am: 'ቤንሳ ወረዳ፣ ሲዳማ', om: 'Aanaa Baansaa, Sidaamaa', ti: 'ወረዳ ቤንሳ፣ ሲዳማ' },
+    location: { en: 'Sidama Region', am: 'የሲዳማ ክልል', om: 'Naannoo Sidaamaa', ti: 'ክልል ሲዳማ' },
     date: { en: 'April 2026', am: 'ሚያዝያ 2026', om: 'Ebla 2026', ti: 'ሚያዝያ 2026' },
     image: '/assets/images/adra_education_girls_1792612496863.jpg'
   },
@@ -212,7 +212,7 @@ const FIELD_STORIES: FieldStoryItem[] = [
       om: 'Suuraa: haadha ergaa SMS dabarsa maallaqaa argattu hojjettoota waliin.',
       ti: 'ስእሊ፡ ኣደ መልእኽቲ ሓገዝ ገንዘብ SMS ክትቅበል ከላ።'
     },
-    location: { en: 'Awash Fentale & Afar Basin', am: 'አዋሽ ፈንታሌ እና አፋር', om: 'Awaash Fantaalee & Affaar', ti: 'ኣዋሽ ፈንታሌን ዓፋርን' },
+    location: { en: 'Afar Region', am: 'የአፋር ክልል', om: 'Naannoo Affaar', ti: 'ክልል ዓፋር' },
     date: { en: 'February 2026', am: 'የካቲት 2026', om: 'Gurraandhala 2026', ti: 'ለካቲት 2026' },
     image: '/assets/images/solar_water_desert_1792618997738.jpg'
   }

@@ -532,10 +532,16 @@ export const WhatWeDoSection: React.FC<WhatWeDoSectionProps> = ({ currentLang, o
                   <div className="p-3.5 bg-emerald-50/60 rounded-xl border border-emerald-200/80">
                     <div className="text-xs font-bold text-emerald-900 flex items-center gap-1.5 mb-1">
                       <MapPin className="w-3.5 h-3.5 text-[#007B5F]" />
-                      <span>{t.activeWoredasLabel}</span>
+                      <span>{currentLang === 'am' ? 'ተደራሽ ክልሎች' : currentLang === 'om' ? 'Naannolee Hojii' : currentLang === 'ti' ? 'ተበጻሕቲ ክልላት' : 'Operational Regions'}</span>
                     </div>
                     <p className="text-xs text-stone-700 leading-relaxed">
-                      {pickLang(currentLang, selectedArea.activeWoredas)}
+                      {currentLang === 'am'
+                        ? 'ኦሮሚያ፣ ሶማሌ፣ አፋር፣ ትግራይ፣ አማራ፣ ሲዳማና ባለብዙ ክልል'
+                        : currentLang === 'om'
+                        ? 'Oromiyaa, Somaalee, Affaar, Tigraay, Amaaraa, Sidaamaa fi Biyyaalessaa'
+                        : currentLang === 'ti'
+                        ? 'ኦሮሚያ፣ ሶማሌ፣ ዓፋር፣ ትግራይ፣ ኣምሓራ፣ ሲዳማን ሃገራውን'
+                        : 'Oromia, Somali, Afar, Tigray, Amhara, Sidama & Multi-Region'}
                     </p>
                   </div>
 

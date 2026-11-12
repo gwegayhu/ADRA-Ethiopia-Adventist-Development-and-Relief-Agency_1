@@ -10,7 +10,16 @@ import {
   HeartPulse, 
   Wheat, 
   LifeBuoy, 
-  ArrowRight
+  ArrowRight,
+  BarChart3,
+  Quote,
+  BookOpen,
+  Sparkles,
+  Briefcase,
+  FileText,
+  ShieldCheck,
+  MapPin,
+  Compass
 } from 'lucide-react';
 import { Language } from '../types';
 import { TRANSLATIONS } from '../data/translations';
@@ -40,15 +49,24 @@ export const Header: React.FC<HeaderProps> = ({
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [whoWeAreDropdownOpen, setWhoWeAreDropdownOpen] = useState(false);
   const [whatWeDoDropdownOpen, setWhatWeDoDropdownOpen] = useState(false);
+  const [whereWeWorkDropdownOpen, setWhereWeWorkDropdownOpen] = useState(false);
+  const [ourImpactDropdownOpen, setOurImpactDropdownOpen] = useState(false);
+  const [workWithUsDropdownOpen, setWorkWithUsDropdownOpen] = useState(false);
   const [langDropdownOpen, setLangDropdownOpen] = useState(false);
   const [mobileLangDropdownOpen, setMobileLangDropdownOpen] = useState(false);
   const [mobileWhoWeAreOpen, setMobileWhoWeAreOpen] = useState(false);
   const [mobileWhatWeDoOpen, setMobileWhatWeDoOpen] = useState(false);
+  const [mobileWhereWeWorkOpen, setMobileWhereWeWorkOpen] = useState(false);
+  const [mobileOurImpactOpen, setMobileOurImpactOpen] = useState(false);
+  const [mobileWorkWithUsOpen, setMobileWorkWithUsOpen] = useState(false);
 
   const langDropdownRef = useRef<HTMLDivElement>(null);
   const mobileLangDropdownRef = useRef<HTMLDivElement>(null);
   const whoWeAreDropdownRef = useRef<HTMLDivElement>(null);
   const whatWeDoDropdownRef = useRef<HTMLDivElement>(null);
+  const whereWeWorkDropdownRef = useRef<HTMLDivElement>(null);
+  const ourImpactDropdownRef = useRef<HTMLDivElement>(null);
+  const workWithUsDropdownRef = useRef<HTMLDivElement>(null);
 
   const t = TRANSLATIONS[currentLang] || TRANSLATIONS.en;
   const ui = UI_COPY[currentLang] || UI_COPY.en;
@@ -69,6 +87,15 @@ export const Header: React.FC<HeaderProps> = ({
       if (whatWeDoDropdownRef.current && !whatWeDoDropdownRef.current.contains(target)) {
         setWhatWeDoDropdownOpen(false);
       }
+      if (whereWeWorkDropdownRef.current && !whereWeWorkDropdownRef.current.contains(target)) {
+        setWhereWeWorkDropdownOpen(false);
+      }
+      if (ourImpactDropdownRef.current && !ourImpactDropdownRef.current.contains(target)) {
+        setOurImpactDropdownOpen(false);
+      }
+      if (workWithUsDropdownRef.current && !workWithUsDropdownRef.current.contains(target)) {
+        setWorkWithUsDropdownOpen(false);
+      }
     };
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
@@ -80,6 +107,79 @@ export const Header: React.FC<HeaderProps> = ({
     { id: 'leadership', label: t.whoWeAreSub.leadership },
     { id: 'governance', label: t.whoWeAreSub.governance },
   ];
+
+  const whereWeWorkSubItems: Record<Language, { id: string; targetId: string; label: string; desc: string; icon: React.ReactNode }[]> = {
+    en: [
+      { id: 'gis-map', targetId: 'where-we-work', label: 'GIS Map View', desc: 'Regional presence & hubs', icon: <Compass className="w-3.5 h-3.5" /> },
+      { id: 'regions', targetId: 'where-we-work', label: '7 Regional Hubs', desc: 'Somali, Oromia, Amhara, Tigray+', icon: <MapPin className="w-3.5 h-3.5" /> },
+    ],
+    am: [
+      { id: 'gis-map', targetId: 'where-we-work', label: 'የGIS ካርታ', desc: 'የክልል ማዕከላትና ተደራሽነት', icon: <Compass className="w-3.5 h-3.5" /> },
+      { id: 'regions', targetId: 'where-we-work', label: '7 የክልል ማዕከላት', desc: 'ሶማሌ፣ ኦሮሚያ፣ አማራ፣ ትግራይ+', icon: <MapPin className="w-3.5 h-3.5" /> },
+    ],
+    om: [
+      { id: 'gis-map', targetId: 'where-we-work', label: 'Kaartaa GIS', desc: 'Damee naannoo fi hojii', icon: <Compass className="w-3.5 h-3.5" /> },
+      { id: 'regions', targetId: 'where-we-work', label: 'Damee Naannoo 7', desc: 'Somaalee, Oromiyaa, Amaaraa+', icon: <MapPin className="w-3.5 h-3.5" /> },
+    ],
+    ti: [
+      { id: 'gis-map', targetId: 'where-we-work', label: 'ካርታ GIS', desc: 'ማእከላት ክልልን ተበጻሕነትን', icon: <Compass className="w-3.5 h-3.5" /> },
+      { id: 'regions', targetId: 'where-we-work', label: '7 ማእከላት ክልል', desc: 'ሶማሌ፣ ኦሮሚያ፣ ኣምሓራ፣ ትግራይ+', icon: <MapPin className="w-3.5 h-3.5" /> },
+    ],
+  };
+
+  const ourImpactSubItems: Record<Language, { id: string; targetId: string; label: string; desc: string; icon: React.ReactNode }[]> = {
+    en: [
+      { id: 'impact-overview', targetId: 'our-impact', label: 'Impact Overview', desc: 'Verified results & calculator', icon: <BarChart3 className="w-3.5 h-3.5" /> },
+      { id: 'stories', targetId: 'stories', label: t.nav.stories, desc: 'Eyewitness testimonies from field', icon: <Quote className="w-3.5 h-3.5" /> },
+      { id: 'blogs', targetId: 'blogs', label: t.nav.blog, desc: 'Articles & progress dispatches', icon: <BookOpen className="w-3.5 h-3.5" /> },
+      { id: 'ai-for-good', targetId: 'ai-for-good', label: t.nav.aiForGood, desc: 'Ethical human-first technology', icon: <Sparkles className="w-3.5 h-3.5" /> },
+    ],
+    am: [
+      { id: 'impact-overview', targetId: 'our-impact', label: 'የስራ ውጤት', desc: 'የተረጋገጡ ውጤቶችና መተግበሪያ', icon: <BarChart3 className="w-3.5 h-3.5" /> },
+      { id: 'stories', targetId: 'stories', label: t.nav.stories, desc: 'የማህበረሰብ እውነተኛ ምስክርነት', icon: <Quote className="w-3.5 h-3.5" /> },
+      { id: 'blogs', targetId: 'blogs', label: t.nav.blog, desc: 'የመስክ ጦማርና ዜናዎች', icon: <BookOpen className="w-3.5 h-3.5" /> },
+      { id: 'ai-for-good', targetId: 'ai-for-good', label: t.nav.aiForGood, desc: 'ሰብአዊና ስነ-ምግባራዊ ቴክኖሎጂ', icon: <Sparkles className="w-3.5 h-3.5" /> },
+    ],
+    om: [
+      { id: 'impact-overview', targetId: 'our-impact', label: 'Dhiibbaa Hojii', desc: 'Buʼaa mirkanaaʼe fi shallaggii', icon: <BarChart3 className="w-3.5 h-3.5" /> },
+      { id: 'stories', targetId: 'stories', label: t.nav.stories, desc: 'Ragaa qabatamaa hawaasaa', icon: <Quote className="w-3.5 h-3.5" /> },
+      { id: 'blogs', targetId: 'blogs', label: t.nav.blog, desc: 'Barreeffamoota yeroo', icon: <BookOpen className="w-3.5 h-3.5" /> },
+      { id: 'ai-for-good', targetId: 'ai-for-good', label: t.nav.aiForGood, desc: 'Teeknooloojii naamusaa', icon: <Sparkles className="w-3.5 h-3.5" /> },
+    ],
+    ti: [
+      { id: 'impact-overview', targetId: 'our-impact', label: 'ጽልዋና ሓፈሻዊ', desc: 'ዝተረጋገጹ ውጽኢታትን ሒሳብን', icon: <BarChart3 className="w-3.5 h-3.5" /> },
+      { id: 'stories', targetId: 'stories', label: t.nav.stories, desc: 'ናይ ማሕበረሰብ ምስክርነት', icon: <Quote className="w-3.5 h-3.5" /> },
+      { id: 'blogs', targetId: 'blogs', label: t.nav.blog, desc: 'እዋናዊ ጽሑፋትን ጸብጻባትን', icon: <BookOpen className="w-3.5 h-3.5" /> },
+      { id: 'ai-for-good', targetId: 'ai-for-good', label: t.nav.aiForGood, desc: 'ስነ-ምግባራዊ ቴክኖሎጂ', icon: <Sparkles className="w-3.5 h-3.5" /> },
+    ],
+  };
+
+  const workWithUsSubItems: Record<Language, { id: string; targetId: string; label: string; desc: string; icon: React.ReactNode }[]> = {
+    en: [
+      { id: 'careers', targetId: 'work-with-us', label: 'Careers & Jobs', desc: 'National & field opportunities', icon: <Briefcase className="w-3.5 h-3.5" /> },
+      { id: 'tenders', targetId: 'work-with-us', label: 'Open Tenders', desc: 'Procurement & bid opportunities', icon: <FileText className="w-3.5 h-3.5" /> },
+      { id: 'reports', targetId: 'work-with-us', label: 'Annual Reports', desc: 'Audited statutory disclosures', icon: <ShieldCheck className="w-3.5 h-3.5" /> },
+      { id: 'contact', targetId: 'contact', label: 'Contact & Hubs', desc: 'HQ in Addis Ababa & 7 hubs', icon: <MapPin className="w-3.5 h-3.5" /> },
+    ],
+    am: [
+      { id: 'careers', targetId: 'work-with-us', label: 'የስራ እድሎች', desc: 'ክፍት የስራ ማስታወቂያዎች', icon: <Briefcase className="w-3.5 h-3.5" /> },
+      { id: 'tenders', targetId: 'work-with-us', label: 'ክፍት ጨረታዎች', desc: 'የግዥና የጨረታ ጥሪዎች', icon: <FileText className="w-3.5 h-3.5" /> },
+      { id: 'reports', targetId: 'work-with-us', label: 'ዓመታዊ ሪፖርቶች', desc: 'ኦዲት የተደረጉ ሪፖርቶች', icon: <ShieldCheck className="w-3.5 h-3.5" /> },
+      { id: 'contact', targetId: 'contact', label: 'አድራሻና ቢሮዎች', desc: 'ዋና መ/ቤትና 7 የክልል ቢሮዎች', icon: <MapPin className="w-3.5 h-3.5" /> },
+    ],
+    om: [
+      { id: 'careers', targetId: 'work-with-us', label: 'Carraa Hojii', desc: 'Hojii biyyoolessaa fi dirree', icon: <Briefcase className="w-3.5 h-3.5" /> },
+      { id: 'tenders', targetId: 'work-with-us', label: 'Caalbaasii', desc: 'Bittaa fi caalbaasii banaa', icon: <FileText className="w-3.5 h-3.5" /> },
+      { id: 'reports', targetId: 'work-with-us', label: 'Gabaasa Waggaa', desc: 'Gabaasa odiitii seeraa', icon: <ShieldCheck className="w-3.5 h-3.5" /> },
+      { id: 'contact', targetId: 'contact', label: 'Qunnamaa & Hub', desc: 'Finfinnee fi damee 7', icon: <MapPin className="w-3.5 h-3.5" /> },
+    ],
+    ti: [
+      { id: 'careers', targetId: 'work-with-us', label: 'ዕድላት ስራሕ', desc: 'ሃገራውን መስካውን ዕድላት', icon: <Briefcase className="w-3.5 h-3.5" /> },
+      { id: 'tenders', targetId: 'work-with-us', label: 'ክፍቲ ጨረታታት', desc: 'ናይ ዕዳጋን ጨረታን ጻውዒት', icon: <FileText className="w-3.5 h-3.5" /> },
+      { id: 'reports', targetId: 'work-with-us', label: 'ዓመታዊ ጸብጻባት', desc: 'ኦዲት ዝተገብረ ፋይናንስ', icon: <ShieldCheck className="w-3.5 h-3.5" /> },
+      { id: 'contact', targetId: 'contact', label: 'ርክብን ማእከላትን', desc: 'ኣዲስ ኣበባን 7 ጨንፈራትን', icon: <MapPin className="w-3.5 h-3.5" /> },
+    ],
+  };
 
   // Rich Program pillars with image thumbnails and metrics for the Programs mega-menu
   const programPillars = [
@@ -131,6 +231,9 @@ export const Header: React.FC<HeaderProps> = ({
     setMobileMenuOpen(false);
     setWhoWeAreDropdownOpen(false);
     setWhatWeDoDropdownOpen(false);
+    setWhereWeWorkDropdownOpen(false);
+    setOurImpactDropdownOpen(false);
+    setWorkWithUsDropdownOpen(false);
     const scrollTarget = targetId || tabId;
     const element = document.getElementById(scrollTarget);
     if (element) {
@@ -370,62 +473,97 @@ export const Header: React.FC<HeaderProps> = ({
                 )}
               </div>
 
-              {/* Vertical Separator matching menu_237eb8fd.jpg */}
+              {/* Vertical Separator */}
               <div className="h-5 w-px bg-emerald-700/70 self-center mb-0.5" />
 
-              {/* Where We Work */}
-              <button
-                type="button"
-                onClick={() => handleNavClick('where-we-work')}
-                className={`text-[13px] 2xl:text-sm font-medium transition-colors whitespace-nowrap cursor-pointer pb-0.5 ${
-                  activeNavTab === 'where-we-work' ? 'text-amber-300 font-bold' : 'text-white/95 hover:text-amber-300'
-                }`}
+              {/* Item 3: Presence / Where We Work ⌵ */}
+              <div 
+                ref={whereWeWorkDropdownRef}
+                className="relative flex flex-col"
+                onMouseEnter={() => setWhereWeWorkDropdownOpen(true)}
+                onMouseLeave={() => setWhereWeWorkDropdownOpen(false)}
               >
-                {t.nav.whereWeWork}
-              </button>
+                <span className="text-[10px] font-medium text-emerald-200/80 leading-none mb-1">
+                  {currentLang === 'am' ? 'ክልሎች' : currentLang === 'om' ? 'Bakka' : currentLang === 'ti' ? 'ቦታታት' : 'Presence'}
+                </span>
+                <button
+                  type="button"
+                  onClick={() => handleNavClick('where-we-work')}
+                  className={`flex items-center gap-1 text-[13px] 2xl:text-sm font-bold transition-colors whitespace-nowrap cursor-pointer ${
+                    activeNavTab === 'where-we-work' ? 'text-amber-300' : 'text-white hover:text-amber-300'
+                  }`}
+                  aria-expanded={whereWeWorkDropdownOpen}
+                >
+                  <span>{t.nav.whereWeWork}</span>
+                  <ChevronDown className={`w-3.5 h-3.5 opacity-80 transition-transform duration-150 ${whereWeWorkDropdownOpen ? 'rotate-180 text-amber-300' : ''}`} />
+                </button>
 
-              {/* AI for Good */}
-              <button
-                type="button"
-                onClick={() => handleNavClick('ai-for-good')}
-                className={`text-[13px] 2xl:text-sm font-medium transition-colors whitespace-nowrap cursor-pointer pb-0.5 ${
-                  activeNavTab === 'ai-for-good' ? 'text-amber-300 font-bold' : 'text-white/95 hover:text-amber-300'
-                }`}
-              >
-                {t.nav.aiForGood}
-              </button>
+                {/* Where We Work Dropdown */}
+                {whereWeWorkDropdownOpen && (
+                  <div className="absolute top-full left-0 mt-1 w-52 bg-[#052b1d]/98 backdrop-blur-md rounded-xl shadow-2xl border border-emerald-700/60 py-2 z-50 animate-in fade-in slide-in-from-top-1 duration-150">
+                    <div className="px-3.5 py-1 text-[10px] font-bold text-amber-300/90 uppercase tracking-wider">
+                      {t.nav.whereWeWork}
+                    </div>
+                    {whereWeWorkSubItems[currentLang].map((sub) => (
+                      <button
+                        key={sub.id}
+                        type="button"
+                        onClick={() => handleNavClick(sub.targetId)}
+                        className="w-full text-left px-3.5 py-2 text-xs transition-colors flex items-center gap-2.5 cursor-pointer text-stone-100 hover:bg-emerald-900/50 hover:text-white"
+                      >
+                        <span className="text-amber-400 shrink-0">{sub.icon}</span>
+                        <span>{sub.label}</span>
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
 
-              {/* Our Impact (Bold prominent text matching screenshot) */}
-              <button
-                type="button"
-                onClick={() => handleNavClick('our-impact')}
-                className={`text-[13px] 2xl:text-sm font-bold transition-colors whitespace-nowrap cursor-pointer pb-0.5 ${
-                  activeNavTab === 'our-impact' ? 'text-amber-300' : 'text-white hover:text-amber-300'
-                }`}
-              >
-                {t.nav.ourImpact}
-              </button>
+              {/* Vertical Separator */}
+              <div className="h-5 w-px bg-emerald-700/70 self-center mb-0.5" />
 
-              {/* Stories */}
-              <button
-                type="button"
-                onClick={() => handleNavClick('stories')}
-                className={`text-[13px] 2xl:text-sm font-medium transition-colors whitespace-nowrap cursor-pointer pb-0.5 ${
-                  activeNavTab === 'stories' ? 'text-amber-300 font-bold' : 'text-white/95 hover:text-amber-300'
-                }`}
+              {/* Item 4: Results / Our Impact ⌵ (contains Stories, Blog, AI for Good) */}
+              <div 
+                ref={ourImpactDropdownRef}
+                className="relative flex flex-col"
+                onMouseEnter={() => setOurImpactDropdownOpen(true)}
+                onMouseLeave={() => setOurImpactDropdownOpen(false)}
               >
-                {t.nav.stories}
-              </button>
+                <span className="text-[10px] font-medium text-emerald-200/80 leading-none mb-1">
+                  {currentLang === 'am' ? 'ውጤት' : currentLang === 'om' ? 'Bu\'aa' : currentLang === 'ti' ? 'ጽልዋ' : 'Results'}
+                </span>
+                <button
+                  type="button"
+                  onClick={() => handleNavClick('our-impact')}
+                  className={`flex items-center gap-1 text-[13px] 2xl:text-sm font-bold transition-colors whitespace-nowrap cursor-pointer ${
+                    activeNavTab === 'our-impact' ? 'text-amber-300' : 'text-white hover:text-amber-300'
+                  }`}
+                  aria-expanded={ourImpactDropdownOpen}
+                >
+                  <span>{t.nav.ourImpact}</span>
+                  <ChevronDown className={`w-3.5 h-3.5 opacity-80 transition-transform duration-150 ${ourImpactDropdownOpen ? 'rotate-180 text-amber-300' : ''}`} />
+                </button>
 
-              {/* Blog */}
-              <button
-                type="button"
-                onClick={() => handleNavClick('blogs', 'blogs')}
-                className="text-[13px] 2xl:text-sm font-bold text-white hover:text-amber-300 transition-colors whitespace-nowrap cursor-pointer pb-0.5"
-                style={{ color: '#ffffff' }}
-              >
-                {t.nav.blog}
-              </button>
+                {/* Our Impact Dropdown */}
+                {ourImpactDropdownOpen && (
+                  <div className="absolute top-full left-0 mt-1 w-56 bg-[#052b1d]/98 backdrop-blur-md rounded-xl shadow-2xl border border-emerald-700/60 py-2 z-50 animate-in fade-in slide-in-from-top-1 duration-150">
+                    <div className="px-3.5 py-1 text-[10px] font-bold text-amber-300/90 uppercase tracking-wider">
+                      {t.nav.ourImpact}
+                    </div>
+                    {ourImpactSubItems[currentLang].map((sub) => (
+                      <button
+                        key={sub.id}
+                        type="button"
+                        onClick={() => handleNavClick(sub.targetId)}
+                        className="w-full text-left px-3.5 py-2 text-xs transition-colors flex items-center gap-2.5 cursor-pointer text-stone-100 hover:bg-emerald-900/50 hover:text-white"
+                      >
+                        <span className="text-amber-400 shrink-0">{sub.icon}</span>
+                        <span>{sub.label}</span>
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
 
             </div>
           </div>
@@ -443,23 +581,50 @@ export const Header: React.FC<HeaderProps> = ({
               <div className="h-px bg-emerald-700/50 w-full mt-1 mb-1.5" />
             </div>
 
-            {/* Bottom Row: Work with Us | Language | Donate */}
+            {/* Bottom Row: Item 5: Work with Us ⌵ | Language | Donate */}
             <div className="flex items-end gap-3.5 2xl:gap-4 pb-0.5">
               
-              {/* Item: Get Involved / Work with Us */}
-              <div className="flex flex-col">
+              {/* Item 5: Get Involved / Work with Us ⌵ (contains Careers, Tenders, Reports, Contact) */}
+              <div 
+                ref={workWithUsDropdownRef}
+                className="relative flex flex-col"
+                onMouseEnter={() => setWorkWithUsDropdownOpen(true)}
+                onMouseLeave={() => setWorkWithUsDropdownOpen(false)}
+              >
                 <span className="text-[10px] font-medium text-emerald-200/80 leading-none mb-1">
                   {t.nav.getInvolved}
                 </span>
                 <button
                   type="button"
                   onClick={() => handleNavClick('work-with-us')}
-                  className={`text-[13px] 2xl:text-sm font-bold transition-colors whitespace-nowrap cursor-pointer ${
+                  className={`flex items-center gap-1 text-[13px] 2xl:text-sm font-bold transition-colors whitespace-nowrap cursor-pointer ${
                     activeNavTab === 'work-with-us' ? 'text-amber-300' : 'text-white hover:text-amber-300'
                   }`}
+                  aria-expanded={workWithUsDropdownOpen}
                 >
-                  {t.nav.workWithUs}
+                  <span>{t.nav.workWithUs}</span>
+                  <ChevronDown className={`w-3.5 h-3.5 opacity-80 transition-transform duration-150 ${workWithUsDropdownOpen ? 'rotate-180 text-amber-300' : ''}`} />
                 </button>
+
+                {/* Work with Us Dropdown */}
+                {workWithUsDropdownOpen && (
+                  <div className="absolute top-full left-0 mt-1 w-56 bg-[#052b1d]/98 backdrop-blur-md rounded-xl shadow-2xl border border-emerald-700/60 py-2 z-50 animate-in fade-in slide-in-from-top-1 duration-150">
+                    <div className="px-3.5 py-1 text-[10px] font-bold text-amber-300/90 uppercase tracking-wider">
+                      {t.nav.workWithUs}
+                    </div>
+                    {workWithUsSubItems[currentLang].map((sub) => (
+                      <button
+                        key={sub.id}
+                        type="button"
+                        onClick={() => handleNavClick(sub.targetId)}
+                        className="w-full text-left px-3.5 py-2 text-xs transition-colors flex items-center gap-2.5 cursor-pointer text-stone-100 hover:bg-emerald-900/50 hover:text-white"
+                      >
+                        <span className="text-amber-400 shrink-0">{sub.icon}</span>
+                        <span>{sub.label}</span>
+                      </button>
+                    ))}
+                  </div>
+                )}
               </div>
 
               {/* Thin Vertical Separator */}
@@ -676,43 +841,68 @@ export const Header: React.FC<HeaderProps> = ({
                 )}
               </div>
 
-              {/* Direct Links matching screenshot */}
-              <div className="space-y-1 pt-2 border-t border-emerald-800/60">
+              {/* Item 3: Where We Work (Accordion) */}
+              <div>
                 <button
                   type="button"
-                  onClick={() => handleNavClick('where-we-work')}
-                  className="w-full text-left py-1.5 text-xs font-semibold text-stone-100 hover:text-amber-300"
+                  onClick={() => setMobileWhereWeWorkOpen(!mobileWhereWeWorkOpen)}
+                  className="w-full flex items-center justify-between py-1.5 text-sm font-bold text-white hover:text-amber-300"
                 >
-                  {t.nav.whereWeWork}
+                  <div className="flex flex-col text-left">
+                    <span className="text-[10px] text-emerald-200/80 font-normal">
+                      {currentLang === 'am' ? 'ክልሎች' : currentLang === 'om' ? 'Bakka' : currentLang === 'ti' ? 'ቦታታት' : 'Presence'}
+                    </span>
+                    <span>{t.nav.whereWeWork}</span>
+                  </div>
+                  <ChevronDown className={`w-4 h-4 transition-transform ${mobileWhereWeWorkOpen ? 'rotate-180 text-amber-300' : ''}`} />
                 </button>
+                {mobileWhereWeWorkOpen && (
+                  <div className="pl-3 py-1 space-y-1 border-l border-emerald-700/60 my-1">
+                    {whereWeWorkSubItems[currentLang].map((sub) => (
+                      <button
+                        key={sub.id}
+                        type="button"
+                        onClick={() => handleNavClick(sub.targetId)}
+                        className="w-full text-left py-1.5 text-xs text-stone-200 hover:text-amber-300 flex items-center gap-2"
+                      >
+                        <span className="text-amber-400 shrink-0">{sub.icon}</span>
+                        <span>{sub.label}</span>
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              {/* Item 4: Our Impact (Accordion) */}
+              <div>
                 <button
                   type="button"
-                  onClick={() => handleNavClick('ai-for-good')}
-                  className="w-full text-left py-1.5 text-xs font-semibold text-stone-100 hover:text-amber-300"
+                  onClick={() => setMobileOurImpactOpen(!mobileOurImpactOpen)}
+                  className="w-full flex items-center justify-between py-1.5 text-sm font-bold text-white hover:text-amber-300"
                 >
-                  {t.nav.aiForGood}
+                  <div className="flex flex-col text-left">
+                    <span className="text-[10px] text-emerald-200/80 font-normal">
+                      {currentLang === 'am' ? 'ውጤት' : currentLang === 'om' ? 'Bu\'aa' : currentLang === 'ti' ? 'ጽልዋ' : 'Results'}
+                    </span>
+                    <span>{t.nav.ourImpact}</span>
+                  </div>
+                  <ChevronDown className={`w-4 h-4 transition-transform ${mobileOurImpactOpen ? 'rotate-180 text-amber-300' : ''}`} />
                 </button>
-                <button
-                  type="button"
-                  onClick={() => handleNavClick('our-impact')}
-                  className="w-full text-left py-1.5 text-xs font-bold text-amber-300 hover:underline"
-                >
-                  {t.nav.ourImpact}
-                </button>
-                <button
-                  type="button"
-                  onClick={() => handleNavClick('stories')}
-                  className="w-full text-left py-1.5 text-xs font-semibold text-stone-100 hover:text-amber-300"
-                >
-                  {t.nav.stories}
-                </button>
-                <button
-                  type="button"
-                  onClick={() => handleNavClick('blogs', 'blogs')}
-                  className="w-full text-left py-1.5 text-xs font-semibold text-stone-100 hover:text-amber-300"
-                >
-                  {t.nav.blog}
-                </button>
+                {mobileOurImpactOpen && (
+                  <div className="pl-3 py-1 space-y-1 border-l border-emerald-700/60 my-1">
+                    {ourImpactSubItems[currentLang].map((sub) => (
+                      <button
+                        key={sub.id}
+                        type="button"
+                        onClick={() => handleNavClick(sub.targetId)}
+                        className="w-full text-left py-1.5 text-xs text-stone-200 hover:text-amber-300 flex items-center gap-2"
+                      >
+                        <span className="text-amber-400 shrink-0">{sub.icon}</span>
+                        <span>{sub.label}</span>
+                      </button>
+                    ))}
+                  </div>
+                )}
               </div>
             </div>
           </div>
@@ -724,15 +914,35 @@ export const Header: React.FC<HeaderProps> = ({
             </div>
 
             <div className="space-y-3 pl-1">
-              {/* Work with Us */}
-              <button
-                type="button"
-                onClick={() => handleNavClick('work-with-us')}
-                className="w-full text-left py-1 text-sm font-bold text-white hover:text-amber-300 flex flex-col"
-              >
-                <span className="text-[10px] text-emerald-200/80 font-normal">{t.nav.getInvolved}</span>
-                <span>{t.nav.workWithUs}</span>
-              </button>
+              {/* Item 5: Work with Us (Accordion) */}
+              <div>
+                <button
+                  type="button"
+                  onClick={() => setMobileWorkWithUsOpen(!mobileWorkWithUsOpen)}
+                  className="w-full flex items-center justify-between py-1 text-sm font-bold text-white hover:text-amber-300"
+                >
+                  <div className="flex flex-col text-left">
+                    <span className="text-[10px] text-emerald-200/80 font-normal">{t.nav.getInvolved}</span>
+                    <span>{t.nav.workWithUs}</span>
+                  </div>
+                  <ChevronDown className={`w-4 h-4 transition-transform ${mobileWorkWithUsOpen ? 'rotate-180 text-amber-300' : ''}`} />
+                </button>
+                {mobileWorkWithUsOpen && (
+                  <div className="pl-3 py-1 space-y-1 border-l border-emerald-700/60 my-1">
+                    {workWithUsSubItems[currentLang].map((sub) => (
+                      <button
+                        key={sub.id}
+                        type="button"
+                        onClick={() => handleNavClick(sub.targetId)}
+                        className="w-full text-left py-1.5 text-xs text-stone-200 hover:text-amber-300 flex items-center gap-2"
+                      >
+                        <span className="text-amber-400 shrink-0">{sub.icon}</span>
+                        <span>{sub.label}</span>
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
 
               {/* Language Selector */}
               <div className="pt-2 border-t border-emerald-800/60 flex items-center justify-between" ref={mobileLangDropdownRef}>

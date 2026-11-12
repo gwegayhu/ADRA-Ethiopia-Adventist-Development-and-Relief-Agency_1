@@ -180,7 +180,7 @@ export const WhereWeWorkSection: React.FC<WhereWeWorkSectionProps> = ({ currentL
                 </p>
               </div>
 
-              {/* 4-Stat Grid for This Region */}
+              {/* 4-Stat Grid for This Region - Safe Regional Metrics */}
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 p-4 bg-stone-50 rounded-2xl border border-stone-200">
                 <div>
                   <div className="text-[11px] text-stone-700 font-bold uppercase tracking-wider">{www.statBeneficiaries}</div>
@@ -189,9 +189,11 @@ export const WhereWeWorkSection: React.FC<WhereWeWorkSectionProps> = ({ currentL
                   </div>
                 </div>
                 <div>
-                  <div className="text-[11px] text-stone-700 font-bold uppercase tracking-wider">{www.statActiveProjects}</div>
-                  <div className="text-lg sm:text-xl font-bold text-stone-900 tabular-nums font-editorial">
-                    {selectedRegion.activeProjectsCount} {www.statOngoingUnit}
+                  <div className="text-[11px] text-stone-700 font-bold uppercase tracking-wider">
+                    {currentLang === 'am' ? 'የመስክ ማስተባበሪያ' : currentLang === 'om' ? 'Qindeessaa' : currentLang === 'ti' ? 'መተሓባበሪ' : 'Field Hub'}
+                  </div>
+                  <div className="text-sm sm:text-base font-bold text-stone-900 font-sans truncate mt-0.5">
+                    {locRegion.fieldHub}
                   </div>
                 </div>
                 <div>
@@ -201,9 +203,11 @@ export const WhereWeWorkSection: React.FC<WhereWeWorkSectionProps> = ({ currentL
                   </div>
                 </div>
                 <div>
-                  <div className="text-[11px] text-stone-700 font-bold uppercase tracking-wider">{www.statWoredas}</div>
-                  <div className="text-lg sm:text-xl font-bold text-stone-900 tabular-nums font-editorial">
-                    {selectedRegion.woredasCount} {www.statDistrictsUnit}
+                  <div className="text-[11px] text-stone-700 font-bold uppercase tracking-wider">
+                    {currentLang === 'am' ? 'ቁልፍ ዘርፎች' : currentLang === 'om' ? 'Sekteroota' : currentLang === 'ti' ? 'ዘርፍታት' : 'Focus Sectors'}
+                  </div>
+                  <div className="text-lg sm:text-xl font-bold text-[#006643] tabular-nums font-editorial">
+                    {locRegion.primaryInterventions.length} {currentLang === 'am' ? 'ዘርፎች' : currentLang === 'om' ? 'Sekteroota' : currentLang === 'ti' ? 'ዘርፍታት' : 'Sectors'}
                   </div>
                 </div>
               </div>
@@ -233,22 +237,30 @@ export const WhereWeWorkSection: React.FC<WhereWeWorkSectionProps> = ({ currentL
 
             </div>
 
-            {/* Right 5 Columns: Active Field Projects & Primary Interventions */}
+            {/* Right 5 Columns: Regional Field Operations & Strategic Priorities (Projects Section Hidden) */}
             <div className="lg:col-span-5 space-y-6 lg:border-l lg:border-stone-200 lg:pl-8">
 
-              {/* Ongoing Projects in this Region */}
+              {/* Regional Strategic Priorities */}
               <div className="space-y-3">
                 <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-stone-700">
                   <Building className="w-4 h-4 text-[#006643]" />
-                  <span>{www.currentProjectsLabel}</span>
+                  <span>
+                    {currentLang === 'am'
+                      ? 'የክልሉ ስትራቴጂካዊ የትኩረት መስኮች'
+                      : currentLang === 'om'
+                      ? 'Tarkaanfiiwwan Ijoo Naannichaa'
+                      : currentLang === 'ti'
+                      ? 'ቀንዲ ስትራተጂካዊ ትኹረት'
+                      : 'Regional Strategic Focus Areas'}
+                  </span>
                 </div>
                 <div className="space-y-2">
-                  {locRegion.activeProjects.map((proj, idx) => (
+                  {locRegion.primaryInterventions.map((intervention, idx) => (
                     <div
                       key={idx}
                       className="p-3.5 bg-stone-50 rounded-xl border border-stone-200 text-xs sm:text-sm text-stone-800 flex items-center justify-between gap-3"
                     >
-                      <span className="font-medium">{proj}</span>
+                      <span className="font-medium">{intervention}</span>
                       <span className="text-[11px] font-bold text-[#006643] bg-emerald-100/80 px-2 py-0.5 rounded-md shrink-0">
                         {c.active}
                       </span>

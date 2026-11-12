@@ -148,10 +148,10 @@ export const FOCUS_AREAS_DATA: FocusAreaData[] = [
         ti: 'ዲባባ፣ ኣቦ-መንበር PTSA'
       },
       location: {
-        en: 'ATJK Woreda, Oromia',
-        am: 'አዳሚ ቱሉ (ATJK)፣ ኦሮሚያ',
-        om: 'Aanaa ATJK, Oromiyaa',
-        ti: 'ወረዳ ATJK፣ ኦሮሚያ'
+        en: 'Oromia Region',
+        am: 'የኦሮሚያ ክልል',
+        om: 'Naannoo Oromiyaa',
+        ti: 'ክልል ኦሮሚያ'
       }
     },
     activeWoredas: {

@@ -146,7 +146,7 @@ export const GIS_PROJECTS_DATA: GISProject[] = [
   {
     id: 1,
     sector: "Education",
-    location: "Oromia (ATJK, Negelle Arsi, Modjo, Bora, Meki, Bulbula)",
+    location: "Oromia Region",
     name: "Integrated formal and TVET education in ATJK and SEAQE II Project in Oromia",
     objective: "Improved management of formal and TVET education, infrastructure enhancement, and inclusive access.",
     duration: "March 1, 2019 – Feb 2024",
@@ -170,7 +170,7 @@ export const GIS_PROJECTS_DATA: GISProject[] = [
   {
     id: 3,
     sector: "Education",
-    location: "Dire Dawa, Afar Zone 3, Arba Minch, Wolkete",
+    location: "Dire Dawa & Multi-Region",
     name: "Vocational Qualification & Employment Perspectives (VQEP) for Youth and Women in the Solar Energy Sector",
     objective: "Livelihoods of unemployed youth and women improved, strengthening the renewable energy sector.",
     duration: "October 01, 2022 – December 31, 2025",
@@ -182,7 +182,7 @@ export const GIS_PROJECTS_DATA: GISProject[] = [
   {
     id: 4,
     sector: "Integrated Agriculture and Health",
-    location: "Adadle Woreda, Shabelle Zone, Somali Region",
+    location: "Somali Region",
     name: "Integrated multi-sector emergency response for acute malnutrition through agriculture, food, health, nutrition and WASH",
     objective: "Save lives, prevent mortality rates and reduce acute malnutrition and disease cases in drought-affected IDP sites.",
     duration: "01/02/2023 - 31/01/2024",
@@ -194,7 +194,7 @@ export const GIS_PROJECTS_DATA: GISProject[] = [
   {
     id: 5,
     sector: "WASH",
-    location: "Shebelle Zone (Adadle and Gode Woredas)",
+    location: "Somali Region",
     name: "WASH Emergency response in communities affected by drought disaster",
     objective: "Provide life-saving humanitarian assistance to improve WASH in emergency for vulnerable drought-affected individuals.",
     duration: "Oct 24, 2022 up to November 30, 2023",
@@ -206,7 +206,7 @@ export const GIS_PROJECTS_DATA: GISProject[] = [
   {
     id: 6,
     sector: "Education",
-    location: "Ethiopia",
+    location: "Multi-Region / National",
     name: "Together for the Inclusion (TOFI)",
     objective: "To provide support for children in inclusion aspect in education sector.",
     duration: "01 October 2020 up to 31 December 2023",
@@ -218,7 +218,7 @@ export const GIS_PROJECTS_DATA: GISProject[] = [
   {
     id: 7,
     sector: "WASH",
-    location: "North Wollo, Amhara Region",
+    location: "Amhara Region",
     name: "WASH assistance for conflict crisis response",
     objective: "Rebuild water supply system and sanitary facilities, conduct hygiene promotion for IDPs and host communities.",
     duration: "30th November 2022 to 30 September 2023",
@@ -230,7 +230,7 @@ export const GIS_PROJECTS_DATA: GISProject[] = [
   {
     id: 8,
     sector: "WASH",
-    location: "Ada'ar woreda, Afar Region",
+    location: "Afar Region",
     name: "Post-war recovery for conflict-affected populations in Afar region",
     objective: "Restore livelihoods by promoting livestock rearing, drinking water, and education across 5 kebeles.",
     duration: "01/05/2023 - 31/12/2023",
@@ -242,7 +242,7 @@ export const GIS_PROJECTS_DATA: GISProject[] = [
   {
     id: 9,
     sector: "Health (Psycho-social Support)",
-    location: "Mekelle and Shire, Tigray Region",
+    location: "Tigray Region",
     name: "Psycho-social Support and Employment Opportunities (PSSEO)",
     objective: "Improved psychosocial wellbeing through comprehensive services and integrated IGA skills and life skills training.",
     duration: "1 October, 2022 – Aug 31, 2023",
@@ -254,7 +254,7 @@ export const GIS_PROJECTS_DATA: GISProject[] = [
   {
     id: 10,
     sector: "Emergency Food Assistance",
-    location: "Mekelle and Surroundings, Tigray Region",
+    location: "Tigray Region",
     name: "Emergency response for conflict-affected most vulnerable IDPs and HCs",
     objective: "Saving lives through food and NFIs, distance learning via solar-powered radios, and medical supplies.",
     duration: "01st November 2022 - Aug 31, 2023",
@@ -278,7 +278,7 @@ export const GIS_PROJECTS_DATA: GISProject[] = [
   {
     id: 12,
     sector: "Agriculture",
-    location: "Mustahil, Fer-Fer, and Higloley (Shebele & Korahe Zones)",
+    location: "Somali Region",
     name: "Livelihood based Emergency Response for drought affected IDP population",
     objective: "Improve agriculture status and reduce morbidity/mortality of infants, children under five, and PLWs.",
     duration: "30/04/2022 - 31/10/2022",
@@ -290,7 +290,7 @@ export const GIS_PROJECTS_DATA: GISProject[] = [
   {
     id: 13,
     sector: "Livelihood",
-    location: "Shebele Zone",
+    location: "Somali Region",
     name: "Integrated Drought Response and Recovery (IDRR)",
     objective: "Multi-faceted interventions contributing to saving lives and protecting/restoring livelihoods in partnership with VSF Suisse.",
     duration: "July 01, 2022 – April 30, 2023",
@@ -302,7 +302,7 @@ export const GIS_PROJECTS_DATA: GISProject[] = [
   {
     id: 14,
     sector: "Nutrition",
-    location: "ADRA Target Schools",
+    location: "Somali Region",
     name: "School Feeding Project for Drought ravaged ADRA Ethiopia Target School",
     objective: "Reduce dropout rates, improve nutrition/health status, and empower 30 organized mothers.",
     duration: "Sept. 11, 2022 up to June 30, 2022",
@@ -314,7 +314,7 @@ export const GIS_PROJECTS_DATA: GISProject[] = [
   {
     id: 15,
     sector: "WASH",
-    location: "Kule Refugee Camp, Gambella Region",
+    location: "Gambella Region",
     name: "Strengthening WASH capability for South Sudanese refugees",
     objective: "Build capacity to address WASH challenges independently and improve hygiene and sanitation practices.",
     duration: "16 September 2022 to 15 March 2023",
@@ -340,17 +340,17 @@ export const REGIONS_DATA: RegionData[] = [
     beneficiariesCount: 289000,
     activeProjects: [
       'Building Opportunity for Livelihood Development and Enhanced Resilience (BOLDER)/RIHA II',
-      'Integrated multi-sector emergency response for acute malnutrition (Adadle Woreda)',
+      'Integrated multi-sector emergency response for acute malnutrition (Somali Region)',
       'WASH Emergency response in communities affected by drought disaster (Shebelle Zone)',
-      'Livelihood based Emergency Response for drought affected IDP (Mustahil, Fer-Fer, Higloley)',
+      'Livelihood based Emergency Response for drought affected IDP (Somali Region)',
       'Integrated Drought Response and Recovery (IDRR - Shebele Zone)',
       'School Feeding Project for Drought Ravaged Schools'
     ],
     activeProjectsAm: [
       'የኑሮ ልማትና ጽናት ግንባታ (BOLDER / RIHA II)',
-      'በአዳድሌ ወረዳ የተቀናጀ የአደጋ ጊዜ ስነ-ምግብ ምላሽ',
+      'በሶማሌ ክልል የተቀናጀ የአደጋ ጊዜ ስነ-ምግብ ምላሽ',
       'በሸበሌ ዞን ለድርቅ ተጎጂዎች አስቸኳይ የውሃና ንጽህና (WASH) ምላሽ',
-      'በሙስታሂል፣ ፈርፈርና ሂግሎሌይ የኑሮ መልሶ ግንባታ ምላሽ',
+      'በሶማሌ ክልል የኑሮ መልሶ ግንባታ ምላሽ',
       'የተቀናጀ የድርቅ ምላሽና ማገገሚያ (IDRR - ሸበሌ)',
       'በድርቅ ለተጎዱ ትምህርት ቤቶች የተማሪዎች ምገባ ፕሮጀክት'
     ],
@@ -507,37 +507,37 @@ export const REGIONS_DATA: RegionData[] = [
     beneficiaries: '9,600+',
     beneficiariesCount: 9600,
     activeProjects: [
-      "Post-war recovery for conflict-affected populations (Ada'ar woreda)",
+      "Post-war recovery for conflict-affected populations (Afar Region)",
       'Emergency food assistance to conflict displaced IDP'
     ],
     activeProjectsAm: [
-      'በአዳአር ወረዳ ከግጭት በኋላ የማገገምና መልሶ ግንባታ ፕሮጀክት',
+      'በአፋር ክልል ከግጭት በኋላ የማገገምና መልሶ ግንባታ ፕሮጀክት',
       'በግጭት ለተፈናቀሉ ወገኖች አስቸኳይ የምግብ እርዳታ'
     ],
     activeProjectsOm: [
-      "Bayyanannaa hawaasaa (Aanaa Ada'aar)",
+      "Bayyanannaa hawaasaa (Naannoo Affaar)",
       'Gargaarsa nyaataa buqqaatotaaf'
     ],
     activeProjectsTi: [
-      'ድሕረ-ኲናት ምሕዋይ (ወረዳ ኣዳዓር)',
+      'ድሕረ-ኲናት ምሕዋይ (ክልል ዓፋር)',
       'ህጹጽ ሓገዝ መግቢ ንተመዛበልቲ'
     ],
     activeProjectsCount: 2,
     solarWellsCount: 22,
     budgetDeployed: '$1,800,000 USD',
     woredasCount: 2,
-    fieldHub: "Semera & Ada'ar Project Bases",
-    fieldHubAm: 'ሰመራ እና አዳአር መስክ ቢሮዎች',
-    fieldHubOm: "Buufata Samaraa fi Ada'aar",
-    fieldHubTi: 'ማእከላት ሰመራን ኣዳዓርን',
+    fieldHub: "Semera Regional Hub",
+    fieldHubAm: 'ሰመራ የክልል ማስተባበሪያ',
+    fieldHubOm: "Buufata Qindeessaa Samaraa",
+    fieldHubTi: 'ማእከል መተሓባበሪ ሰመራ',
     primaryInterventions: ['Drinking water access', 'Livestock rearing & pastoral recovery', 'Emergency food distributions'],
     primaryInterventionsAm: ['የመጠጥ ውሃ አቅርቦት', 'የእንስሳት እርባታና መልሶ ማቋቋም', 'አስቸኳይ የምግብ እርዳታ'],
     primaryInterventionsOm: ['Bishaan dhugaatii qulqulluu', 'Horsiisa beeladaa deebisuu', 'Raabsa nyaataa yeroo balaa'],
     primaryInterventionsTi: ['ቀረብ ዝስተ ማይ', 'ምርባሕ ከብትን ምሕዋይን', 'ህጹጽ ምዕዳል መግቢ'],
-    summary: "Across 5 kebeles of Ada'ar woreda and conflict-affected settlements in Afar, ADRA restores livelihoods, rehabilitates essential drinking water sources, and delivers emergency food rations.",
-    summaryAm: 'አድራ በአዳአር ወረዳ 5 ቀበሌዎችና በአፋር የግጭት አካባቢዎች የኑሮ ማገገሚያ፣ የመጠጥ ውሃ እና አስቸኳይ የምግብ ድጋፍ ያደርሳል።',
-    summaryOm: "Gandaalee Ada'aar 5 fi Affaar keessatti ADRAn jireenya deebisuu, madda bishaan dhugaatii suphuu fi nyaata yeroo balaa kenna.",
-    summaryTi: 'ኣብ 5 ጣብያታት ኣዳዓርን ዓፋርን ኣድራ መነባብሮ ምምላስ፣ ምንጪ ማይ ምጽጋንን ህጹጽ መግብን የብጽሕ።',
+    summary: "Across vulnerable communities and pastoral settlements in Afar, ADRA restores livelihoods, rehabilitates essential drinking water sources, and delivers emergency food rations.",
+    summaryAm: 'አድራ በአፋር ክልል ተጋላጭ አካባቢዎች የኑሮ ማገገሚያ፣ የመጠጥ ውሃ እና አስቸኳይ የምግብ ድጋፍ ያደርሳል።',
+    summaryOm: "Affaar keessatti ADRAn jireenya deebisuu, madda bishaan dhugaatii suphuu fi nyaata yeroo balaa kenna.",
+    summaryTi: 'ኣብ ዓፋር ኣድራ መነባብሮ ምምላስ፣ ምንጪ ማይ ምጽጋንን ህጹጽ መግብን የብጽሕ።',
     svgPath: 'M 250,90 L 310,110 L 350,180 L 280,180 L 260,130 Z',
     labelCoord: { x: 295, y: 145 },
     gisCoordinates: [11.85, 41.10],

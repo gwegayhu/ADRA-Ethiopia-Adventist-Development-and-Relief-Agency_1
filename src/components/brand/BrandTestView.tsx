@@ -490,7 +490,7 @@ export const BrandTestView: React.FC<BrandTestViewProps> = ({
                 <StatCallout
                   value="288+"
                   caption="SOLAR WATER STATIONS"
-                  subtext="Deep borehole solar pumping systems built across arid woredas."
+                  subtext="Deep borehole solar pumping systems built across arid regions."
                   tone="green"
                 />
               </div>
@@ -609,7 +609,7 @@ export const BrandTestView: React.FC<BrandTestViewProps> = ({
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
             <div className="space-y-3">
               <p className="text-sm text-[#54585A] font-serif leading-relaxed">
-                When network connectivity is weak or severed in remote Ethiopian woredas, ADRA Ethiopia’s service worker maintains the cached shell and allows users to submit inquiry forms which queue safely in browser storage.
+                When network connectivity is weak or severed in remote Ethiopian regions, ADRA Ethiopia’s service worker maintains the cached shell and allows users to submit inquiry forms which queue safely in browser storage.
               </p>
               
               <div className="p-4 bg-[#F0F0F0] rounded-xl space-y-2 text-xs font-mono">

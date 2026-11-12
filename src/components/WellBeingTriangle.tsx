@@ -221,10 +221,10 @@ export const WellBeingTriangle: React.FC<WellBeingTriangleProps> = ({ currentLan
           ti: 'ብውሽጣዊ መርሕነት ዝፍጸም'
         },
         desc: {
-          en: 'Deep roots in Ethiopian woredas and kebeles, working alongside pastoralist clans, elders, and local governments.',
-          am: 'በኢትዮጵያ ወረዳዎችና ቀበሌዎች ውስጥ ከማህበረሰብ መሪዎች፣ ሽማግሌዎችና አስተዳደሮች ጋር በጥብቅ ይሰራል።',
-          om: 'Aanaalee fi gandoota Itoophiyaa keessatti jaarsolii biyyaa, gosaalee fi mootummaa naannoo waliin hundaaʼe.',
-          ti: 'ኣብ ወረዳታትን ጣብያታትን ኢትዮጵያ ምስ ዓበይቲ ዓዲ፣ መራሕቲ ማሕበረሰብን ምምሕዳራትን ብቐረባ ይሰርሕ።'
+          en: 'Deep roots in Ethiopian communities across all regions, working alongside pastoralist clans, elders, and local governments.',
+          am: 'በሁሉም የኢትዮጵያ ክልሎች ከማህበረሰብ መሪዎች፣ ሽማግሌዎችና አስተዳደሮች ጋር በጥብቅ ይሰራል።',
+          om: 'Naannolee Itoophiyaa hunda keessatti jaarsolii biyyaa, gosaalee fi mootummaa naannoo waliin hundaaʼe.',
+          ti: 'ኣብ ኩሎም ክልላት ኢትዮጵያ ምስ ዓበይቲ ዓዲ፣ መራሕቲ ማሕበረሰብን ምምሕዳራትን ብቐረባ ይሰርሕ።'
         }
       },
       {

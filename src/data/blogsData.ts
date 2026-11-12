@@ -396,7 +396,7 @@ export const SAMPLE_BLOGS: BlogItem[] = [
       textAm: 'ተንቀሳቃሽ ክሊኒኩ ወደ መንደራችን ሲመጣ ልጄ በከፍተኛ ትኩሳትና ድካም ራሷን ስታ ነበር፤ የህክምና እርዳታው ህይወቷን ታድጎልኛል።',
       textOm: 'Yeroo kiliniikiin sochoo’aan ganda keenya gahe intalli koo hoo’aan of wallaaltee turte. Daqiiqaa muraasa keessatti qoricha argattee har’a lubbuun jirti.',
       textTi: 'ተንቀሳቃሲ ክሊኒክ ናብ ዓድና ምስ መጸ ጓለይ ብረስኒ ሃለዋታ ስሒታ ነይራ። ኣብ ውሽጢ ደቓይቕ ሕክምና ረኺባ ሎሚ ብህይወት ኣላ።',
-      author: 'Fatuma Ali, Pastoral Mother in Berhale Woreda'
+      author: 'Fatuma Ali, Pastoral Mother in Afar Region'
     }
   },
   {
@@ -516,7 +516,7 @@ export const SAMPLE_BLOGS: BlogItem[] = [
       textAm: 'በትምህርት ቤታችን ንጹህ ውሃ እና ምቹ የክብር መጠበቂያ ክፍል መኖሩ ትልቅ በረከት ነው፤ አሁን ምንም ሳንሸማቀቅ በሙሉ ልብ እንማራለን።',
       textOm: 'Mana barumsaatti bishaan qulqulluu fi bakka nagaa qabaachuun waan hunda jijjiire. Hin saalfannu, hin hafnu; ol jennee baranna.',
       textTi: 'ኣብ ቤት-ትምህርትና ውሑስ ቦታን ዝፈስስ ማይን ምርካብና ንኹሉ ቀዪርዎ። ሕጂ ከይሓፈርና ብምሉእ ርእሰ-ምትእምማን ንመሃር ኣለና።',
-      author: 'Genet Tariku (Age 15), Grade 8, Bensa Woreda'
+      author: 'Genet Tariku (Age 15), Grade 8, Sidama Region'
     }
   },
   {
@@ -582,8 +582,8 @@ export const SAMPLE_BLOGS: BlogItem[] = [
   {
     id: 'maternal-waiting-homes-south-ethiopia',
     slug: 'zero-maternal-deaths-solar-maternal-waiting-homes',
-    title: 'Zero Preventable Maternal Deaths: Solar-Powered Maternal Waiting Homes in Mountain Woredas',
-    titleAm: 'በደቡብ ኢትዮጵያ ተራራማ ወረዳዎች በሶላር ኃይል የሚሰሩ የእናቶች ማረፊያ ማዕከላት',
+    title: 'Zero Preventable Maternal Deaths: Solar-Powered Maternal Waiting Homes in Mountain Communities',
+    titleAm: 'በደቡብ ኢትዮጵያ ተራራማ አካባቢዎች በሶላር ኃይል የሚሰሩ የእናቶች ማረፊያ ማዕከላት',
     titleOm: 'Du’a Haadholii Hir’isuu: Mana Eeggannoo Haadholii Anniisaa Aduun Hojetu',
     titleTi: 'ዜሮ ዝክልከል ሞት ኣዴታት፡ ብጸሓይ ዝሰርሕ መጽንሒ ኣዴታት ኣብ ጎቦታት',
     category: 'Emergency Response & Health',

@@ -1,5 +1,18 @@
 import React, { useState } from 'react';
-import { Search, MapPin, Users, Hammer, BookOpen, Layers, CheckCircle, X, Heart, ExternalLink, Sparkles, AlertCircle, Table, LayoutGrid, Layers3 } from 'lucide-react';
+import {
+  Search,
+  MapPin,
+  Users,
+  Hammer,
+  BookOpen,
+  CheckCircle,
+  X,
+  Heart,
+  ExternalLink,
+  AlertCircle,
+  LayoutGrid,
+  Layers3
+} from 'lucide-react';
 import { Language } from '../types';
 import {
   PROJECTS,
@@ -41,10 +54,10 @@ const REGIONAL_GROUPS: RegionalGroup[] = [
       ti: 'ኦሮሚያ'
     },
     tagline: {
-      en: 'Formal & TVET education infrastructure integration across Central Rift Valley woredas.',
-      am: 'በመካከለኛው ስምጥ ሸለቆ ወረዳዎች የተቀናጀ መደበኛና የቴክኒክ ትምህርት መሰረተ ልማት።',
-      om: 'Babal’ina barnoota idilee fi TVET aanaalee Sulula Qiinxamaa Giddugaleessaa.',
-      ti: 'ውሁድ ስሩዕን TVETን ትሕተ-ቅርጺ ትምህርቲ ኣብ ወረዳታት ማእከላይ ስንጭሮ።'
+      en: 'Formal & TVET education infrastructure integration across Central Rift Valley.',
+      am: 'በመካከለኛው ስምጥ ሸለቆ የተቀናጀ መደበኛና የቴክኒክ ትምህርት መሰረተ ልማት።',
+      om: 'Babal’ina barnoota idilee fi TVET Sulula Qiinxamaa Giddugaleessaa.',
+      ti: 'ውሁድ ስሩዕን TVETን ትሕተ-ቅርጺ ትምህርቲ ኣብ ማእከላይ ስንጭሮ።'
     },
     projectNos: [1]
   },
@@ -110,10 +123,10 @@ const REGIONAL_GROUPS: RegionalGroup[] = [
       ti: 'ትግራይ'
     },
     tagline: {
-      en: 'Comprehensive psychosocial support, female livelihood IGA training, and food assistance in Mekelle & Shire.',
-      am: 'በመቀሌ እና ሽሬ የተሟላ የስነ-ልቦና ድጋፍ፣ የሴቶች የገቢ ማስገኛ ስልጠና እና የምግብ እርዳታ።',
-      om: 'Maqalee fi Shireetti deeggarsa xiin-sammuu, leenjii IGA dubartootaa fi gargaarsa nyaataa.',
-      ti: 'ኣብ መቐለን ሽረን ስነ-ኣእምሮኣዊ ድጋፍ፣ ስልጠና ንኣንስትን ሓገዝ መግብን።'
+      en: 'Lifesaving emergency food assistance and livelihood rehabilitation for conflict-affected households.',
+      am: 'በግጭት ለተጎዱ ቤተሰቦች ሕይወት አድን አስቸኳይ የምግብ ድጋፍ እና የኑሮ መልሶ ማቋቋም።',
+      om: 'Gargaarsa nyaata yeroo balaa lubbuu baraarsuu fi deebisanii dhaabuu hawaasaa.',
+      ti: 'ህይወት ዘድሕን ህጹጽ ናይ መግቢ ሓገዝን ምሕዋይ መነባብሮን ንዝተጎድኡ ዜጋታት።'
     },
     projectNos: [9, 10]
   },
@@ -133,10 +146,10 @@ const REGIONAL_GROUPS: RegionalGroup[] = [
       ti: 'ኣምሓራ'
     },
     tagline: {
-      en: 'Post-conflict WASH infrastructure rehabilitation and community hygiene across North Wollo.',
-      am: 'በሰሜን ወሎ በግጭት የወደሙ የውሃ መሰረተ ልማቶችን መጠገን እና የማህበረሰብ ንጽህና።',
-      om: 'Walloo Kaabaatti suphaa bu’uura WASH walitti bu’iinsaan boodaa fi eegumsa qulqullinaa.',
-      ti: 'ኣብ ሰሜን ወሎ ዝዓነወ ትሕተ-ቅርጺ WASH ምጽጋንን ጽሬት ሕብረተሰብን።'
+      en: 'Emergency food distribution, winterization support, and agricultural input replenishment.',
+      am: 'አስቸኳይ የምግብ እህል ስርጭት እና የግብርና ግብዓቶች አቅርቦት።',
+      om: 'Raabsa nyaata yeroo balaa fi galteewwan qonnaa bayyanachiisuu.',
+      ti: 'ህጹጽ ናይ መግቢ ዕድላትን ምቕራብ ናይ ሕርሻ እታዎታትን።'
     },
     projectNos: [7]
   },
@@ -156,10 +169,10 @@ const REGIONAL_GROUPS: RegionalGroup[] = [
       ti: 'ጋምቤላ'
     },
     tagline: {
-      en: 'Refugee and host community WASH capability strengthening at Kule refugee camp.',
-      am: 'በኩሌ የስደተኞች ካምፕ የስደተኞችንና አስተናጋጅ ማህበረሰቡን የውሃና ንጽህና አቅም ማጠናከር።',
-      om: 'Kaampii baqattootaa Kuleetti dandeettii WASH baqattootaa fi hawaasaa cimsuu.',
-      ti: 'ኣብ ካምፕ ስደተኛታት ኩሌ ዓቕሚ WASH ስደተኛታትን ተቀበልትን ምሕያል።'
+      en: 'Refugee protection, safe sanitation facilities, community health, and social cohesion.',
+      am: 'የስደተኞች ጥበቃ፣ የንጽህና አገልግሎት ተቋማት፣ የማህበረሰብ ጤና እና ማህበራዊ ትስስር።',
+      om: 'Eegumsa baqattootaa, tajaajila qulqullinaa, fayyaa hawaasaa fi nageenya.',
+      ti: 'ዕቝባ ስደተኛታት፣ ትካላት ጽሬት፣ ጥዕና ማሕበረሰብን ሰላምን።'
     },
     projectNos: [15]
   },
@@ -167,45 +180,45 @@ const REGIONAL_GROUPS: RegionalGroup[] = [
     id: 'multi-region',
     number: 7,
     name: {
-      en: 'Multi-Regional & Inter-Regional',
-      am: 'ባለብዙ ክልል እና ሀገራዊ ፕሮጀክቶች',
-      om: 'Naannoolee Hedduu & Biyyoolessaa',
-      ti: 'ብዙሕ-ክልላውን ሃገራውን ፕሮጀክታት'
+      en: 'Multi-Region & National Interventions',
+      am: 'ባለብዙ ክልል እና ሀገር አቀፍ ፕሮጀክቶች',
+      om: 'Naannolee Hedduu & Biyyaalessaa',
+      ti: 'ብዙሕ-ክልልን ሃገራውን ፕሮጀክትታት'
     },
     shortLabel: {
       en: 'Multi-Region',
       am: 'ባለብዙ ክልል',
-      om: 'Naannoolee',
-      ti: 'ብዙሕ ክልላት'
+      om: 'Naannolee Hedduu',
+      ti: 'ብዙሕ-ክልል'
     },
     tagline: {
-      en: 'Green TVET solar qualification and educational inclusion for children with disabilities.',
-      am: 'አረንጓዴ ኃይል የሶላር ሙያ ስልጠና እና ለአካል ጉዳተኛ ህጻናት አካታች ትምህርት።',
-      om: 'Leenjii ogummaa aduu TVET fi barnoota hunda hammataa daa’imman qaama miidhamaniif.',
-      ti: 'ሞያዊ ብቕዓት ሓምለዋይ ጸዓት TVETን ሓቛፊ ትምህርቲ ንስንኩላን ህጻናትን።'
+      en: 'Inter-regional renewable energy, emergency resilience, and national education development programs.',
+      am: 'የታዳሽ ኃይል፣ የአደጋ መከላከል ጽናት እና ሀገር አቀፍ የትምህርት ልማት ስራዎች።',
+      om: 'Anniisaa haaromfamuu, dandamannaa balaa fi misooma barnoota biyyoolessaa.',
+      ti: 'ተሓዳሲ ጸዓት፣ ምቁጽጻር ሓደጋታትን ሃገራዊ ልምዓት ትምህርትን።'
     },
     projectNos: [3, 6]
   }
 ];
 
-const SECTORS = ['All', 'Education', 'WASH', 'Health', 'Livelihood', 'Agriculture', 'Emergency'] as const;
-
 export const ProjectShowcase: React.FC<ProjectShowcaseProps> = ({
   currentLang,
-  selectedSectorFilter,
+  selectedSectorFilter = 'All',
   onOpenDonate
 }) => {
-  const [sectorFilter, setSectorFilter] = useState<string>(selectedSectorFilter || 'All');
-  const [statusFilter, setStatusFilter] = useState<string>('All');
+  const [selectedProjectId, setSelectedProjectId] = useState<number | null>(null);
+  const [sectorFilter, setSectorFilter] = useState<string>(selectedSectorFilter);
+  const [statusFilter, setStatusFilter] = useState<'All' | 'Active' | 'Completed'>('All');
   const [searchQuery, setSearchQuery] = useState<string>('');
-  const [selectedProjectId, setSelectedProjectId] = useState<string | null>(null);
-  const [activeTab, setActiveTab] = useState<'regional-tables' | 'all-table' | 'cards'>('regional-tables');
+  const [activeTab, setActiveTab] = useState<'regional-cards' | 'cards'>('regional-cards');
   const [selectedRegionTab, setSelectedRegionTab] = useState<string>('all');
 
-  const ui = UI_COPY[currentLang].projects;
+  const ui = UI_COPY[currentLang].projectShowcase;
   const common = UI_COPY[currentLang].common;
   const nav = TRANSLATIONS[currentLang].nav;
-  const projectPrefix = UI_COPY[currentLang].gisMap.projectNumPrefix;
+
+  const projectPrefix =
+    currentLang === 'am' ? 'ፕሮጀክት #' : currentLang === 'om' ? 'Pirojektii #' : currentLang === 'ti' ? 'ፕሮጀክት #' : 'Project #';
 
   const selectedProject = selectedProjectId
     ? PROJECTS.find((p) => p.id === selectedProjectId) ?? null
@@ -231,8 +244,6 @@ export const ProjectShowcase: React.FC<ProjectShowcaseProps> = ({
       loc.title.toLowerCase().includes(q) ||
       proj.region.toLowerCase().includes(q) ||
       loc.region.toLowerCase().includes(q) ||
-      (proj.woredas_towns && proj.woredas_towns.toLowerCase().includes(q)) ||
-      loc.woredas_towns.toLowerCase().includes(q) ||
       (proj.objective && proj.objective.toLowerCase().includes(q)) ||
       loc.objective.toLowerCase().includes(q) ||
       proj.summary.toLowerCase().includes(q) ||
@@ -284,9 +295,9 @@ export const ProjectShowcase: React.FC<ProjectShowcaseProps> = ({
 
           <p className="text-sm sm:text-base text-stone-200 max-w-3xl leading-relaxed font-sans">
             {currentLang === 'en'
-              ? 'Strict documentation of ADRA Ethiopia Country Office active and completed interventions. Structured per region: Oromia, Somali, Afar, Tigray, Amhara, Gambella, and Multi-Regional operations.'
+              ? 'Comprehensive humanitarian & sustainable development portfolio of ADRA Ethiopia Country Office across Oromia, Somali, Afar, Tigray, Amhara, Gambella, and Multi-Regional operations.'
               : currentLang === 'am'
-              ? 'በኦሮሚያ፣ ሶማሌ፣ አፋር፣ ትግራይ፣ አማራ፣ ጋምቤላ እና ባለብዙ ክልል ፕሮጀክቶች የተከፋፈሉ 15 ኦፊሴላዊ የልማት እና ሰብዓዊ ድጋፍ መዝገቦች።'
+              ? 'በኦሮሚያ፣ ሶማሌ፣ አፋር፣ ትግራይ፣ አማራ፣ ጋምቤላ እና ባለብዙ ክልል የተከፋፈሉ 15 ኦፊሴላዊ የልማት እና ሰብዓዊ ድጋፍ መዝገቦች።'
               : currentLang === 'om'
               ? 'Gabaasa pirojektoota ADRA Itoophiyaa 15 naannolee Oromiyaa, Somaalee, Affaar, Tigraay, Amaaraa, Gambeellaa fi sadarkaa biyyaalessaatti gaggeeffaman.'
               : 'ኣብ ኦሮሚያ፣ ሶማሌ፣ ዓፋር፣ ትግራይ፣ ኣምሓራ፣ ጋምቤላን ሃገራዊ ደረጃን ዝትግበሩ ዘለዉ 15 ፕሮጀክትታት።'}
@@ -298,7 +309,7 @@ export const ProjectShowcase: React.FC<ProjectShowcaseProps> = ({
               {ui.badges.documented}
             </div>
             <div className="px-3.5 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 font-medium text-emerald-200">
-              {ui.badges.tables}
+              {currentLang === 'am' ? '7 የትኩረት ክልሎች' : currentLang === 'om' ? 'Naannolee 7' : currentLang === 'ti' ? '7 ክልላት' : '7 Focus Regions'}
             </div>
             <div className="px-3.5 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 font-medium text-amber-300">
               {ui.badges.activeCompleted}
@@ -317,33 +328,25 @@ export const ProjectShowcase: React.FC<ProjectShowcaseProps> = ({
           {/* Master View Mode Switcher and Controls */}
           <div className="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-4 mb-6 pb-4 border-b border-stone-200">
 
-            {/* View Mode Buttons */}
+            {/* View Mode Buttons (Tables hidden for security / privacy) */}
             <div className="flex items-center bg-stone-200/80 p-1 rounded-xl border border-stone-300 text-xs">
               <button
-                onClick={() => setActiveTab('regional-tables')}
+                type="button"
+                onClick={() => setActiveTab('regional-cards')}
                 className={`px-3 py-1.5 rounded-lg font-bold cursor-pointer transition-all flex items-center gap-1.5 ${
-                  activeTab === 'regional-tables'
+                  activeTab === 'regional-cards'
                     ? 'bg-[#006643] text-white shadow-sm'
                     : 'text-stone-700 hover:text-stone-900'
                 }`}
               >
                 <Layers3 className="w-3.5 h-3.5" />
-                <span>{ui.tabRegionalTables}</span>
+                <span>
+                  {currentLang === 'am' ? 'በክልል (ካርዶች)' : currentLang === 'om' ? 'Akka Naannootti' : currentLang === 'ti' ? 'ብክልል' : 'By Region'}
+                </span>
               </button>
 
               <button
-                onClick={() => setActiveTab('all-table')}
-                className={`px-3 py-1.5 rounded-lg font-bold cursor-pointer transition-all flex items-center gap-1.5 ${
-                  activeTab === 'all-table'
-                    ? 'bg-[#006643] text-white shadow-sm'
-                    : 'text-stone-700 hover:text-stone-900'
-                }`}
-              >
-                <Table className="w-3.5 h-3.5" />
-                <span>{ui.tabFullTable}</span>
-              </button>
-
-              <button
+                type="button"
                 onClick={() => setActiveTab('cards')}
                 className={`px-3 py-1.5 rounded-lg font-bold cursor-pointer transition-all flex items-center gap-1.5 ${
                   activeTab === 'cards'
@@ -352,7 +355,9 @@ export const ProjectShowcase: React.FC<ProjectShowcaseProps> = ({
                 }`}
               >
                 <LayoutGrid className="w-3.5 h-3.5" />
-                <span>{ui.tabCards}</span>
+                <span>
+                  {currentLang === 'am' ? 'ሁሉም ካርዶች' : currentLang === 'om' ? 'Kaardii Hundaa' : currentLang === 'ti' ? 'ኩሎም ካርድታት' : 'All Cards'}
+                </span>
               </button>
             </div>
 
@@ -361,6 +366,7 @@ export const ProjectShowcase: React.FC<ProjectShowcaseProps> = ({
               {/* Status Filter */}
               <div className="flex items-center bg-stone-100 p-0.5 rounded-lg border border-stone-200 text-xs">
                 <button
+                  type="button"
                   onClick={() => setStatusFilter('All')}
                   className={`px-2.5 py-1 rounded-md font-medium cursor-pointer transition-colors ${
                     statusFilter === 'All' ? 'bg-white shadow-xs text-stone-900 font-bold' : 'text-stone-600 hover:text-stone-900'
@@ -369,6 +375,7 @@ export const ProjectShowcase: React.FC<ProjectShowcaseProps> = ({
                   {ui.allStatus}
                 </button>
                 <button
+                  type="button"
                   onClick={() => setStatusFilter('Active')}
                   className={`px-2.5 py-1 rounded-md font-medium cursor-pointer transition-colors ${
                     statusFilter === 'Active' ? 'bg-emerald-700 text-white font-bold' : 'text-stone-600 hover:text-stone-900'
@@ -377,6 +384,7 @@ export const ProjectShowcase: React.FC<ProjectShowcaseProps> = ({
                   {ui.active10}
                 </button>
                 <button
+                  type="button"
                   onClick={() => setStatusFilter('Completed')}
                   className={`px-2.5 py-1 rounded-md font-medium cursor-pointer transition-colors ${
                     statusFilter === 'Completed' ? 'bg-stone-800 text-white font-bold' : 'text-stone-600 hover:text-stone-900'
@@ -398,44 +406,26 @@ export const ProjectShowcase: React.FC<ProjectShowcaseProps> = ({
                 />
                 {searchQuery && (
                   <button
+                    type="button"
                     onClick={() => setSearchQuery('')}
-                    aria-label={common.close}
-                    className="absolute right-2.5 top-1/2 -translate-y-1/2 text-stone-400 hover:text-stone-700 cursor-pointer"
+                    className="absolute right-2.5 top-1/2 -translate-y-1/2 text-stone-400 hover:text-stone-600 p-0.5 cursor-pointer"
                   >
                     <X className="w-3.5 h-3.5" />
                   </button>
                 )}
               </div>
             </div>
+
           </div>
 
-          {/* Sector Filter Chips */}
-          <div className="flex items-center gap-1.5 overflow-x-auto pb-4 mb-6 scrollbar-none border-b border-stone-200/60">
-            <span className="text-xs font-bold text-stone-500 uppercase tracking-wider shrink-0 mr-1 flex items-center gap-1">
-              {ui.sectorLabel}
-            </span>
-            {SECTORS.map((sec) => (
-              <button
-                key={sec}
-                onClick={() => setSectorFilter(sec)}
-                className={`px-3 py-1 text-xs font-semibold rounded-lg transition-colors whitespace-nowrap shrink-0 cursor-pointer ${
-                  sectorFilter.toLowerCase() === sec.toLowerCase()
-                    ? 'bg-[#006643] text-white shadow-xs'
-                    : 'bg-white hover:bg-stone-200 text-stone-700 border border-stone-200'
-                }`}
-              >
-                {getLocalizedSectorName(sec, currentLang)}
-              </button>
-            ))}
-          </div>
-
-          {/* VIEW MODE 1: DEDICATED REGIONAL TABLES (7 Regions) */}
-          {activeTab === 'regional-tables' && (
+          {/* VIEW MODE 1: REGIONAL CARDS VIEW (Tables hidden, safe regional level) */}
+          {activeTab === 'regional-cards' && (
             <div className="space-y-10">
 
               {/* Region Quick Navigator Tabs */}
               <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none">
                 <button
+                  type="button"
                   onClick={() => setSelectedRegionTab('all')}
                   className={`px-3.5 py-1.5 text-xs font-bold rounded-lg transition-all cursor-pointer whitespace-nowrap shrink-0 ${
                     selectedRegionTab === 'all'
@@ -450,6 +440,7 @@ export const ProjectShowcase: React.FC<ProjectShowcaseProps> = ({
                   return (
                     <button
                       key={rg.id}
+                      type="button"
                       onClick={() => setSelectedRegionTab(rg.id)}
                       className={`px-3.5 py-1.5 text-xs font-bold rounded-lg transition-all cursor-pointer whitespace-nowrap shrink-0 flex items-center gap-1.5 ${
                         selectedRegionTab === rg.id
@@ -468,7 +459,7 @@ export const ProjectShowcase: React.FC<ProjectShowcaseProps> = ({
                 })}
               </div>
 
-              {/* Render Each Regional Group Table */}
+              {/* Render Each Regional Group with Cards (No Table) */}
               {REGIONAL_GROUPS
                 .filter((rg) => selectedRegionTab === 'all' || selectedRegionTab === rg.id)
                 .map((group) => {
@@ -514,108 +505,93 @@ export const ProjectShowcase: React.FC<ProjectShowcaseProps> = ({
                           <span className="text-xs px-2.5 py-1 rounded-md bg-stone-200/80 font-mono font-semibold text-stone-700">
                             {groupProjects.length} {countWord} {ui.listedWord}
                           </span>
-                          <span className="text-[11px] font-mono px-2 py-1 rounded-md bg-emerald-50 text-emerald-800 border border-emerald-200 font-semibold">
-                            {ui.idsPrefix} {group.projectNos.join(', ')}
-                          </span>
                         </div>
                       </div>
 
-                      {/* Region Projects Table */}
-                      <div className="overflow-x-auto">
-                        <table className="w-full text-left text-xs">
-                          <thead className="bg-stone-50/90 border-b border-stone-200 text-stone-700 font-bold uppercase tracking-wider text-[11px]">
-                            <tr>
-                              <th className="py-3 px-3.5 w-12 text-center">{ui.tableHeaders.no}</th>
-                              <th className="py-3 px-3.5 w-40">{ui.tableHeaders.sector}</th>
-                              <th className="py-3 px-4 min-w-[260px]">{ui.tableHeaders.nameLoc}</th>
-                              <th className="py-3 px-4 min-w-[320px]">{ui.tableHeaders.objective}</th>
-                              <th className="py-3 px-3.5 min-w-[180px]">{ui.tableHeaders.woredas}</th>
-                              <th className="py-3 px-3.5 w-32">{ui.tableHeaders.duration}</th>
-                              <th className="py-3 px-3.5 w-32">{ui.tableHeaders.beneficiaries}</th>
-                              <th className="py-3 px-3 w-28 text-center">{ui.tableHeaders.status}</th>
-                              <th className="py-3 px-3 w-24 text-center">{ui.tableHeaders.dossier}</th>
-                            </tr>
-                          </thead>
-                          <tbody className="divide-y divide-stone-200">
-                            {groupProjects.length === 0 ? (
-                              <tr>
-                                <td colSpan={9} className="py-6 text-center text-stone-500 text-xs italic">
-                                  {ui.emptyGroup}
-                                </td>
-                              </tr>
-                            ) : (
-                              groupProjects.map((p) => {
-                                const loc = getLocalizedProject(p, currentLang);
-                                const sectorDisplay = p.sectorCategory
-                                  ? getLocalizedSectorName(p.sectorCategory, currentLang)
-                                  : loc.sector;
+                      {/* Region Projects Cards Grid (No table, safe regional view) */}
+                      <div className="p-5">
+                        {groupProjects.length === 0 ? (
+                          <div className="py-6 text-center text-stone-500 text-xs italic">
+                            {ui.emptyGroup}
+                          </div>
+                        ) : (
+                          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                            {groupProjects.map((proj) => {
+                              const loc = getLocalizedProject(proj, currentLang);
+                              const sectorDisplay = proj.sectorCategory
+                                ? getLocalizedSectorName(proj.sectorCategory, currentLang)
+                                : loc.sector;
 
-                                return (
-                                  <tr key={p.id} className="hover:bg-emerald-50/30 transition-colors">
-                                    <td className="py-3.5 px-3.5 text-center font-bold text-stone-700 tabular-nums">
-                                      <span className="w-6 h-6 rounded-full bg-stone-100 flex items-center justify-center mx-auto text-stone-900 border border-stone-200 font-mono text-[11px]">
-                                        {p.projectNo}
-                                      </span>
-                                    </td>
+                              return (
+                                <div
+                                  key={proj.id}
+                                  className="bg-white rounded-2xl border border-stone-200 overflow-hidden shadow-xs hover:shadow-lg transition-all flex flex-col justify-between group"
+                                >
+                                  <div>
+                                    <div className="relative aspect-[16/10] overflow-hidden bg-stone-100">
+                                      <img
+                                        src={proj.image}
+                                        alt={loc.title}
+                                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-103"
+                                        referrerPolicy="no-referrer"
+                                      />
+                                      {proj.projectNo && (
+                                        <div className="absolute top-3 left-3 bg-stone-900/90 text-white backdrop-blur-xs px-2.5 py-0.5 rounded text-[11px] font-mono font-bold shadow-sm">
+                                          {projectPrefix}{proj.projectNo}
+                                        </div>
+                                      )}
+                                      <div className="absolute top-3 right-3 flex items-center gap-1.5">
+                                        <div className={`backdrop-blur-xs px-2.5 py-1 rounded text-[10px] font-bold uppercase tracking-wider ${
+                                          proj.status.toLowerCase().includes('active')
+                                            ? 'bg-[#006643] text-white shadow-xs'
+                                            : 'bg-stone-800/90 text-stone-200'
+                                        }`}>
+                                          {loc.status}
+                                        </div>
+                                      </div>
+                                      <div className="absolute bottom-2 left-3 right-3 bg-[#073826]/90 backdrop-blur-md px-2.5 py-1.5 rounded-lg text-white text-[11px] font-semibold flex items-center justify-between">
+                                        <span className="truncate">{sectorDisplay}</span>
+                                        <span className="text-amber-300 font-mono shrink-0 ml-2">{loc.duration}</span>
+                                      </div>
+                                    </div>
 
-                                    <td className="py-3.5 px-3.5">
-                                      <span className="font-semibold text-emerald-950 block">
-                                        {sectorDisplay}
-                                      </span>
-                                    </td>
-
-                                    <td className="py-3.5 px-4">
-                                      <div className="font-bold text-stone-900 leading-snug">
+                                    <div className="p-5 space-y-3">
+                                      <h3 className="text-base font-bold text-stone-900 font-display leading-snug line-clamp-2">
                                         {loc.title}
-                                      </div>
-                                      <div className="text-[11px] text-stone-500 flex items-center gap-1 mt-1">
-                                        <MapPin className="w-3 h-3 text-stone-400 shrink-0" />
-                                        <span>{loc.region}</span>
-                                      </div>
-                                    </td>
+                                      </h3>
 
-                                    <td className="py-3.5 px-4 text-stone-600 leading-relaxed text-[11px]">
-                                      <p className="line-clamp-3">
+                                      <p className="text-xs text-stone-600 line-clamp-3 leading-relaxed">
                                         {loc.objective || loc.summary}
                                       </p>
-                                    </td>
 
-                                    <td className="py-3.5 px-3.5 text-stone-800 font-medium text-[11px]">
-                                      {loc.woredas_towns}
-                                    </td>
+                                      <div className="pt-2 border-t border-stone-200 space-y-1.5 text-xs text-stone-700">
+                                        <div className="flex items-center gap-1.5">
+                                          <MapPin className="w-3.5 h-3.5 text-stone-400 shrink-0" />
+                                          <span className="font-semibold text-stone-900">{loc.region}</span>
+                                        </div>
+                                        <div className="flex items-center gap-1.5">
+                                          <Users className="w-3.5 h-3.5 text-emerald-700 shrink-0" />
+                                          <span className="font-bold text-[#006643] tabular-nums">{loc.beneficiaries}</span>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
 
-                                    <td className="py-3.5 px-3.5 font-mono text-[11px] text-stone-700 whitespace-nowrap">
-                                      {loc.duration}
-                                    </td>
-
-                                    <td className="py-3.5 px-3.5 font-bold text-emerald-900 text-[11px]">
-                                      {loc.beneficiaries}
-                                    </td>
-
-                                    <td className="py-3.5 px-3 text-center">
-                                      <span className={`inline-block px-2 py-0.5 rounded text-[10px] font-bold tracking-tight whitespace-nowrap ${
-                                        p.status.toLowerCase().includes('active')
-                                          ? 'bg-emerald-100 text-emerald-800 border border-emerald-300'
-                                          : 'bg-stone-100 text-stone-700 border border-stone-300'
-                                      }`}>
-                                        {loc.status}
-                                      </span>
-                                    </td>
-
-                                    <td className="py-3.5 px-3 text-center">
-                                      <button
-                                        onClick={() => setSelectedProjectId(p.id)}
-                                        className="px-2.5 py-1 rounded-md bg-stone-100 hover:bg-[#006643] text-stone-700 hover:text-white text-[11px] font-bold border border-stone-200 transition-colors cursor-pointer whitespace-nowrap"
-                                      >
-                                        {common.details}
-                                      </button>
-                                    </td>
-                                  </tr>
-                                );
-                              })
-                            )}
-                          </tbody>
-                        </table>
+                                  <div className="p-5 pt-0">
+                                    <button
+                                      type="button"
+                                      onClick={() => setSelectedProjectId(proj.id)}
+                                      className="w-full py-2.5 px-3 bg-stone-50 hover:bg-[#006643] text-stone-800 hover:text-white border border-stone-200 hover:border-[#006643] rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer shadow-2xs"
+                                    >
+                                      <span>{ui.viewDossierBtn}</span>
+                                      <ExternalLink className="w-3.5 h-3.5" />
+                                    </button>
+                                  </div>
+                                </div>
+                              );
+                            })}
+                          </div>
+                        )}
                       </div>
 
                     </div>
@@ -624,109 +600,7 @@ export const ProjectShowcase: React.FC<ProjectShowcaseProps> = ({
             </div>
           )}
 
-          {/* VIEW MODE 2: MASTER SUMMARY TABLE */}
-          {activeTab === 'all-table' && (
-            <div className="bg-white rounded-2xl border border-stone-300 overflow-hidden shadow-xs mb-8">
-              <div className="px-6 py-4 bg-stone-50 border-b border-stone-200 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
-                <div>
-                  <h3 className="text-sm font-bold text-stone-900">
-                    {ui.masterRegistryTitle}
-                  </h3>
-                  <p className="text-xs text-stone-500">
-                    {ui.showingCountTemplate
-                      .replace('{shown}', String(filteredProjects.length))
-                      .replace('{total}', String(PROJECTS.length))}
-                  </p>
-                </div>
-                <div className="flex items-center gap-2">
-                  <span className="text-[11px] font-mono text-emerald-800 font-semibold bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-200">
-                    {ui.officialRecordBadge}
-                  </span>
-                </div>
-              </div>
-
-              <div className="overflow-x-auto">
-                <table className="w-full text-left text-xs">
-                  <thead className="bg-stone-100 border-b border-stone-200 text-stone-700 font-bold uppercase tracking-wider text-[11px]">
-                    <tr>
-                      <th className="py-3 px-3.5 w-12 text-center">{ui.tableHeaders.no}</th>
-                      <th className="py-3 px-3.5 w-36">{ui.tableHeaders.sector}</th>
-                      <th className="py-3 px-4 min-w-[260px]">{ui.tableHeaders.nameLoc}</th>
-                      <th className="py-3 px-4 min-w-[320px]">{ui.tableHeaders.objective}</th>
-                      <th className="py-3 px-3.5 min-w-[180px]">{ui.tableHeaders.woredas}</th>
-                      <th className="py-3 px-3.5 w-32">{ui.tableHeaders.duration}</th>
-                      <th className="py-3 px-3.5 w-32">{ui.tableHeaders.beneficiaries}</th>
-                      <th className="py-3 px-3 w-28 text-center">{ui.tableHeaders.status}</th>
-                      <th className="py-3 px-3 w-24 text-center">{ui.tableHeaders.action}</th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-stone-200">
-                    {filteredProjects.map((p) => {
-                      const loc = getLocalizedProject(p, currentLang);
-                      const sectorDisplay = p.sectorCategory
-                        ? getLocalizedSectorName(p.sectorCategory, currentLang)
-                        : loc.sector;
-
-                      return (
-                        <tr key={p.id} className="hover:bg-stone-50 transition-colors">
-                          <td className="py-3.5 px-3.5 text-center font-bold text-stone-700 tabular-nums font-mono">
-                            {p.projectNo}
-                          </td>
-                          <td className="py-3.5 px-3.5">
-                            <span className="font-semibold text-emerald-950 block">
-                              {sectorDisplay}
-                            </span>
-                          </td>
-                          <td className="py-3.5 px-4">
-                            <div className="font-bold text-stone-900 leading-snug">
-                              {loc.title}
-                            </div>
-                            <div className="text-[11px] text-stone-500 flex items-center gap-1 mt-1">
-                              <MapPin className="w-3 h-3 text-stone-400 shrink-0" />
-                              <span>{loc.region}</span>
-                            </div>
-                          </td>
-                          <td className="py-3.5 px-4 text-stone-600 leading-relaxed text-[11px]">
-                            <p className="line-clamp-3">
-                              {loc.objective || loc.summary}
-                            </p>
-                          </td>
-                          <td className="py-3.5 px-3.5 text-stone-800 font-medium text-[11px]">
-                            {loc.woredas_towns}
-                          </td>
-                          <td className="py-3.5 px-3.5 font-mono text-[11px] text-stone-700 whitespace-nowrap">
-                            {loc.duration}
-                          </td>
-                          <td className="py-3.5 px-3.5 font-bold text-emerald-900 text-[11px]">
-                            {loc.beneficiaries}
-                          </td>
-                          <td className="py-3.5 px-3 text-center">
-                            <span className={`inline-block px-2 py-0.5 rounded text-[10px] font-bold tracking-tight whitespace-nowrap ${
-                              p.status.toLowerCase().includes('active')
-                                ? 'bg-emerald-100 text-emerald-800 border border-emerald-300'
-                                : 'bg-stone-100 text-stone-700 border border-stone-300'
-                            }`}>
-                              {loc.status}
-                            </span>
-                          </td>
-                          <td className="py-3.5 px-3 text-center">
-                            <button
-                              onClick={() => setSelectedProjectId(p.id)}
-                              className="px-2.5 py-1 rounded-md bg-emerald-50 hover:bg-emerald-100 text-emerald-800 text-[11px] font-bold border border-emerald-200 transition-colors cursor-pointer whitespace-nowrap"
-                            >
-                              {common.details}
-                            </button>
-                          </td>
-                        </tr>
-                      );
-                    })}
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          )}
-
-          {/* VIEW MODE 3: RESPONSIVE CARDS GRID */}
+          {/* VIEW MODE 2: RESPONSIVE CARDS GRID (Unified view, safe regional level) */}
           {activeTab === 'cards' && (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {filteredProjects.map((proj) => {
@@ -781,16 +655,9 @@ export const ProjectShowcase: React.FC<ProjectShowcaseProps> = ({
                         </p>
 
                         <div className="pt-2 border-t border-stone-200 space-y-1.5 text-xs text-stone-700">
-                          <div className="flex items-start gap-1.5">
-                            <MapPin className="w-3.5 h-3.5 text-stone-400 shrink-0 mt-0.5" />
-                            <div className="leading-tight">
-                              <span className="font-semibold text-stone-900">{loc.region}</span>
-                              {loc.woredas_towns && (
-                                <span className="text-stone-500 text-[11px] block truncate max-w-[280px]">
-                                  {loc.woredas_towns}
-                                </span>
-                              )}
-                            </div>
+                          <div className="flex items-center gap-1.5">
+                            <MapPin className="w-3.5 h-3.5 text-stone-400 shrink-0" />
+                            <span className="font-semibold text-stone-900">{loc.region}</span>
                           </div>
                           <div className="flex items-center gap-1.5">
                             <Users className="w-3.5 h-3.5 text-emerald-700 shrink-0" />
@@ -802,6 +669,7 @@ export const ProjectShowcase: React.FC<ProjectShowcaseProps> = ({
 
                     <div className="p-5 pt-0">
                       <button
+                        type="button"
                         onClick={() => setSelectedProjectId(proj.id)}
                         className="w-full py-2.5 px-3 bg-stone-50 hover:bg-[#006643] text-stone-800 hover:text-white border border-stone-200 hover:border-[#006643] rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer shadow-2xs"
                       >
@@ -821,6 +689,7 @@ export const ProjectShowcase: React.FC<ProjectShowcaseProps> = ({
               <p className="font-bold text-stone-800">{ui.emptySearchTitle}</p>
               <p className="text-xs text-stone-500 mt-1">{ui.emptySearchSub}</p>
               <button
+                type="button"
                 onClick={() => { setSectorFilter('All'); setStatusFilter('All'); setSearchQuery(''); }}
                 className="mt-4 px-4 py-1.5 bg-[#006643] text-white text-xs font-bold rounded-lg cursor-pointer"
               >
@@ -832,7 +701,7 @@ export const ProjectShowcase: React.FC<ProjectShowcaseProps> = ({
         </div>
       </div>
 
-      {/* Comprehensive Project Detail Modal */}
+      {/* Comprehensive Project Detail Modal (No Woreda/Kebele Level Details) */}
       {selectedProject && selectedLoc && (
         <div
           className="fixed inset-0 z-50 flex items-center justify-center bg-stone-950/75 backdrop-blur-xs p-3 sm:p-6 overflow-y-auto animate-in fade-in duration-200"
@@ -853,6 +722,7 @@ export const ProjectShowcase: React.FC<ProjectShowcaseProps> = ({
               <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/35 to-transparent" />
 
               <button
+                type="button"
                 onClick={() => setSelectedProjectId(null)}
                 className="absolute top-4 right-4 p-2 rounded-full bg-stone-900/80 hover:bg-black text-white transition-colors cursor-pointer"
                 aria-label={common.close}
@@ -860,48 +730,50 @@ export const ProjectShowcase: React.FC<ProjectShowcaseProps> = ({
                 <X className="w-5 h-5" />
               </button>
 
-              <div className="absolute top-4 left-4 flex items-center gap-2">
-                {selectedProject.projectNo && (
-                  <span className="bg-amber-400 text-stone-950 text-xs px-2.5 py-1 rounded font-mono font-bold shadow-md">
+              <div className="absolute bottom-4 left-4 right-4 text-white">
+                <div className="flex flex-wrap items-center gap-2 mb-2">
+                  <span className="bg-[#f59e0b] text-stone-950 text-xs font-mono font-black px-2.5 py-0.5 rounded shadow-sm">
                     {projectPrefix}{selectedProject.projectNo}
                   </span>
-                )}
-                <span className={`text-xs px-3 py-1 rounded font-semibold text-white ${
-                  selectedProject.status.toLowerCase().includes('active') ? 'bg-[#006643]' : 'bg-stone-700'
-                }`}>
-                  {selectedLoc.status}
-                </span>
-              </div>
-
-              <div className="absolute bottom-4 left-4 right-4 text-white">
-                <span className="text-[11px] font-bold text-amber-300 uppercase tracking-widest block mb-1">
-                  {(selectedProject.sectorCategory
-                    ? getLocalizedSectorName(selectedProject.sectorCategory, currentLang)
-                    : selectedLoc.sector)} &bull; {selectedLoc.region}
-                </span>
-                <h3 className="text-lg sm:text-2xl font-bold font-editorial leading-tight">
+                  <span className="bg-emerald-600/90 text-white text-xs font-bold px-2.5 py-0.5 rounded">
+                    {selectedLoc.sector}
+                  </span>
+                  <span className="bg-white/20 backdrop-blur-xs text-stone-100 text-xs font-medium px-2 py-0.5 rounded">
+                    {selectedLoc.status}
+                  </span>
+                </div>
+                <h3 className="text-xl sm:text-2xl font-bold font-editorial leading-tight">
                   {selectedLoc.title}
                 </h3>
               </div>
             </div>
 
-            {/* Modal Content */}
+            {/* Modal Body */}
             <div className="p-6 sm:p-8 space-y-6">
 
-              {/* Objective Block */}
-              {selectedLoc.objective && (
-                <div className="p-4 bg-emerald-50/80 rounded-xl border border-emerald-200 space-y-1.5">
-                  <div className="text-xs font-bold text-emerald-900 uppercase tracking-wider flex items-center gap-1.5">
-                    <Sparkles className="w-3.5 h-3.5 text-amber-500" />
-                    <span>{ui.modalGoalTitle}</span>
+              {/* Objective */}
+              <div>
+                <div className="text-xs font-bold uppercase tracking-wider text-emerald-800 mb-1">
+                  {ui.modalObjectiveTitle}
+                </div>
+                <p className="text-stone-700 text-xs sm:text-sm leading-relaxed">
+                  {selectedLoc.objective || selectedLoc.summary}
+                </p>
+              </div>
+
+              {/* Summary if exists */}
+              {selectedLoc.summary && selectedLoc.summary !== selectedLoc.objective && (
+                <div className="p-4 bg-emerald-50/60 rounded-xl border border-emerald-100">
+                  <div className="text-xs font-bold text-emerald-950 mb-1">
+                    {ui.modalSummaryTitle}
                   </div>
-                  <p className="text-xs sm:text-sm text-stone-800 leading-relaxed font-sans">
-                    {selectedLoc.objective}
+                  <p className="text-xs text-stone-700 leading-relaxed">
+                    {selectedLoc.summary}
                   </p>
                 </div>
               )}
 
-              {/* Key Parameters Grid */}
+              {/* Key Parameters Grid (Only mentions safe Region, no Woreda/Kebele) */}
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 p-4 bg-stone-50 rounded-xl border border-stone-200 text-xs">
                 <div>
                   <div className="text-stone-500 font-medium">{ui.modalRegionArea}</div>
@@ -915,18 +787,6 @@ export const ProjectShowcase: React.FC<ProjectShowcaseProps> = ({
                   <div className="text-stone-500 font-medium">{ui.modalBeneficiariesNum}</div>
                   <div className="font-bold text-[#006643] mt-0.5">{selectedLoc.beneficiaries}</div>
                 </div>
-
-                {selectedLoc.woredas_towns && (
-                  <div className="col-span-2 sm:col-span-3 pt-2 border-t border-stone-200">
-                    <div className="text-stone-500 font-medium flex items-center gap-1">
-                      <MapPin className="w-3 h-3 text-emerald-700" />
-                      <span>{ui.modalWoredasTitle}</span>
-                    </div>
-                    <div className="font-semibold text-stone-800 mt-0.5">
-                      {selectedLoc.woredas_towns}
-                    </div>
-                  </div>
-                )}
 
                 {selectedProject.partners && selectedProject.partners.length > 0 && (
                   <div className="col-span-2 sm:col-span-3 pt-2 border-t border-stone-200">
@@ -948,25 +808,7 @@ export const ProjectShowcase: React.FC<ProjectShowcaseProps> = ({
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                     {selectedLoc.hardComponents.map((item, idx) => (
                       <div key={idx} className="p-2.5 bg-stone-50 rounded-lg border border-stone-200 flex items-start gap-2 text-xs text-stone-700">
-                        <CheckCircle className="w-3.5 h-3.5 text-emerald-700 shrink-0 mt-0.5" />
-                        <span>{item}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {/* Materials Provisions */}
-              {selectedLoc.materialsProvisions && selectedLoc.materialsProvisions.length > 0 && (
-                <div className="space-y-3">
-                  <div className="text-xs font-bold uppercase tracking-wider text-stone-800 flex items-center gap-1.5">
-                    <Layers className="w-4 h-4 text-emerald-700" />
-                    <span>{ui.modalMaterialsTitle}</span>
-                  </div>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                    {selectedLoc.materialsProvisions.map((item, idx) => (
-                      <div key={idx} className="p-2.5 bg-stone-50 rounded-lg border border-stone-200 flex items-start gap-2 text-xs text-stone-700">
-                        <CheckCircle className="w-3.5 h-3.5 text-amber-600 shrink-0 mt-0.5" />
+                        <CheckCircle className="w-3.5 h-3.5 text-[#006643] shrink-0 mt-0.5" />
                         <span>{item}</span>
                       </div>
                     ))}
@@ -1010,6 +852,7 @@ export const ProjectShowcase: React.FC<ProjectShowcaseProps> = ({
               {/* Modal Actions */}
               <div className="pt-4 border-t border-stone-200 flex flex-wrap items-center justify-between gap-3">
                 <button
+                  type="button"
                   onClick={() => {
                     const sector = selectedProject.sector.toLowerCase();
                     setSelectedProjectId(null);
@@ -1022,6 +865,7 @@ export const ProjectShowcase: React.FC<ProjectShowcaseProps> = ({
                 </button>
 
                 <button
+                  type="button"
                   onClick={() => setSelectedProjectId(null)}
                   className="px-4 py-2.5 bg-stone-100 hover:bg-stone-200 text-stone-700 text-xs sm:text-sm font-semibold rounded-xl transition-colors cursor-pointer"
                 >
@@ -1038,4 +882,3 @@ export const ProjectShowcase: React.FC<ProjectShowcaseProps> = ({
     </section>
   );
 };
-
