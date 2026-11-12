@@ -96,7 +96,7 @@ export const WhoWeAreSection: React.FC<WhoWeAreSectionProps> = ({ currentLang, s
   const activeSubLabel = whoWeAreSubItems.find((item) => item.id === subTab)?.label || w.subLabels.aboutUs;
 
   return (
-    <section id="who-we-are" className="border-b border-stone-200 bg-white scroll-mt-20">
+    <section id="who-we-are" className="border-b border-stone-200 bg-white scroll-mt-28">
       <div className="bg-[#004D3A] text-white py-14 sm:py-16 relative overflow-hidden">
         <div className="absolute inset-0 z-0">
           <img
@@ -134,7 +134,7 @@ export const WhoWeAreSection: React.FC<WhoWeAreSectionProps> = ({ currentLang, s
         </div>
       </div>
 
-      <div className="bg-[#f4f9f6] border-b border-stone-200 sticky top-24 z-20 shadow-2xs">
+      <div className="bg-[#f4f9f6] border-b border-stone-200 sticky top-[110px] sm:top-[116px] z-20 shadow-2xs">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center gap-2 sm:gap-4 overflow-x-auto scrollbar-none py-2.5">
             <span className="text-[11px] font-bold text-stone-500 uppercase tracking-wider shrink-0 mr-1 hidden md:inline font-sans">

@@ -53,21 +53,45 @@ export const WhatWeDoSection: React.FC<WhatWeDoSectionProps> = ({ currentLang, o
     : null;
 
   useEffect(() => {
+    const normalizeId = (rawId: string) =>
+      rawId === 'livelihoods'
+        ? 'livelihood'
+        : rawId === 'disaster'
+        ? 'disaster-response'
+        : rawId;
+
     const handleOpenAreaEvent = (e: CustomEvent<string>) => {
-      const rawId = e.detail;
-      const normalizedId =
-        rawId === 'livelihoods' ? 'livelihood' :
-        rawId === 'disaster' ? 'disaster-response' :
-        rawId;
+      const normalizedId = normalizeId(e.detail);
       const target = FOCUS_AREAS_DATA.find((a) => a.id === normalizedId);
       if (target) {
         setModalTab('overview');
         setSelectedAreaId(target.id);
-        document.getElementById('what-we-do')?.scrollIntoView({ behavior: 'smooth' });
+        document.getElementById('focus-areas-grid')?.scrollIntoView({ behavior: 'smooth' });
       }
     };
+
+    const handleSelectAreaEvent = (e: CustomEvent<string>) => {
+      const rawId = e.detail;
+      if (rawId === 'all') {
+        setActiveFilter('all');
+        setSelectedAreaId(null);
+      } else {
+        const normalizedId = normalizeId(rawId);
+        const target = FOCUS_AREAS_DATA.find((a) => a.id === normalizedId);
+        if (target) {
+          setActiveFilter(target.id);
+          setSelectedAreaId(null);
+        }
+      }
+      document.getElementById('focus-areas-grid')?.scrollIntoView({ behavior: 'smooth' });
+    };
+
     window.addEventListener('adra-open-area' as any, handleOpenAreaEvent);
-    return () => window.removeEventListener('adra-open-area' as any, handleOpenAreaEvent);
+    window.addEventListener('adra-select-area' as any, handleSelectAreaEvent);
+    return () => {
+      window.removeEventListener('adra-open-area' as any, handleOpenAreaEvent);
+      window.removeEventListener('adra-select-area' as any, handleSelectAreaEvent);
+    };
   }, []);
 
   const filteredAreas = activeFilter === 'all'
@@ -142,7 +166,7 @@ export const WhatWeDoSection: React.FC<WhatWeDoSectionProps> = ({ currentLang, o
       </div>
 
       {/* Main Focus Areas Content */}
-      <div id="focus-areas-grid" className="py-16 sm:py-20 bg-[#f4f7f4]">
+      <div id="focus-areas-grid" className="py-16 sm:py-20 bg-[#f4f7f4] scroll-mt-28">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
           {/* Section Header with Filter Pills */}

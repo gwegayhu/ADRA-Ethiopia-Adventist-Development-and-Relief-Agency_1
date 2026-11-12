@@ -8,16 +8,21 @@ interface HeaderProps {
   currentLang: Language;
   onToggleLang: (lang: Language) => void;
   activePage: CorePageId;
-  onNavigatePage: (page: CorePageId, options?: { subSection?: string; pillarId?: string }) => void;
+  onNavigatePage: (
+    page: CorePageId,
+    options?: { subSection?: string; pillarId?: string; subTab?: string }
+  ) => void;
   onOpenDonate: (presetSector?: string, presetAmount?: number) => void;
   onOpenSearch: () => void;
 }
 
-type DropdownKey = 'impact' | 'about' | 'media' | null;
+type DropdownKey = 'ways-to-give' | 'impact' | 'about' | 'media' | null;
 
 const HEADER_LABELS: Record<
   Language,
   {
+    ethiopiaWord: string;
+    officeWord: string;
     home: string;
     international: string;
     waysToGive: string;
@@ -26,14 +31,33 @@ const HEADER_LABELS: Record<
     media: string;
     give: string;
     searchAria: string;
+    // Ways to Give submenu
+    currentAppeal: string;
+    giftCatalog: string;
+    howItWorks: string;
+    aiStewardship: string;
+    // Impact submenu
     health: string;
     education: string;
     livelihoods: string;
     emergency: string;
-    allImpact: string;
+    wash: string;
+    cleanEnergy: string;
+    peaceBuilding: string;
+    whereWeWork: string;
+    flagshipInitiatives: string;
+    // About submenu
     ourStory: string;
+    ourHistory: string;
+    leadershipTeam: string;
+    governancePolicies: string;
+    workWithUs: string;
     contactUs: string;
+    // Media submenu
+    latestDispatches: string;
     newsAndBlog: string;
+    fieldStories: string;
+    // International modal
     internationalTitle: string;
     internationalDesc: string;
     visitGlobal: string;
@@ -41,6 +65,8 @@ const HEADER_LABELS: Record<
   }
 > = {
   en: {
+    ethiopiaWord: 'ETHIOPIA',
+    officeWord: 'OFFICE',
     home: 'HOME',
     international: 'ADRA INTERNATIONAL',
     waysToGive: 'WAYS TO GIVE',
@@ -49,14 +75,28 @@ const HEADER_LABELS: Record<
     media: 'MEDIA',
     give: 'GIVE',
     searchAria: 'Search site',
+    currentAppeal: 'Current Appeal',
+    giftCatalog: 'Gift Catalog',
+    howItWorks: 'How It Works',
+    aiStewardship: 'AI & Accountability',
     health: 'Health',
     education: 'Education',
     livelihoods: 'Livelihoods',
     emergency: 'Emergency',
-    allImpact: 'All 7 Pillars & Ethiopia Map',
+    wash: 'Clean Water (WASH)',
+    cleanEnergy: 'Renewable Energy & Growth',
+    peaceBuilding: 'Peace Building',
+    whereWeWork: 'Regional Hubs & GIS Map',
+    flagshipInitiatives: 'Flagship Initiatives',
     ourStory: 'Our Story',
+    ourHistory: 'Our History (Since 1982)',
+    leadershipTeam: 'Leadership & Team',
+    governancePolicies: 'Governance & Policies',
+    workWithUs: 'Tenders, Careers & Reports',
     contactUs: 'Contact Us',
+    latestDispatches: 'Latest Dispatches',
     newsAndBlog: 'News & Blog',
+    fieldStories: 'Stories from the Field',
     internationalTitle: 'ADRA Global Humanitarian Network',
     internationalDesc:
       'ADRA Ethiopia is an autonomous national office within the worldwide Adventist Development and Relief Agency network, serving communities across 130+ countries.',
@@ -64,6 +104,8 @@ const HEADER_LABELS: Record<
     stayLocal: 'Stay on ADRA Ethiopia',
   },
   am: {
+    ethiopiaWord: 'ኢትዮጵያ',
+    officeWord: 'ቢሮ',
     home: 'መነሻ',
     international: 'ADRA ዓለም አቀፍ',
     waysToGive: 'የድጋፍ መንገዶች',
@@ -72,14 +114,28 @@ const HEADER_LABELS: Record<
     media: 'ሚዲያ',
     give: 'ይለግሱ',
     searchAria: 'ፈልግ',
+    currentAppeal: 'ወቅታዊ ጥሪ',
+    giftCatalog: 'የስጦታ ካታሎግ',
+    howItWorks: 'እንዴት እንደሚሰራ',
+    aiStewardship: 'AI እና ተጠያቂነት',
     health: 'ጤና',
     education: 'ትምህርት',
     livelihoods: 'የኑሮ ዋስትና',
     emergency: 'አስቸኳይ ምላሽ',
-    allImpact: 'ሁሉም 7 ምሰሶዎች እና ካርታ',
+    wash: 'ንጹህ ውሃ (WASH)',
+    cleanEnergy: 'ታዳሽ ኃይል እና ኢኮኖሚ',
+    peaceBuilding: 'ሰላም ግንባታ',
+    whereWeWork: 'የክልል ማዕከላት እና GIS ካርታ',
+    flagshipInitiatives: 'ዋና ዋና ፕሮግራሞች',
     ourStory: 'ታሪካችን',
+    ourHistory: 'ጉዟችን (ከ1982 ጀምሮ)',
+    leadershipTeam: 'አመራር እና የስራ ቡድን',
+    governancePolicies: 'አስተዳደር እና ፖሊሲዎች',
+    workWithUs: 'ጨረታዎች እና የስራ እድሎች',
     contactUs: 'ያግኙን',
+    latestDispatches: 'የቅርብ ጊዜ ዘገባዎች',
     newsAndBlog: 'ዜና እና ጦማር',
+    fieldStories: 'የመስክ ታሪኮች',
     internationalTitle: 'ዓለም አቀፍ የADRA መረብ',
     internationalDesc:
       'ADRA ኢትዮጵያ በዓለም አቀፉ የADRA መረብ ውስጥ ከ130 በላይ ሀገራትን የሚያገለግል ገለልተኛ ብሔራዊ ቢሮ ነው።',
@@ -87,6 +143,8 @@ const HEADER_LABELS: Record<
     stayLocal: 'በADRA ኢትዮጵያ ይቆዩ',
   },
   om: {
+    ethiopiaWord: 'ITOOPHIYAA',
+    officeWord: 'WAAJJIRA',
     home: 'MANA',
     international: 'ADRA ADDUNYAA',
     waysToGive: 'KARAA KENNA',
@@ -95,14 +153,28 @@ const HEADER_LABELS: Record<
     media: 'MIIDIYAA',
     give: 'KENNI',
     searchAria: 'Barbaadi',
+    currentAppeal: 'Waamicha Ammaa',
+    giftCatalog: 'Kaataaloogii Kenna',
+    howItWorks: 'Akkaataa Hojii',
+    aiStewardship: 'AI fi Itti Gaafatamummaa',
     health: 'Fayyaa',
     education: 'Barnoota',
     livelihoods: 'Jireenya',
     emergency: 'Balaa Tasaa',
-    allImpact: 'Utubaalee 7 fi Kaartaa',
+    wash: 'Bishaan Qulqulluu (WASH)',
+    cleanEnergy: 'Anniisaa Haaromsamaa',
+    peaceBuilding: 'Ijaarsa Nagaa',
+    whereWeWork: 'Damee Naannoo & Kaartaa GIS',
+    flagshipInitiatives: 'Sagantaalee Ijoo',
     ourStory: 'Seenaa Keenya',
+    ourHistory: 'Seenaa Hojii (1982 irraa)',
+    leadershipTeam: 'Hoggansa fi Garee',
+    governancePolicies: 'Bulchiinsa fi Imaammata',
+    workWithUs: 'Caalbaasii fi Carraa Hojii',
     contactUs: 'Nu Qunnamaa',
+    latestDispatches: 'Oduu Haaraa',
     newsAndBlog: 'Oduu fi Biloogii',
+    fieldStories: 'Seenaa Dirree',
     internationalTitle: 'Networkii ADRA Addunyaa',
     internationalDesc:
       'ADRA Itoophiyaan biyyoota 130+ keessatti tajaajilu qaama networkii ADRA addunyaati.',
@@ -110,6 +182,8 @@ const HEADER_LABELS: Record<
     stayLocal: 'ADRA Itoophiyaatti Turi',
   },
   ti: {
+    ethiopiaWord: 'ኢትዮጵያ',
+    officeWord: 'ቤት ጽሕፈት',
     home: 'መበገሲ',
     international: 'ADRA ዓለምለኸ',
     waysToGive: 'መንገድታት ሓገዝ',
@@ -118,14 +192,28 @@ const HEADER_LABELS: Record<
     media: 'ሚድያ',
     give: 'ለግሱ',
     searchAria: 'ድለዩ',
+    currentAppeal: 'እዋናዊ ጻውዒት',
+    giftCatalog: 'ካታሎግ ህያብ',
+    howItWorks: 'ከመይ ይሰርሕ',
+    aiStewardship: 'AIን ተሓታትነትን',
     health: 'ጥዕና',
     education: 'ትምህርቲ',
     livelihoods: 'መነባብሮ',
     emergency: 'ህጹጽ ምላሽ',
-    allImpact: 'ኩሎም 7 ዓንድታትን ካርታን',
+    wash: 'ጽሩይ ማይ (WASH)',
+    cleanEnergy: 'ታዳሽ ጸዓትን ልምዓትን',
+    peaceBuilding: 'ህንጸት ሰላም',
+    whereWeWork: 'ማእከላት ክልልን ካርታ GISን',
+    flagshipInitiatives: 'ቀንዲ መደባት',
     ourStory: 'ታሪኽና',
+    ourHistory: 'ጉዕዞና (ካብ 1982)',
+    leadershipTeam: 'መርሕነትን ጉጅለን',
+    governancePolicies: 'ምሕደራን ፖሊሲታትን',
+    workWithUs: 'ጨረታታትን ዕድላት ስራሕን',
     contactUs: 'ርኸቡና',
+    latestDispatches: 'እዋናዊ ጸብጻባት',
     newsAndBlog: 'ዜናን ብሎግን',
+    fieldStories: 'ዛንታታት መስኪ',
     internationalTitle: 'ዓለምለኻዊ መርበብ ADRA',
     internationalDesc:
       'ADRA ኢትዮጵያ ኣብ ልዕሊ 130 ሃገራት ዝነጥፍ ዓለምለኻዊ መርበብ ADRA ኣካል ዝኾነ ናጻ ቤት ጽሕፈት እዩ።',
@@ -170,15 +258,192 @@ export const Header: React.FC<HeaderProps> = ({
         setLangOpen(false);
       }
     };
+    const handleEsc = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setOpenDropdown(null);
+        setLangOpen(false);
+      }
+    };
     document.addEventListener('mousedown', handleOutside);
-    return () => document.removeEventListener('mousedown', handleOutside);
+    window.addEventListener('keydown', handleEsc);
+    return () => {
+      document.removeEventListener('mousedown', handleOutside);
+      window.removeEventListener('keydown', handleEsc);
+    };
   }, []);
 
-  const handleLinkAction = (page: CorePageId, options?: { subSection?: string; pillarId?: string }) => {
+  const handleLinkAction = (
+    page: CorePageId,
+    options?: { subSection?: string; pillarId?: string; subTab?: string }
+  ) => {
     setOpenDropdown(null);
     setMobileMenuOpen(false);
     onNavigatePage(page, options);
   };
+
+  const menuDefinitions: {
+    key: Exclude<DropdownKey, null>;
+    label: string;
+    isActive: boolean;
+    widthClass: string;
+    items: {
+      id: string;
+      label: string;
+      dividerBefore?: boolean;
+      accent?: boolean;
+      action: () => void;
+    }[];
+  }[] = [
+    {
+      key: 'ways-to-give',
+      label: labels.waysToGive,
+      isActive: activePage === 'ways-to-give',
+      widthClass: 'w-56',
+      items: [
+        {
+          id: 'current-appeal',
+          label: labels.currentAppeal,
+          action: () => handleLinkAction('ways-to-give', { subSection: 'current-appeal' }),
+        },
+        {
+          id: 'gift-catalog',
+          label: labels.giftCatalog,
+          action: () => handleLinkAction('ways-to-give', { subSection: 'gift-catalog' }),
+        },
+        {
+          id: 'how-it-works',
+          label: labels.howItWorks,
+          action: () => handleLinkAction('ways-to-give', { subSection: 'how-it-works' }),
+        },
+        {
+          id: 'ai-for-good',
+          label: labels.aiStewardship,
+          dividerBefore: true,
+          action: () => handleLinkAction('ways-to-give', { subSection: 'ai-for-good' }),
+        },
+      ],
+    },
+    {
+      key: 'impact',
+      label: labels.impact,
+      isActive: activePage === 'impact',
+      widthClass: 'w-64',
+      items: [
+        {
+          id: 'health',
+          label: labels.health,
+          action: () => handleLinkAction('impact', { pillarId: 'health', subSection: 'focus-areas-grid' }),
+        },
+        {
+          id: 'education',
+          label: labels.education,
+          action: () => handleLinkAction('impact', { pillarId: 'education', subSection: 'focus-areas-grid' }),
+        },
+        {
+          id: 'livelihood',
+          label: labels.livelihoods,
+          action: () => handleLinkAction('impact', { pillarId: 'livelihood', subSection: 'focus-areas-grid' }),
+        },
+        {
+          id: 'disaster-response',
+          label: labels.emergency,
+          action: () => handleLinkAction('impact', { pillarId: 'disaster-response', subSection: 'focus-areas-grid' }),
+        },
+        {
+          id: 'wash',
+          label: labels.wash,
+          dividerBefore: true,
+          action: () => handleLinkAction('impact', { pillarId: 'wash', subSection: 'focus-areas-grid' }),
+        },
+        {
+          id: 'economic-growth',
+          label: labels.cleanEnergy,
+          action: () => handleLinkAction('impact', { pillarId: 'economic-growth', subSection: 'focus-areas-grid' }),
+        },
+        {
+          id: 'peace-building',
+          label: labels.peaceBuilding,
+          action: () => handleLinkAction('impact', { pillarId: 'peace-building', subSection: 'focus-areas-grid' }),
+        },
+        {
+          id: 'where-we-work',
+          label: labels.whereWeWork,
+          dividerBefore: true,
+          accent: true,
+          action: () => handleLinkAction('impact', { subSection: 'where-we-work' }),
+        },
+        {
+          id: 'programs',
+          label: labels.flagshipInitiatives,
+          action: () => handleLinkAction('impact', { subSection: 'programs' }),
+        },
+      ],
+    },
+    {
+      key: 'about',
+      label: labels.about,
+      isActive: activePage === 'about' || activePage === 'contact',
+      widthClass: 'w-60',
+      items: [
+        {
+          id: 'our-story',
+          label: labels.ourStory,
+          action: () => handleLinkAction('about', { subTab: 'about-us', subSection: 'who-we-are' }),
+        },
+        {
+          id: 'our-history',
+          label: labels.ourHistory,
+          action: () => handleLinkAction('about', { subTab: 'our-history', subSection: 'who-we-are' }),
+        },
+        {
+          id: 'leadership',
+          label: labels.leadershipTeam,
+          action: () => handleLinkAction('about', { subTab: 'leadership', subSection: 'who-we-are' }),
+        },
+        {
+          id: 'governance',
+          label: labels.governancePolicies,
+          action: () => handleLinkAction('about', { subTab: 'governance', subSection: 'who-we-are' }),
+        },
+        {
+          id: 'work-with-us',
+          label: labels.workWithUs,
+          dividerBefore: true,
+          action: () => handleLinkAction('about', { subSection: 'work-with-us' }),
+        },
+        {
+          id: 'contact',
+          label: labels.contactUs,
+          dividerBefore: true,
+          accent: true,
+          action: () => handleLinkAction('contact', { subSection: 'contact' }),
+        },
+      ],
+    },
+    {
+      key: 'media',
+      label: labels.media,
+      isActive: activePage === 'media',
+      widthClass: 'w-56',
+      items: [
+        {
+          id: 'latest-news',
+          label: labels.latestDispatches,
+          action: () => handleLinkAction('media', { subSection: 'latest-news' }),
+        },
+        {
+          id: 'blogs',
+          label: labels.newsAndBlog,
+          action: () => handleLinkAction('media', { subSection: 'blogs' }),
+        },
+        {
+          id: 'stories',
+          label: labels.fieldStories,
+          action: () => handleLinkAction('media', { subSection: 'stories' }),
+        },
+      ],
+    },
+  ];
 
   const navTextCls = isEthiopic
     ? 'font-sans text-sm font-semibold tracking-normal'
@@ -266,180 +531,93 @@ export const Header: React.FC<HeaderProps> = ({
           ref={navContainerRef}
           className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-[76px] sm:h-[82px] flex items-center justify-between gap-4"
         >
-          {/* Left: Official ADRA Vertical Logo (No country name baked into artwork) */}
+          {/* Left: Official ADRA Vertical Logo + Separate ETHIOPIA OFFICE text outside clear space */}
           <button
             type="button"
             onClick={() => handleLinkAction('home')}
-            className="flex items-center shrink-0 cursor-pointer focus-visible:outline-2 focus-visible:outline-[#007B5F] rounded"
-            aria-label="ADRA Home"
+            className="flex items-center gap-3 sm:gap-3.5 shrink-0 cursor-pointer focus-visible:outline-2 focus-visible:outline-[#007B5F] rounded"
+            aria-label="ADRA Ethiopia Office Home"
           >
             <AdraLogo
               configuration="vertical"
               color="green"
-              size={58}
+              size={56}
               alt="ADRA - Adventist Development and Relief Agency"
             />
+            <div className="border-l border-stone-300 pl-3 sm:pl-3.5 py-0.5 flex flex-col text-left shrink-0">
+              <span className="text-sm sm:text-base font-bold text-[#007B5F] leading-none font-sans tracking-tight">
+                {labels.ethiopiaWord}
+              </span>
+              <span className="text-[10px] sm:text-[11px] font-bold text-[#54585A] leading-none font-sans uppercase tracking-[0.05em] mt-1">
+                {labels.officeWord}
+              </span>
+            </div>
           </button>
 
-          {/* Right: Desktop Navigation Links + GIVE Pill CTA + Search Icon */}
-          <div className="hidden lg:flex items-center gap-6 xl:gap-8 flex-wrap justify-end">
-            <nav className="flex items-center gap-6 xl:gap-8" aria-label="Main navigation">
-              {/* WAYS TO GIVE */}
-              <button
-                type="button"
-                onClick={() => handleLinkAction('ways-to-give')}
-                className={`${navTextCls} py-2 whitespace-nowrap shrink-0 transition-colors cursor-pointer ${
-                  activePage === 'ways-to-give'
-                    ? 'text-[#00614A] font-bold underline underline-offset-8 decoration-2 decoration-[#007B5F]'
-                    : 'text-[#007B5F] hover:text-[#00614A]'
-                }`}
-              >
-                {labels.waysToGive}
-              </button>
+          {/* Right: Desktop Navigation Links (Hover + Click Dropdowns) + GIVE Pill CTA + Search Icon */}
+          <div className="hidden lg:flex items-center gap-5 xl:gap-7 flex-wrap justify-end">
+            <nav className="flex items-center gap-5 xl:gap-7" aria-label="Main navigation">
+              {menuDefinitions.map((menu) => {
+                const isOpen = openDropdown === menu.key;
+                return (
+                  <div
+                    key={menu.key}
+                    className="relative"
+                    onMouseEnter={() => setOpenDropdown(menu.key)}
+                    onMouseLeave={() => setOpenDropdown(null)}
+                  >
+                    <button
+                      type="button"
+                      onClick={() =>
+                        setOpenDropdown((prev) => (prev === menu.key ? null : menu.key))
+                      }
+                      aria-expanded={isOpen}
+                      aria-haspopup="true"
+                      className={`${navTextCls} py-2 whitespace-nowrap shrink-0 transition-colors cursor-pointer inline-flex items-center gap-1 ${
+                        menu.isActive || isOpen
+                          ? 'text-[#00614A] font-bold underline underline-offset-8 decoration-2 decoration-[#007B5F]'
+                          : 'text-[#007B5F] hover:text-[#00614A]'
+                      }`}
+                    >
+                      <span>{menu.label}</span>
+                      <ChevronDown
+                        className={`w-3.5 h-3.5 transition-transform duration-150 ${
+                          isOpen ? 'rotate-180' : ''
+                        }`}
+                      />
+                    </button>
 
-              {/* IMPACT (with Dropdown) */}
-              <div
-                className="relative"
-                onMouseEnter={() => setOpenDropdown('impact')}
-                onMouseLeave={() => setOpenDropdown(null)}
-              >
-                <button
-                  type="button"
-                  onClick={() => {
-                    if (openDropdown === 'impact') {
-                      handleLinkAction('impact');
-                    } else {
-                      setOpenDropdown('impact');
-                    }
-                  }}
-                  aria-expanded={openDropdown === 'impact'}
-                  className={`${navTextCls} py-2 whitespace-nowrap shrink-0 transition-colors cursor-pointer ${
-                    activePage === 'impact'
-                      ? 'text-[#00614A] font-bold underline underline-offset-8 decoration-2 decoration-[#007B5F]'
-                      : 'text-[#007B5F] hover:text-[#00614A]'
-                  }`}
-                >
-                  {labels.impact}
-                </button>
-
-                {openDropdown === 'impact' && (
-                  <div className="absolute left-0 top-full pt-1 z-50">
-                    <div className="w-56 bg-white shadow-[0_12px_30px_rgba(0,0,0,0.12)] border-t border-stone-200 py-2">
-                      {[
-                        { id: 'health', label: labels.health },
-                        { id: 'education', label: labels.education },
-                        { id: 'livelihood', label: labels.livelihoods },
-                        { id: 'disaster-response', label: labels.emergency },
-                      ].map((item) => (
-                        <button
-                          key={item.id}
-                          type="button"
-                          onClick={() => handleLinkAction('impact', { pillarId: item.id })}
-                          className="w-full text-left px-6 py-3.5 text-[15px] font-medium font-sans text-[#231F20] hover:bg-[#E5F2EF]/60 hover:text-[#007B5F] transition-colors cursor-pointer"
+                    {isOpen && (
+                      <div className="absolute left-0 top-full pt-1 z-50">
+                        <div
+                          className={`${menu.widthClass} bg-white shadow-[0_12px_30px_rgba(0,0,0,0.12)] border-t border-stone-200 py-2`}
+                          role="menu"
                         >
-                          {item.label}
-                        </button>
-                      ))}
-                      <div className="border-t border-stone-100 mt-1 pt-1">
-                        <button
-                          type="button"
-                          onClick={() => handleLinkAction('impact')}
-                          className="w-full text-left px-6 py-3 text-xs font-bold uppercase tracking-[0.05em] font-sans text-[#007B5F] hover:bg-[#E5F2EF]/60 transition-colors cursor-pointer"
-                        >
-                          {labels.allImpact}
-                        </button>
+                          {menu.items.map((item) => (
+                            <React.Fragment key={item.id}>
+                              {item.dividerBefore && (
+                                <div className="my-1 border-t border-stone-100" />
+                              )}
+                              <button
+                                type="button"
+                                role="menuitem"
+                                onClick={item.action}
+                                className={`w-full text-left px-5 py-2.5 text-[14px] font-sans transition-colors cursor-pointer ${
+                                  item.accent
+                                    ? 'font-bold text-[#007B5F] hover:bg-[#E5F2EF]/60'
+                                    : 'font-medium text-[#231F20] hover:bg-[#E5F2EF]/60 hover:text-[#007B5F]'
+                                }`}
+                              >
+                                {item.label}
+                              </button>
+                            </React.Fragment>
+                          ))}
+                        </div>
                       </div>
-                    </div>
+                    )}
                   </div>
-                )}
-              </div>
-
-              {/* ABOUT (with Dropdown: Our Story, Contact Us) */}
-              <div
-                className="relative"
-                onMouseEnter={() => setOpenDropdown('about')}
-                onMouseLeave={() => setOpenDropdown(null)}
-              >
-                <button
-                  type="button"
-                  onClick={() => {
-                    if (openDropdown === 'about') {
-                      handleLinkAction('about');
-                    } else {
-                      setOpenDropdown('about');
-                    }
-                  }}
-                  aria-expanded={openDropdown === 'about'}
-                  className={`${navTextCls} py-2 whitespace-nowrap shrink-0 transition-colors cursor-pointer ${
-                    activePage === 'about' || activePage === 'contact'
-                      ? 'text-[#00614A] font-bold underline underline-offset-8 decoration-2 decoration-[#007B5F]'
-                      : 'text-[#007B5F] hover:text-[#00614A]'
-                  }`}
-                >
-                  {labels.about}
-                </button>
-
-                {openDropdown === 'about' && (
-                  <div className="absolute left-0 top-full pt-1 z-50">
-                    <div className="w-52 bg-white shadow-[0_12px_30px_rgba(0,0,0,0.12)] border-t border-stone-200 py-2">
-                      <button
-                        type="button"
-                        onClick={() => handleLinkAction('about')}
-                        className="w-full text-left px-6 py-3.5 text-[15px] font-medium font-sans text-[#231F20] hover:bg-[#E5F2EF]/60 hover:text-[#007B5F] transition-colors cursor-pointer"
-                      >
-                        {labels.ourStory}
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => handleLinkAction('contact')}
-                        className="w-full text-left px-6 py-3.5 text-[15px] font-medium font-sans text-[#231F20] hover:bg-[#E5F2EF]/60 hover:text-[#007B5F] transition-colors cursor-pointer"
-                      >
-                        {labels.contactUs}
-                      </button>
-                    </div>
-                  </div>
-                )}
-              </div>
-
-              {/* MEDIA (with Dropdown: News & Blog) */}
-              <div
-                className="relative"
-                onMouseEnter={() => setOpenDropdown('media')}
-                onMouseLeave={() => setOpenDropdown(null)}
-              >
-                <button
-                  type="button"
-                  onClick={() => {
-                    if (openDropdown === 'media') {
-                      handleLinkAction('media');
-                    } else {
-                      setOpenDropdown('media');
-                    }
-                  }}
-                  aria-expanded={openDropdown === 'media'}
-                  className={`${navTextCls} py-2 whitespace-nowrap shrink-0 transition-colors cursor-pointer ${
-                    activePage === 'media'
-                      ? 'text-[#00614A] font-bold underline underline-offset-8 decoration-2 decoration-[#007B5F]'
-                      : 'text-[#007B5F] hover:text-[#00614A]'
-                  }`}
-                >
-                  {labels.media}
-                </button>
-
-                {openDropdown === 'media' && (
-                  <div className="absolute left-0 top-full pt-1 z-50">
-                    <div className="w-52 bg-white shadow-[0_12px_30px_rgba(0,0,0,0.12)] border-t border-stone-200 py-2">
-                      <button
-                        type="button"
-                        onClick={() => handleLinkAction('media')}
-                        className="w-full text-left px-6 py-3.5 text-[15px] font-medium font-sans text-[#231F20] hover:bg-[#E5F2EF]/60 hover:text-[#007B5F] transition-colors cursor-pointer"
-                      >
-                        {labels.newsAndBlog}
-                      </button>
-                    </div>
-                  </div>
-                )}
-              </div>
+                );
+              })}
             </nav>
 
             {/* Primary Pill CTA: GIVE (#007B5F) */}
@@ -465,7 +643,7 @@ export const Header: React.FC<HeaderProps> = ({
           </div>
 
           {/* Mobile Controls (< lg) */}
-          <div className="flex lg:hidden items-center gap-2.5">
+          <div className="flex lg:hidden items-center gap-2">
             <button
               type="button"
               onClick={onOpenSearch}
@@ -478,7 +656,7 @@ export const Header: React.FC<HeaderProps> = ({
             <button
               type="button"
               onClick={() => onOpenDonate()}
-              className={`px-5 py-2 bg-[#007B5F] hover:bg-[#00614A] text-white font-bold text-xs rounded-full cursor-pointer font-sans ${
+              className={`px-4 py-2 bg-[#007B5F] hover:bg-[#00614A] text-white font-bold text-xs rounded-full cursor-pointer font-sans ${
                 isEthiopic ? '' : 'uppercase tracking-[0.05em]'
               }`}
             >
@@ -496,127 +674,49 @@ export const Header: React.FC<HeaderProps> = ({
           </div>
         </div>
 
-        {/* Mobile Drawer Menu */}
+        {/* Mobile Drawer Menu (< lg) */}
         {mobileMenuOpen && (
           <div className="lg:hidden bg-white border-t border-stone-200 px-5 py-4 shadow-xl space-y-1 max-h-[75vh] overflow-y-auto">
-            <button
-              type="button"
-              onClick={() => handleLinkAction('ways-to-give')}
-              className={`w-full text-left py-3 px-2 border-b border-stone-100 text-[#007B5F] font-bold font-sans text-sm ${
-                isEthiopic ? '' : 'uppercase tracking-[0.05em]'
-              }`}
-            >
-              {labels.waysToGive}
-            </button>
-
-            {/* Mobile IMPACT */}
-            <div className="border-b border-stone-100">
-              <button
-                type="button"
-                onClick={() => setMobileExpanded(mobileExpanded === 'impact' ? null : 'impact')}
-                className={`w-full flex items-center justify-between py-3 px-2 text-[#007B5F] font-bold font-sans text-sm ${
-                  isEthiopic ? '' : 'uppercase tracking-[0.05em]'
-                }`}
-              >
-                <span>{labels.impact}</span>
-                <ChevronDown
-                  className={`w-4 h-4 transition-transform ${
-                    mobileExpanded === 'impact' ? 'rotate-180' : ''
-                  }`}
-                />
-              </button>
-              {mobileExpanded === 'impact' && (
-                <div className="pl-4 pb-3 space-y-1">
-                  {[
-                    { id: 'health', label: labels.health },
-                    { id: 'education', label: labels.education },
-                    { id: 'livelihood', label: labels.livelihoods },
-                    { id: 'disaster-response', label: labels.emergency },
-                  ].map((item) => (
-                    <button
-                      key={item.id}
-                      type="button"
-                      onClick={() => handleLinkAction('impact', { pillarId: item.id })}
-                      className="block w-full text-left py-2 text-sm text-[#231F20] hover:text-[#007B5F] font-sans"
-                    >
-                      {item.label}
-                    </button>
-                  ))}
+            {menuDefinitions.map((menu, idx) => {
+              const isOpen = mobileExpanded === menu.key;
+              return (
+                <div
+                  key={menu.key}
+                  className={idx < menuDefinitions.length - 1 ? 'border-b border-stone-100' : ''}
+                >
                   <button
                     type="button"
-                    onClick={() => handleLinkAction('impact')}
-                    className="block w-full text-left py-2 text-xs font-bold uppercase tracking-[0.05em] text-[#007B5F] font-sans"
+                    onClick={() => setMobileExpanded(isOpen ? null : menu.key)}
+                    className={`w-full flex items-center justify-between py-3 px-2 text-[#007B5F] font-bold font-sans text-sm ${
+                      isEthiopic ? '' : 'uppercase tracking-[0.05em]'
+                    }`}
                   >
-                    {labels.allImpact}
+                    <span>{menu.label}</span>
+                    <ChevronDown
+                      className={`w-4 h-4 transition-transform ${isOpen ? 'rotate-180' : ''}`}
+                    />
                   </button>
+                  {isOpen && (
+                    <div className="pl-4 pb-3 space-y-1">
+                      {menu.items.map((item) => (
+                        <button
+                          key={item.id}
+                          type="button"
+                          onClick={item.action}
+                          className={`block w-full text-left py-2 text-sm font-sans ${
+                            item.accent
+                              ? 'font-bold text-[#007B5F]'
+                              : 'text-[#231F20] hover:text-[#007B5F]'
+                          }`}
+                        >
+                          {item.label}
+                        </button>
+                      ))}
+                    </div>
+                  )}
                 </div>
-              )}
-            </div>
-
-            {/* Mobile ABOUT */}
-            <div className="border-b border-stone-100">
-              <button
-                type="button"
-                onClick={() => setMobileExpanded(mobileExpanded === 'about' ? null : 'about')}
-                className={`w-full flex items-center justify-between py-3 px-2 text-[#007B5F] font-bold font-sans text-sm ${
-                  isEthiopic ? '' : 'uppercase tracking-[0.05em]'
-                }`}
-              >
-                <span>{labels.about}</span>
-                <ChevronDown
-                  className={`w-4 h-4 transition-transform ${
-                    mobileExpanded === 'about' ? 'rotate-180' : ''
-                  }`}
-                />
-              </button>
-              {mobileExpanded === 'about' && (
-                <div className="pl-4 pb-3 space-y-1">
-                  <button
-                    type="button"
-                    onClick={() => handleLinkAction('about')}
-                    className="block w-full text-left py-2 text-sm text-[#231F20] hover:text-[#007B5F] font-sans"
-                  >
-                    {labels.ourStory}
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => handleLinkAction('contact')}
-                    className="block w-full text-left py-2 text-sm text-[#231F20] hover:text-[#007B5F] font-sans"
-                  >
-                    {labels.contactUs}
-                  </button>
-                </div>
-              )}
-            </div>
-
-            {/* Mobile MEDIA */}
-            <div>
-              <button
-                type="button"
-                onClick={() => setMobileExpanded(mobileExpanded === 'media' ? null : 'media')}
-                className={`w-full flex items-center justify-between py-3 px-2 text-[#007B5F] font-bold font-sans text-sm ${
-                  isEthiopic ? '' : 'uppercase tracking-[0.05em]'
-                }`}
-              >
-                <span>{labels.media}</span>
-                <ChevronDown
-                  className={`w-4 h-4 transition-transform ${
-                    mobileExpanded === 'media' ? 'rotate-180' : ''
-                  }`}
-                />
-              </button>
-              {mobileExpanded === 'media' && (
-                <div className="pl-4 pb-2 space-y-1">
-                  <button
-                    type="button"
-                    onClick={() => handleLinkAction('media')}
-                    className="block w-full text-left py-2 text-sm text-[#231F20] hover:text-[#007B5F] font-sans"
-                  >
-                    {labels.newsAndBlog}
-                  </button>
-                </div>
-              )}
-            </div>
+              );
+            })}
           </div>
         )}
       </header>

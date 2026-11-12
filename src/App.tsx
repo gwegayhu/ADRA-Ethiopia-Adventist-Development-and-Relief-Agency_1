@@ -111,7 +111,10 @@ export default function App() {
   };
 
   const handleNavigatePage = useCallback(
-    (page: CorePageId, options?: { subSection?: string; pillarId?: string }) => {
+    (
+      page: CorePageId,
+      options?: { subSection?: string; pillarId?: string; subTab?: string }
+    ) => {
       setActivePage(page);
       if (page === 'home') {
         window.location.hash = '';
@@ -121,14 +124,24 @@ export default function App() {
         window.location.hash = `/${page}`;
       }
 
-      if (page === 'about' && options?.subSection) {
-        setWhoWeAreSubTab(options.subSection);
+      if (page === 'about' && (options?.subTab || options?.subSection)) {
+        const subTabCandidate = options.subTab || options.subSection;
+        if (
+          subTabCandidate === 'about-us' ||
+          subTabCandidate === 'our-history' ||
+          subTabCandidate === 'leadership' ||
+          subTabCandidate === 'governance'
+        ) {
+          setWhoWeAreSubTab(subTabCandidate);
+        }
       }
 
       if (page === 'impact' && options?.pillarId) {
         setActiveImpactPillar(options.pillarId);
         setTimeout(() => {
-          window.dispatchEvent(new CustomEvent('adra-open-area', { detail: options.pillarId }));
+          window.dispatchEvent(
+            new CustomEvent('adra-select-area', { detail: options.pillarId })
+          );
         }, 120);
         return;
       }
@@ -137,11 +150,11 @@ export default function App() {
         setTimeout(() => {
           const el = document.getElementById(options.subSection!);
           if (el) {
-            el.scrollIntoView({ behavior: 'smooth' });
+            el.scrollIntoView({ behavior: 'smooth', block: 'start' });
           } else {
             window.scrollTo({ top: 0, behavior: 'smooth' });
           }
-        }, 80);
+        }, 100);
       } else {
         window.scrollTo({ top: 0, behavior: 'smooth' });
       }
@@ -266,11 +279,11 @@ export default function App() {
               activePillarId={activeImpactPillar}
               onSelectPillar={(pillarId) => {
                 setActiveImpactPillar(pillarId);
-                window.dispatchEvent(new CustomEvent('adra-open-area', { detail: pillarId }));
+                window.dispatchEvent(new CustomEvent('adra-select-area', { detail: pillarId }));
               }}
               onViewAllPillars={() => {
                 setActiveImpactPillar(undefined);
-                document.getElementById('what-we-do')?.scrollIntoView({ behavior: 'smooth' });
+                window.dispatchEvent(new CustomEvent('adra-select-area', { detail: 'all' }));
               }}
             />
 
