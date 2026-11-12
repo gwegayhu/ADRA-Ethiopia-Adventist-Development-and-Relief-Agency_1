@@ -23,31 +23,31 @@
   --color-adra-gold: #F59E0B;
 }
 
-/* ADRA Global Typesetting Rules */
-body {
-  font-family: var(--font-body);
-  color: #1c1917;
-  background-color: #f9faf9;
-  text-align: left;
-  hyphens: none;
-  font-variant-caps: normal !important;
-}
+@layer base {
+  /* ADRA Global Typesetting Rules */
+  body {
+    font-family: var(--font-body);
+    color: #1c1917;
+    background-color: #ffffff;
+    text-align: left;
+    hyphens: none;
+    font-variant-caps: normal !important;
+  }
 
-/* Headings use Montserrat Bold, sentence-cased per ADRA Digital Standards */
-h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-sans);
-  font-weight: 700;
-  text-align: left;
-  letter-spacing: -0.015em;
-  font-variant-caps: normal !important;
-}
+  /* Headings use Montserrat Bold, sentence-cased per ADRA Digital Standards */
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-sans);
+    font-weight: 700;
+    letter-spacing: -0.015em;
+    font-variant-caps: normal !important;
+  }
 
-/* Body copy adheres to Zilla Slab Regular (12px to 16px), left-aligned, max 12-14 words/line */
-p {
-  font-family: var(--font-body);
-  text-align: left;
-  hyphens: none;
-  font-variant-caps: normal !important;
+  /* Body copy adheres to Zilla Slab Regular, never justified, never hyphenated */
+  p {
+    font-family: var(--font-body);
+    hyphens: none;
+    font-variant-caps: normal !important;
+  }
 }
 
 /* Accent headlines & Motto in Kaushan Script set at 3°–10° angle */

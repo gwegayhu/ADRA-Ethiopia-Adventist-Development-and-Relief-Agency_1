@@ -32,42 +32,42 @@
   --min-touch-target: 48px;
 }
 
-/* Base Body Styles */
-body {
-  font-family: var(--font-body);
-  color: var(--adra-black);
-  background-color: var(--white);
-  font-size: 16px;
-  line-height: 1.6;
-  text-align: left;
-  hyphens: none;
-  font-variant-caps: normal !important;
-}
-
-@media (min-width: 1024px) {
+@layer base {
+  /* Base Body Styles */
   body {
-    font-size: 17.5px;
+    font-family: var(--font-body);
+    color: var(--adra-black);
+    background-color: var(--white);
+    font-size: 16px;
+    line-height: 1.6;
+    text-align: left;
+    hyphens: none;
+    font-variant-caps: normal !important;
   }
-}
 
-/* Headings: Sentence case, letter-spacing 0, Montserrat Bold */
-h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-headline);
-  font-weight: 700;
-  letter-spacing: 0;
-  text-align: left;
-  text-wrap: balance;
-  font-variant-caps: normal !important;
-}
+  @media (min-width: 1024px) {
+    body {
+      font-size: 17.5px;
+    }
+  }
 
-/* Paragraphs: Zilla Slab Regular, max ~70ch (12-14 words per line), never justify, never hyphenate */
-p {
-  font-family: var(--font-body);
-  max-width: 70ch;
-  text-align: left;
-  hyphens: none;
-  text-wrap: pretty;
-  font-variant-caps: normal !important;
+  /* Headings: Sentence case, letter-spacing 0, Montserrat Bold */
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-headline);
+    font-weight: 700;
+    letter-spacing: 0;
+    text-wrap: balance;
+    font-variant-caps: normal !important;
+  }
+
+  /* Paragraphs: Zilla Slab Regular, max ~70ch (12-14 words per line), never justify, never hyphenate */
+  p {
+    font-family: var(--font-body);
+    max-width: 70ch;
+    hyphens: none;
+    text-wrap: pretty;
+    font-variant-caps: normal !important;
+  }
 }
 
 /* Captions, labels, eyebrow text, and URL "ADRA.org": ALL CAPS, Montserrat Bold, 0.05em tracking (50 tracking spec) */

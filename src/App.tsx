@@ -3,34 +3,54 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Header } from './components/Header';
 import { Hero } from './components/Hero';
+import {
+  MissionMottoSection,
+  FeaturedBandSection,
+  ImpactFourPillarsBand,
+  LatestNewsGridSection,
+} from './components/HomeTemplateSections';
+import { WaysToGivePage } from './components/WaysToGivePage';
 import { WhoWeAreSection } from './components/WhoWeAreSection';
 import { WhatWeDoSection } from './components/WhatWeDoSection';
 import { WhereWeWorkSection } from './components/WhereWeWorkSection';
 import { StoriesFromField } from './components/StoriesFromField';
 import { BlogsSection } from './components/BlogsSection';
 import { AIForGoodSection } from './components/AIForGoodSection';
-import { ImpactCalculator } from './components/ImpactCalculator';
 import { ProjectShowcase } from './components/ProjectShowcase';
 import { TendersAndCareers } from './components/TendersAndCareers';
 import { ContactSection } from './components/ContactSection';
 import { Footer } from './components/Footer';
 import { DonationModal } from './components/DonationModal';
 import { ChatbotModal } from './components/ChatbotModal';
+import { SearchModal, CorePageId } from './components/SearchModal';
 import { BrandTestView } from './components/brand/BrandTestView';
 import { Language } from './types';
 import { UI_COPY } from './data/uiCopy';
 import { MessageSquare, WifiOff, X } from 'lucide-react';
 
+const parseHashToPage = (hash: string): CorePageId => {
+  const clean = hash.toLowerCase();
+  if (clean.includes('brand-test')) return 'brand-test';
+  if (clean.includes('/impact') || clean === '#impact') return 'impact';
+  if (clean.includes('/ways-to-give') || clean === '#ways-to-give') return 'ways-to-give';
+  if (clean.includes('/about') || clean === '#about' || clean === '#who-we-are') return 'about';
+  if (clean.includes('/media') || clean === '#media' || clean === '#blogs' || clean === '#stories') return 'media';
+  if (clean.includes('/contact') || clean === '#contact') return 'contact';
+  return 'home';
+};
+
 export default function App() {
   const [currentLang, setCurrentLang] = useState<Language>(() => {
     return (localStorage.getItem('adra-lang') as Language) || 'en';
   });
-  const [activeNavTab, setActiveNavTab] = useState<string>('home');
+  const [activePage, setActivePage] = useState<CorePageId>(() =>
+    parseHashToPage(window.location.hash)
+  );
+  const [activeImpactPillar, setActiveImpactPillar] = useState<string | undefined>(undefined);
   const [whoWeAreSubTab, setWhoWeAreSubTab] = useState<string>('about-us');
-  const [currentView, setCurrentView] = useState<'portal' | 'brand-test'>('portal');
 
   // Network & PWA Resilience state
   const [isOffline, setIsOffline] = useState<boolean>(() => !navigator.onLine);
@@ -41,31 +61,22 @@ export default function App() {
   const [isDonateOpen, setIsDonateOpen] = useState(false);
   const [donateInitialSector, setDonateInitialSector] = useState<string | undefined>(undefined);
   const [donateInitialAmount, setDonateInitialAmount] = useState<number | undefined>(undefined);
-  
   const [isChatbotOpen, setIsChatbotOpen] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
 
-  // Sync language with HTML lang attribute and localStorage
   useEffect(() => {
     document.documentElement.lang = currentLang;
     localStorage.setItem('adra-lang', currentLang);
   }, [currentLang]);
 
-  // Sync hash route (#/brand-test or #brand-test)
   useEffect(() => {
-    const handleHash = () => {
-      const hash = window.location.hash.toLowerCase();
-      if (hash.includes('brand-test')) {
-        setCurrentView('brand-test');
-      } else if (currentView === 'brand-test') {
-        setCurrentView('portal');
-      }
+    const handleHashChange = () => {
+      setActivePage(parseHashToPage(window.location.hash));
     };
-    handleHash();
-    window.addEventListener('hashchange', handleHash);
-    return () => window.removeEventListener('hashchange', handleHash);
-  }, [currentView]);
+    window.addEventListener('hashchange', handleHashChange);
+    return () => window.removeEventListener('hashchange', handleHashChange);
+  }, []);
 
-  // Online / offline listeners
   useEffect(() => {
     const handleOnline = () => {
       setIsOffline(false);
@@ -87,12 +98,6 @@ export default function App() {
     setCurrentLang(lang);
   };
 
-  const handleBackToPortal = () => {
-    window.location.hash = '';
-    setCurrentView('portal');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-
   const handleOpenDonate = (presetSector?: string, presetAmount?: number) => {
     setDonateInitialSector(presetSector);
     setDonateInitialAmount(presetAmount);
@@ -105,195 +110,270 @@ export default function App() {
     setDonateInitialAmount(undefined);
   };
 
-  const handleNavigateToSection = (sectionId: string) => {
-    if (currentView !== 'portal') {
-      setCurrentView('portal');
-      window.location.hash = '';
-    }
-    setActiveNavTab(sectionId);
-    setTimeout(() => {
-      const el = document.getElementById(sectionId);
-      if (el) {
-        el.scrollIntoView({ behavior: 'smooth' });
+  const handleNavigatePage = useCallback(
+    (page: CorePageId, options?: { subSection?: string; pillarId?: string }) => {
+      setActivePage(page);
+      if (page === 'home') {
+        window.location.hash = '';
+      } else if (page === 'brand-test') {
+        window.location.hash = 'brand-test';
+      } else {
+        window.location.hash = `/${page}`;
       }
-    }, 50);
-  };
+
+      if (page === 'about' && options?.subSection) {
+        setWhoWeAreSubTab(options.subSection);
+      }
+
+      if (page === 'impact' && options?.pillarId) {
+        setActiveImpactPillar(options.pillarId);
+        setTimeout(() => {
+          window.dispatchEvent(new CustomEvent('adra-open-area', { detail: options.pillarId }));
+        }, 120);
+        return;
+      }
+
+      if (options?.subSection) {
+        setTimeout(() => {
+          const el = document.getElementById(options.subSection!);
+          if (el) {
+            el.scrollIntoView({ behavior: 'smooth' });
+          } else {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          }
+        }, 80);
+      } else {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    },
+    []
+  );
+
+  const handleNavigateToSection = useCallback(
+    (sectionId: string) => {
+      const cleanId = sectionId.replace(/^#/, '');
+      if (cleanId === 'who-we-are' || cleanId === 'work-with-us') {
+        handleNavigatePage('about', { subSection: cleanId });
+      } else if (cleanId === 'what-we-do' || cleanId === 'where-we-work' || cleanId === 'programs') {
+        handleNavigatePage('impact', { subSection: cleanId });
+      } else if (cleanId === 'our-impact' || cleanId === 'impact-calculator' || cleanId === 'ai-for-good') {
+        handleNavigatePage('ways-to-give', { subSection: cleanId });
+      } else if (cleanId === 'blogs' || cleanId === 'stories') {
+        handleNavigatePage('media', { subSection: cleanId });
+      } else if (cleanId === 'contact') {
+        handleNavigatePage('contact', { subSection: 'contact' });
+      } else {
+        handleNavigatePage('home');
+      }
+    },
+    [handleNavigatePage]
+  );
 
   const activeOffline = isOffline || isSimulatedOffline;
   const appUi = (UI_COPY[currentLang] || UI_COPY.en).app;
 
-  return (
-    <div className="min-h-screen flex flex-col bg-[#f9faf9] text-stone-900 font-sans selection:bg-[#007B5F] selection:text-white text-left">
-      {/* Offline Banner matching PWA Low-Bandwidth Resilience requirements */}
-      {activeOffline && !dismissOfflineBanner && (
-        <aside 
-          aria-label={appUi.offlineBannerAria}
-          className="bg-[#54585A] text-white py-2 px-4 text-xs font-sans border-b border-stone-600 transition-all sticky top-0 z-50 shadow-md"
-        >
-          <div className="max-w-7xl mx-auto flex items-center justify-between gap-3">
-            <div className="flex items-center gap-2.5">
-              <WifiOff className="w-4 h-4 text-amber-400 shrink-0" />
-              <span>
-                <strong>{appUi.offlineActive}</strong> {appUi.offlineMsg}
-              </span>
-              {isSimulatedOffline && (
-                <span className="px-2 py-0.5 bg-amber-400 text-stone-900 font-bold rounded text-[10px] uppercase tracking-wider">
-                  {appUi.simulationBadge}
-                </span>
-              )}
-            </div>
-            <div className="flex items-center gap-2 shrink-0">
-              {isSimulatedOffline ? (
-                <button
-                  type="button"
-                  onClick={() => setIsSimulatedOffline(false)}
-                  className="px-2 py-0.5 bg-stone-700 hover:bg-stone-600 rounded text-[11px] font-medium text-amber-200 cursor-pointer"
-                >
-                  {appUi.endSimulation}
-                </button>
-              ) : null}
-              <button
-                type="button"
-                onClick={() => setDismissOfflineBanner(true)}
-                className="p-1 text-stone-300 hover:text-white cursor-pointer"
-                aria-label={appUi.dismissOfflineAria}
-              >
-                <X className="w-3.5 h-3.5" />
-              </button>
-            </div>
-          </div>
-        </aside>
-      )}
-
-      {currentView === 'brand-test' ? (
-        /* Dedicated /brand-test Route: Demonstrates Logo variants, Color matrix with contrast ratios, 4-language typography scales, and signature devices */
+  if (activePage === 'brand-test') {
+    return (
+      <div className="min-h-screen flex flex-col bg-white text-[#231F20] font-sans text-left">
         <BrandTestView
-          onBack={handleBackToPortal}
+          onBack={() => handleNavigatePage('home')}
           currentLang={currentLang}
           onLanguageChange={handleToggleLang}
           isOffline={activeOffline}
           onToggleOfflineSimulator={() => setIsSimulatedOffline((prev) => !prev)}
         />
-      ) : (
-        <>
-          {/* Header conforming strictly to official ADRA Graphic Standards */}
-          <Header
-            currentLang={currentLang}
-            onToggleLang={handleToggleLang}
-            onOpenDonate={handleOpenDonate}
-            onOpenChatbot={() => setIsChatbotOpen(true)}
-            activeNavTab={activeNavTab}
-            setActiveNavTab={setActiveNavTab}
-            whoWeAreSubTab={whoWeAreSubTab}
-            setWhoWeAreSubTab={setWhoWeAreSubTab}
-          />
+      </div>
+    );
+  }
 
-          {/* Main Page Layout */}
-          <main className="flex-grow">
-            {/* Hero Section matching Screenshot 1 */}
+  return (
+    <div className="min-h-screen flex flex-col bg-white text-[#231F20] font-sans selection:bg-[#007B5F] selection:text-white text-left">
+      {/* Offline Banner for Low-Bandwidth PWA Resilience */}
+      {activeOffline && !dismissOfflineBanner && (
+        <aside
+          aria-label={appUi.offlineBannerAria}
+          className="bg-[#54585A] text-white py-2 px-4 text-xs font-sans border-b border-stone-600 sticky top-0 z-50 shadow-md"
+        >
+          <div className="max-w-7xl mx-auto flex items-center justify-between gap-3">
+            <div className="flex items-center gap-2.5">
+              <WifiOff className="w-4 h-4 text-amber-300 shrink-0" />
+              <span>
+                <strong>{appUi.offlineActive}</strong> {appUi.offlineMsg}
+              </span>
+            </div>
+            <button
+              type="button"
+              onClick={() => setDismissOfflineBanner(true)}
+              className="p-1 text-stone-300 hover:text-white cursor-pointer"
+              aria-label={appUi.dismissOfflineAria}
+            >
+              <X className="w-3.5 h-3.5" />
+            </button>
+          </div>
+        </aside>
+      )}
+
+      {/* Global Template Header */}
+      <Header
+        currentLang={currentLang}
+        onToggleLang={handleToggleLang}
+        activePage={activePage}
+        onNavigatePage={handleNavigatePage}
+        onOpenDonate={handleOpenDonate}
+        onOpenSearch={() => setIsSearchOpen(true)}
+      />
+
+      {/* Core Page Router Content */}
+      <main className="flex-grow">
+        {activePage === 'home' && (
+          <>
             <Hero
               currentLang={currentLang}
-              onOpenDonate={() => handleOpenDonate()}
-              onExploreClick={() => handleNavigateToSection('what-we-do')}
-              onPartnerClick={() => handleNavigateToSection('contact')}
-              onOpenChatbot={() => setIsChatbotOpen(true)}
+              onExploreImpact={(pillarId) => handleNavigatePage('impact', { pillarId })}
+              onOpenDonate={(sector) => handleOpenDonate(sector)}
             />
 
-            {/* Who We Are Section matching Screenshots 4, 5, 6 with sub-navigation */}
-            <WhoWeAreSection
+            <MissionMottoSection
               currentLang={currentLang}
-              subTab={whoWeAreSubTab}
-              setSubTab={setWhoWeAreSubTab}
+              onAboutClick={() => handleNavigatePage('about')}
             />
 
-            {/* What We Do Section (7 technical pillars with circular badges) */}
+            <FeaturedBandSection
+              currentLang={currentLang}
+              onNavigatePage={handleNavigatePage}
+              onOpenDonate={handleOpenDonate}
+            />
+
+            <ImpactFourPillarsBand
+              currentLang={currentLang}
+              onSelectPillar={(pillarId) => handleNavigatePage('impact', { pillarId })}
+              onViewAllPillars={() => handleNavigatePage('impact', { subSection: 'what-we-do' })}
+            />
+
+            <LatestNewsGridSection
+              currentLang={currentLang}
+              onOpenDonate={(sector) => handleOpenDonate(sector)}
+              onViewAllMedia={() => handleNavigatePage('media')}
+              maxCards={2}
+            />
+          </>
+        )}
+
+        {activePage === 'impact' && (
+          <>
+            <ImpactFourPillarsBand
+              currentLang={currentLang}
+              activePillarId={activeImpactPillar}
+              onSelectPillar={(pillarId) => {
+                setActiveImpactPillar(pillarId);
+                window.dispatchEvent(new CustomEvent('adra-open-area', { detail: pillarId }));
+              }}
+              onViewAllPillars={() => {
+                setActiveImpactPillar(undefined);
+                document.getElementById('what-we-do')?.scrollIntoView({ behavior: 'smooth' });
+              }}
+            />
+
             <WhatWeDoSection
               currentLang={currentLang}
               onOpenDonate={handleOpenDonate}
             />
 
-            {/* Where We Work Section matching Screenshot 7 (Regional views + interactive SVG map) */}
             <WhereWeWorkSection
               currentLang={currentLang}
               onOpenDonate={handleOpenDonate}
             />
 
-            {/* Programs / Flagship Humanitarian & Development Initiatives */}
             <div id="programs" className="scroll-mt-20">
-              <div id="get-involved">
-                <ProjectShowcase
-                  currentLang={currentLang}
-                  onOpenDonate={handleOpenDonate}
-                />
-              </div>
-            </div>
-
-            {/* Our Impact & See Your Impact Calculator */}
-            <div id="our-impact" className="scroll-mt-20">
-              <ImpactCalculator
+              <ProjectShowcase
                 currentLang={currentLang}
-                onDonateAmount={(amount) => handleOpenDonate(undefined, amount)}
+                onOpenDonate={handleOpenDonate}
               />
             </div>
+          </>
+        )}
 
-            {/* Stories - Latest from the Field matching Screenshot 3 */}
-            <StoriesFromField
+        {activePage === 'ways-to-give' && (
+          <>
+            <WaysToGivePage
               currentLang={currentLang}
               onOpenDonate={handleOpenDonate}
             />
-
-            {/* Blogs Section - 5 rich field dispatches across Ethiopia */}
-            <BlogsSection
-              currentLang={currentLang}
-              onOpenDonate={handleOpenDonate}
-            />
-
-            {/* AI for Good Section matching Screenshots 8 and 9 */}
             <AIForGoodSection
               currentLang={currentLang}
               onOpenChatbot={() => setIsChatbotOpen(true)}
             />
+          </>
+        )}
 
-            {/* Work with Us / Tenders, RFPs, Careers & Publications */}
-            <div id="work-with-us" className="scroll-mt-20">
-              <TendersAndCareers
-                currentLang={currentLang}
-              />
-            </div>
-
-            {/* Contact Headquarters & Regional Coordination Hubs */}
-            <ContactSection
+        {activePage === 'about' && (
+          <>
+            <WhoWeAreSection
               currentLang={currentLang}
+              subTab={whoWeAreSubTab}
+              setSubTab={setWhoWeAreSubTab}
             />
-          </main>
+            <div id="work-with-us" className="scroll-mt-20">
+              <TendersAndCareers currentLang={currentLang} />
+            </div>
+          </>
+        )}
 
-          {/* Institutional Footer */}
-          <Footer
-            currentLang={currentLang}
-            onOpenDonate={() => handleOpenDonate()}
-          />
-        </>
-      )}
+        {activePage === 'media' && (
+          <>
+            <LatestNewsGridSection
+              currentLang={currentLang}
+              onOpenDonate={(sector) => handleOpenDonate(sector)}
+              maxCards={4}
+            />
+            <BlogsSection
+              currentLang={currentLang}
+              onOpenDonate={handleOpenDonate}
+            />
+            <StoriesFromField
+              currentLang={currentLang}
+              onOpenDonate={handleOpenDonate}
+            />
+          </>
+        )}
 
-      {/* Floating Action Trigger (Bottom-Right) */}
-      <div className="fixed bottom-6 right-6 z-40 flex flex-col items-end gap-2.5">
-        {/* ADRA AI Trigger */}
+        {activePage === 'contact' && (
+          <ContactSection currentLang={currentLang} />
+        )}
+      </main>
+
+      {/* Global ADRA Template Footer */}
+      <Footer
+        currentLang={currentLang}
+        onToggleLang={handleToggleLang}
+        onNavigatePage={handleNavigatePage}
+      />
+
+      {/* Floating ADRA AI Action Trigger */}
+      <div className="fixed bottom-6 right-6 z-40">
         <button
+          type="button"
           onClick={() => setIsChatbotOpen(true)}
-          className="group flex items-center gap-2.5 px-4 py-3 bg-[#007B5F] hover:bg-[#004D3A] active:bg-[#003326] text-white rounded-full shadow-lg hover:shadow-xl transition-all cursor-pointer border border-emerald-400/30"
+          className="group flex items-center gap-2.5 px-4 py-3 bg-[#007B5F] hover:bg-[#00614A] active:bg-[#004D3A] text-white rounded-full shadow-lg hover:shadow-xl transition-all cursor-pointer border border-white/25"
           aria-label={appUi.openAdraAiAria}
         >
-          <div className="relative">
-            <MessageSquare className="w-5 h-5 text-amber-300" />
-            <span className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-[#f59e0b] rounded-full ring-2 ring-[#007B5F]" />
-          </div>
-          <span className="text-xs font-bold tracking-wide font-sans">
+          <MessageSquare className="w-5 h-5 text-white" />
+          <span className="text-xs font-bold tracking-[0.05em] uppercase font-sans">
             ADRA AI
           </span>
         </button>
       </div>
 
-      {/* Chatbot Modal - linking information sources across all website contents */}
+      {/* Global Search Modal */}
+      <SearchModal
+        isOpen={isSearchOpen}
+        onClose={() => setIsSearchOpen(false)}
+        currentLang={currentLang}
+        onNavigatePage={handleNavigatePage}
+        onOpenDonate={handleOpenDonate}
+      />
+
+      {/* ADRA AI Modal */}
       <ChatbotModal
         isOpen={isChatbotOpen}
         onClose={() => setIsChatbotOpen(false)}
@@ -302,7 +382,7 @@ export default function App() {
         onOpenDonate={handleOpenDonate}
       />
 
-      {/* Donation Modal - linked directly with TeleBirr & CBE Birr Apps */}
+      {/* Donation Modal (TeleBirr / CBE Birr / International) */}
       <DonationModal
         isOpen={isDonateOpen}
         onClose={handleCloseDonate}
