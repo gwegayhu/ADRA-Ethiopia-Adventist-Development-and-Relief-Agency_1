@@ -49,7 +49,7 @@ export const ActualGISMap: React.FC<ActualGISMapProps> = ({
   const [hoveredRegion, setHoveredRegion] = useState<RegionData | null>(null);
 
   const [basemapType, setBasemapType] = useState<'satellite' | 'terrain' | 'carto' | 'osm'>(
-    CARTO_API_KEY ? 'carto' : GIS_API_KEY ? 'satellite' : 'carto'
+    CARTO_API_KEY ? 'carto' : GIS_API_KEY ? 'satellite' : 'osm'
   );
   const [showLayerMenu, setShowLayerMenu] = useState(false);
 
@@ -86,11 +86,19 @@ export const ActualGISMap: React.FC<ActualGISMapProps> = ({
       };
     }
     if (type === 'carto') {
-      const url = CARTO_API_KEY
-        ? `https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png?key=${encodeURIComponent(CARTO_API_KEY)}`
-        : 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png';
+      if (!CARTO_API_KEY) {
+        return {
+          url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+          options: {
+            maxZoom: 19,
+            subdomains: ['a', 'b', 'c'],
+            attribution: '&copy; OpenStreetMap contributors'
+          }
+        };
+      }
+
       return {
-        url,
+        url: `https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png?key=${encodeURIComponent(CARTO_API_KEY)}`,
         options: {
           maxZoom: 20,
           subdomains: 'abcd',
@@ -137,10 +145,10 @@ export const ActualGISMap: React.FC<ActualGISMapProps> = ({
         ).addTo(map);
         tileLayerRef.current = fallback;
         fallback.bringToBack();
-      } else if (basemapType === 'carto' && CARTO_API_KEY) {
+      } else if (basemapType === 'carto') {
         const fallback = L.tileLayer(
-          'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
-          { maxZoom: 20, subdomains: 'abcd', attribution: '&copy; OpenStreetMap contributors &copy; CARTO' }
+          'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+          { maxZoom: 19, subdomains: ['a', 'b', 'c'], attribution: '&copy; OpenStreetMap contributors' }
         ).addTo(map);
         tileLayerRef.current = fallback;
         fallback.bringToBack();
@@ -179,10 +187,10 @@ export const ActualGISMap: React.FC<ActualGISMapProps> = ({
         ).addTo(map);
         tileLayerRef.current = fallback;
         fallback.bringToBack();
-      } else if (basemapType === 'carto' && CARTO_API_KEY) {
+      } else if (basemapType === 'carto') {
         const fallback = L.tileLayer(
-          'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
-          { maxZoom: 20, subdomains: 'abcd', attribution: '&copy; OpenStreetMap contributors &copy; CARTO' }
+          'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+          { maxZoom: 19, subdomains: ['a', 'b', 'c'], attribution: '&copy; OpenStreetMap contributors' }
         ).addTo(map);
         tileLayerRef.current = fallback;
         fallback.bringToBack();
@@ -282,8 +290,6 @@ export const ActualGISMap: React.FC<ActualGISMapProps> = ({
 
   return (
     <div className="relative w-full rounded-2xl overflow-hidden border border-emerald-900/40 bg-stone-900 shadow-2xl">
-
-      {/* Top HUD Operations Bar - Regional Overview */}
       <div className="bg-[#073826] text-white px-4 py-3 border-b border-emerald-800/80 flex flex-wrap items-center justify-between gap-3 text-xs">
         <div className="flex items-center gap-2.5 flex-wrap">
           <div className="w-2.5 h-2.5 rounded-full bg-[#f59e0b] animate-pulse"></div>
@@ -308,7 +314,6 @@ export const ActualGISMap: React.FC<ActualGISMapProps> = ({
           </span>
         </div>
 
-        {/* Aggregated National Operational Numbers */}
         <div className="flex items-center gap-4 sm:gap-6 text-[11px] font-mono">
           <div className="flex items-center gap-1.5" title={g.regionsShort}>
             <MapPin className="w-3.5 h-3.5 text-rose-400" />
@@ -323,12 +328,8 @@ export const ActualGISMap: React.FC<ActualGISMapProps> = ({
         </div>
       </div>
 
-      {/* Main Workspace: Left Information Panel + Right GIS Map */}
       <div className="flex flex-col lg:flex-row min-h-[580px] bg-stone-900">
-
-        {/* DEDICATED LEFT-SIDE REGIONAL INFORMATION PANEL (No project details section) */}
-        <div className="w-full lg:w-[420px] xl:w-[450px] shrink-0 bg-[#072418] text-white flex flex-col justify-between border-b lg:border-b-0 lg:border-r border-emerald-900/70 p-5 sm:p-6 overflow-y-auto">
-
+        <div className="w-full lg:w-[420px] xl:w-[450px] shrink-0 bg-[#072418] text-white flex flex-col justify-between border-b lg:border-b-0 lg:border-r border-emerald-900/70 p-5 sm:p-6 overflow-hidden">
           <div className="space-y-4">
             <div className="flex items-center justify-between gap-2 pb-3 border-b border-emerald-900/80">
               <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-500/20 text-emerald-300 text-xs font-semibold border border-emerald-500/30">
@@ -357,7 +358,6 @@ export const ActualGISMap: React.FC<ActualGISMapProps> = ({
               </p>
             </div>
 
-            {/* 4-Card Regional Grid */}
             <div className="grid grid-cols-2 gap-2.5 pt-1">
               <div className="bg-white/10 border border-white/20 rounded-xl p-3">
                 <div className="text-stone-300 text-xs font-semibold">{g.statBeneficiaries}</div>
@@ -384,7 +384,6 @@ export const ActualGISMap: React.FC<ActualGISMapProps> = ({
               </div>
             </div>
 
-            {/* Strategic Priorities & Active Sectors (replaces the project section) */}
             <div className="space-y-2 pt-1">
               <div className="text-xs font-bold uppercase tracking-wider text-amber-400 flex items-center gap-1.5">
                 <Building className="w-3.5 h-3.5 text-amber-400" />
@@ -408,10 +407,9 @@ export const ActualGISMap: React.FC<ActualGISMapProps> = ({
               </div>
             </div>
 
-            {/* Quick Regional Hub Selector Buttons */}
             <div className="pt-2 border-t border-emerald-900/80">
               <div className="text-[11px] font-bold uppercase tracking-wider text-stone-400 mb-2">
-                {currentLang === 'am' ? 'ሁሉንም ክልሎች ይመልከቱ' : currentLang === 'om' ? 'Naannolee Hunda Filadhu' : currentLang === 'ti' ? 'ኩሎም ክልላት ርአ' : 'Select Regional Hub'}
+                {currentLang === 'am' ? 'ሁሉንም ክልሎች ይመልከቱ' : currentLang === 'om' ? 'Naannolee Hunda Filadhu' : currentLang === 'ti' ? 'ኩሎም ክልላት ርአ' : 'View all regions'}
               </div>
               <div className="flex flex-wrap gap-1.5">
                 {regions.map((r) => {
@@ -440,10 +438,8 @@ export const ActualGISMap: React.FC<ActualGISMapProps> = ({
                 })}
               </div>
             </div>
-
           </div>
 
-          {/* Footer Navigation Strip */}
           <div className="pt-4 border-t border-emerald-900/80 mt-4">
             <div className="flex items-center justify-between gap-2 text-[11px] text-stone-400">
               <span>{g.zoomPrompt}</span>
@@ -456,17 +452,12 @@ export const ActualGISMap: React.FC<ActualGISMapProps> = ({
               </button>
             </div>
           </div>
-
         </div>
 
-        {/* RIGHT SIDE: UNCLUTTERED REGIONAL GIS MAP CANVAS */}
         <div className="flex-1 relative h-[500px] sm:h-[560px] lg:h-auto min-h-[480px] bg-stone-100">
           <div ref={mapContainerRef} className="w-full h-full z-0" />
 
-          {/* Floating Top-Right: Navigation & Basemap Switcher */}
           <div className="absolute top-3 right-3 z-10 flex flex-col gap-2">
-
-            {/* Zoom Controls */}
             <div className="bg-white/95 backdrop-blur-md rounded-xl shadow-md border border-stone-200 overflow-hidden flex flex-col">
               <button
                 type="button"
@@ -488,7 +479,6 @@ export const ActualGISMap: React.FC<ActualGISMapProps> = ({
               </button>
             </div>
 
-            {/* Reset View Button */}
             <button
               type="button"
               onClick={handleResetView}
@@ -499,7 +489,6 @@ export const ActualGISMap: React.FC<ActualGISMapProps> = ({
               <RotateCcw className="w-4 h-4" />
             </button>
 
-            {/* Basemap Switcher Menu */}
             <div className="relative">
               <button
                 type="button"
@@ -546,10 +535,8 @@ export const ActualGISMap: React.FC<ActualGISMapProps> = ({
                 </div>
               )}
             </div>
-
           </div>
 
-          {/* Floating Bottom-Right: Regional Hubs Legend (No project status legend) */}
           <div className="absolute bottom-3 right-3 z-10 bg-white/95 backdrop-blur-md px-3.5 py-2.5 rounded-xl shadow-md border border-stone-200 text-xs space-y-1.5 max-w-[220px]">
             <div className="font-bold text-stone-900 flex items-center gap-1.5">
               <Compass className="w-3.5 h-3.5 text-[#006643]" />
@@ -566,11 +553,8 @@ export const ActualGISMap: React.FC<ActualGISMapProps> = ({
               </div>
             </div>
           </div>
-
         </div>
-
       </div>
-
     </div>
   );
 };
