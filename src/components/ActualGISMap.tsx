@@ -44,11 +44,12 @@ export const ActualGISMap: React.FC<ActualGISMapProps> = ({
   const tileLayerRef = useRef<L.TileLayer | null>(null);
 
   const GIS_API_KEY = (import.meta.env.VITE_GIS_MAP_API_KEY || import.meta.env.VITE_GOOGLE_MAPS_API_KEY || '').trim();
+  const CARTO_API_KEY = (import.meta.env.VITE_CARTO_API_KEY || '').trim();
 
   const [hoveredRegion, setHoveredRegion] = useState<RegionData | null>(null);
 
   const [basemapType, setBasemapType] = useState<'satellite' | 'terrain' | 'carto' | 'osm'>(
-    GIS_API_KEY ? 'satellite' : 'carto'
+    CARTO_API_KEY ? 'carto' : GIS_API_KEY ? 'satellite' : 'carto'
   );
   const [showLayerMenu, setShowLayerMenu] = useState(false);
 
@@ -85,12 +86,15 @@ export const ActualGISMap: React.FC<ActualGISMapProps> = ({
       };
     }
     if (type === 'carto') {
+      const url = CARTO_API_KEY
+        ? `https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png?key=${encodeURIComponent(CARTO_API_KEY)}`
+        : 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png';
       return {
-        url: 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
+        url,
         options: {
-          maxZoom: 19,
-          subdomains: ['a', 'b', 'c', 'd'],
-          attribution: '&copy; CARTO & OpenStreetMap'
+          maxZoom: 20,
+          subdomains: 'abcd',
+          attribution: '&copy; OpenStreetMap contributors &copy; CARTO'
         }
       };
     }
@@ -114,7 +118,7 @@ export const ActualGISMap: React.FC<ActualGISMapProps> = ({
       center: initialCenter,
       zoom: initialZoom,
       minZoom: 5,
-      maxZoom: 18,
+      maxZoom: 20,
       zoomControl: false,
       attributionControl: false
     });
@@ -130,6 +134,13 @@ export const ActualGISMap: React.FC<ActualGISMapProps> = ({
         const fallback = L.tileLayer(
           'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
           { maxZoom: 18 }
+        ).addTo(map);
+        tileLayerRef.current = fallback;
+        fallback.bringToBack();
+      } else if (basemapType === 'carto' && CARTO_API_KEY) {
+        const fallback = L.tileLayer(
+          'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
+          { maxZoom: 20, subdomains: 'abcd', attribution: '&copy; OpenStreetMap contributors &copy; CARTO' }
         ).addTo(map);
         tileLayerRef.current = fallback;
         fallback.bringToBack();
@@ -165,6 +176,13 @@ export const ActualGISMap: React.FC<ActualGISMapProps> = ({
         const fallback = L.tileLayer(
           'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
           { maxZoom: 18 }
+        ).addTo(map);
+        tileLayerRef.current = fallback;
+        fallback.bringToBack();
+      } else if (basemapType === 'carto' && CARTO_API_KEY) {
+        const fallback = L.tileLayer(
+          'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
+          { maxZoom: 20, subdomains: 'abcd', attribution: '&copy; OpenStreetMap contributors &copy; CARTO' }
         ).addTo(map);
         tileLayerRef.current = fallback;
         fallback.bringToBack();
