@@ -25,29 +25,55 @@ export const AdraLogo: React.FC<AdraLogoProps> = ({
   tone = 'green',
   className = '',
   showClearSpaceGuide = false,
-  width = 68,
+  width,
   alt = 'ADRA - Adventist Development and Relief Agency'
 }) => {
-  const masterVertical = '/assets/aistudio/17943458034881586714568978738653_a6364af5.png';
-  const logoSrc =
-    variant === 'horizontal'
-      ? `/brand/adra-horizontal-${tone}.svg`
-      : variant === 'globe'
-      ? `/brand/adra-globe-${tone}.svg`
-      : masterVertical;
+  const [loadFailed, setLoadFailed] = useState(false);
 
-  const filterStyle =
-    variant === 'vertical'
-      ? tone === 'white'
-        ? 'brightness(0) invert(1)'
-        : tone === 'black'
-        ? 'brightness(0)'
-        : 'none'
-      : 'none';
+  // Map variant and tone to official attached logo assets in /public/brand/
+  let src = '/brand/adra-logo.png';
+  if (variant === 'vertical') {
+    src = tone === 'white'
+      ? '/brand/adra-vertical-white.png'
+      : tone === 'black'
+      ? '/brand/adra-vertical-black.png'
+      : '/brand/adra-logo.png';
+  } else if (variant === 'horizontal') {
+    src = tone === 'white' 
+      ? '/brand/adra-horizontal-white.png' 
+      : tone === 'black'
+      ? '/brand/adra-horizontal-black.png'
+      : '/brand/adra-horizontal-green.png';
+  } else if (variant === 'globe') {
+    src = tone === 'white' 
+      ? '/brand/adra-globe-white.png' 
+      : tone === 'black'
+      ? '/brand/adra-globe-black.png'
+      : '/brand/adra-globe-green.png';
+  }
+
+  // Minimum size enforcement per Section 2
+  const minWidth = variant === 'horizontal' ? 100 : 66;
+  const enforcedWidth = width ? Math.max(width, minWidth) : (variant === 'horizontal' ? 120 : 70);
+
+  // Clear space calculation: For horizontal ~20% of height; for vertical ~18% of width
+  const clearSpacePadding = variant === 'horizontal' ? 'p-2' : 'p-3';
+
+  if (loadFailed) {
+    return (
+      <img 
+        src="/assets/aistudio/17943458034881586714568978738653_a6364af5.png"
+        alt={alt}
+        width={enforcedWidth}
+        style={{ width: `${enforcedWidth}px`, height: 'auto' }}
+        className={`block select-none pointer-events-none shrink-0 ${className}`}
+      />
+    );
+  }
 
   return (
     <div 
-      className={`relative inline-flex items-center justify-center p-2 ${className}`}
+      className={`relative inline-flex items-center justify-center ${clearSpacePadding} ${className}`}
       role="img"
       aria-label={alt}
     >
@@ -64,14 +90,12 @@ export const AdraLogo: React.FC<AdraLogoProps> = ({
       )}
 
       <img
-        src={logoSrc}
+        src={src}
         alt={alt}
-        style={{
-          height: `${width}px`,
-          width: 'auto',
-          filter: filterStyle,
-        }}
-        className="block select-none pointer-events-none object-contain"
+        width={enforcedWidth}
+        style={{ width: `${enforcedWidth}px`, height: 'auto' }}
+        className="block select-none pointer-events-none shrink-0"
+        onError={() => setLoadFailed(true)}
       />
     </div>
   );

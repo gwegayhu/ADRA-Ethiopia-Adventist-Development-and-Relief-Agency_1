@@ -330,7 +330,7 @@ export const BrandStandardsModal: React.FC<BrandStandardsModalProps> = ({ isOpen
                     configuration={logoConfig}
                     color={logoColor}
                     showClearSpaceGuide={showClearSpace}
-                    size={logoConfig === 'horizontal' ? 56 : 100}
+                    size={logoConfig === 'horizontal' ? 180 : 110}
                   />
 
                   <div className="absolute bottom-3 right-3 text-[10px] font-mono text-stone-400">

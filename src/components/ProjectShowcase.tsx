@@ -213,9 +213,9 @@ export const ProjectShowcase: React.FC<ProjectShowcaseProps> = ({
   const [activeTab, setActiveTab] = useState<'regional-cards' | 'cards'>('regional-cards');
   const [selectedRegionTab, setSelectedRegionTab] = useState<string>('all');
 
-  const ui = UI_COPY[currentLang].projects;
-  const common = UI_COPY[currentLang].common;
-  const nav = TRANSLATIONS[currentLang].nav;
+  const ui = (UI_COPY[currentLang] || UI_COPY.en).projects;
+  const common = (UI_COPY[currentLang] || UI_COPY.en).common;
+  const nav = (TRANSLATIONS[currentLang] || TRANSLATIONS.en).nav;
 
   const projectPrefix =
     currentLang === 'am' ? 'ፕሮጀክት #' : currentLang === 'om' ? 'Pirojektii #' : currentLang === 'ti' ? 'ፕሮጀክት #' : 'Project #';
@@ -253,7 +253,7 @@ export const ProjectShowcase: React.FC<ProjectShowcaseProps> = ({
   });
 
   return (
-    <section id="programs" className="border-b border-stone-200 scroll-mt-32">
+    <section id="programs" className="border-b border-stone-200 scroll-mt-20">
 
       {/* Top Emerald Header Banner */}
       <div className="bg-[#073826] text-white py-14 sm:py-18 relative overflow-hidden">
@@ -276,8 +276,11 @@ export const ProjectShowcase: React.FC<ProjectShowcaseProps> = ({
             <span className="text-amber-400 font-semibold">{ui.breadcrumbSummary}</span>
           </div>
 
-          <div className="text-xs font-bold tracking-widest text-amber-400 uppercase font-sans">
-            {ui.kicker}
+          <div className="flex items-center gap-2.5">
+            <span className="w-2.5 h-2.5 rounded-full bg-amber-400 animate-pulse" />
+            <span className="text-xs font-bold tracking-widest text-amber-400 uppercase font-sans">
+              {ui.kicker}
+            </span>
           </div>
 
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight font-editorial leading-tight text-white max-w-4xl">
@@ -762,7 +765,7 @@ export const ProjectShowcase: React.FC<ProjectShowcaseProps> = ({
               {selectedLoc.summary && selectedLoc.summary !== selectedLoc.objective && (
                 <div className="p-4 bg-emerald-50/60 rounded-xl border border-emerald-100">
                   <div className="text-xs font-bold text-emerald-950 mb-1">
-                    {common.details}
+                    {currentLang === 'am' ? 'የፕሮጀክቱ ማጠቃለያ' : currentLang === 'om' ? 'Cuunfaa Pirojektii' : currentLang === 'ti' ? 'ጽማቕ ፕሮጀክት' : 'Program Summary'}
                   </div>
                   <p className="text-xs text-stone-700 leading-relaxed">
                     {selectedLoc.summary}
